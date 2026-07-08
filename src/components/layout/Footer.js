@@ -87,8 +87,18 @@ export default function Footer() {
         ))}
       </div>
 
-      <div className="border-t border-border px-6 py-6 text-center text-xs text-muted">
-        © {new Date().getFullYear()} Cray Stuff. All rights reserved.
+      <div className="flex flex-col items-center gap-4 border-t border-border px-6 py-6 sm:flex-row sm:justify-between">
+        <p className="text-xs text-muted">© {new Date().getFullYear()} Cray Stuff. All rights reserved.</p>
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          {["Visa", "Mastercard", "BLIK", "Apple Pay", "Google Pay"].map((method) => (
+            <span
+              key={method}
+              className="rounded border border-border px-2 py-1 font-mono text-[10px] uppercase tracking-wide text-muted"
+            >
+              {method}
+            </span>
+          ))}
+        </div>
       </div>
     </footer>
   );

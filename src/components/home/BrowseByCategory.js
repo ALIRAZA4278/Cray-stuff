@@ -3,9 +3,9 @@ import Link from "next/link";
 import Reveal from "@/components/motion/Reveal";
 
 const tiles = [
-  { label: "Men's", cta: "Shop Men's", href: "/shop?category=mens", seed: "cray-mens" },
-  { label: "Women's", cta: "Shop Women's", href: "/shop?category=womens", seed: "cray-womens" },
-  { label: "New Drop", cta: "Shop New Drop", href: "/shop?sort=new", seed: "cray-new-drop" },
+  { label: "New Drop", cta: "Shop new drop", href: "/shop?sort=new", seed: "cray-new-drop" },
+  { label: "Under €100", cta: "Shop under €100", href: "/shop?max=100", seed: "cray-womens"},
+  { label: "The Archive", cta: "Shop archive", href: "/shop/archive", seed: "cray-mens" },
 ];
 
 export default function BrowseByCategory() {

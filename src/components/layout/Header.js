@@ -17,8 +17,8 @@ const navLinks = [
 ];
 
 const desktopItemClass =
-  "text-xs uppercase tracking-widest text-muted transition-colors hover:text-foreground";
-const desktopActiveClass = "text-xs uppercase tracking-widest text-accent";
+  "nav-underline text-xs uppercase tracking-widest text-muted transition-colors hover:text-foreground";
+const desktopActiveClass = "nav-underline text-xs uppercase tracking-widest text-accent";
 const mobileItemClass = "py-2 text-sm text-muted transition-colors hover:text-foreground";
 const mobileActiveClass = "py-2 text-sm text-accent";
 

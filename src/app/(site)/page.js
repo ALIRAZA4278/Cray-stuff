@@ -2,6 +2,7 @@ import Hero from "@/components/home/Hero";
 import BrandTicker from "@/components/home/BrandTicker";
 import TrustBar from "@/components/home/TrustBar";
 import BrowseByCategory from "@/components/home/BrowseByCategory";
+import CollectionBanner from "@/components/home/CollectionBanner";
 import ProductGrid from "@/components/home/ProductGrid";
 import PromoBanner from "@/components/home/PromoBanner";
 import ShopByStyle from "@/components/home/ShopByStyle";
@@ -20,6 +21,7 @@ export default function HomePage() {
     <>
       <Hero />
       <TrustBar />
+      <BrowseByCategory />
       <ProductGrid
         eyebrow="New this week"
         title="Latest Drop"
@@ -35,24 +37,29 @@ export default function HomePage() {
         products={mostPopular}
       />
       <BrandTicker />
-      <BrowseByCategory />
       {mensProducts.length > 0 && (
-        <ProductGrid
-          eyebrow="Men's vintage"
-          title="Men's Collection"
-          viewAllHref="/shop?category=mens"
-          viewAllLabel="Shop men's"
-          products={mensProducts}
-        />
+        <>
+          <CollectionBanner
+            eyebrow="Men's vintage"
+            title="Men's Collection"
+            href="/shop?category=mens"
+            cta="Shop men's"
+            seed="cray-banner-mens"
+          />
+          <ProductGrid plain viewAllHref="/shop?category=mens" products={mensProducts} />
+        </>
       )}
       {womensProducts.length > 0 && (
-        <ProductGrid
-          eyebrow="Women's vintage"
-          title="Women's Collection"
-          viewAllHref="/shop?category=womens"
-          viewAllLabel="Shop women's"
-          products={womensProducts}
-        />
+        <>
+          <CollectionBanner
+            eyebrow="Women's vintage"
+            title="Women's Collection"
+            href="/shop?category=womens"
+            cta="Shop women's"
+            seed="cray-banner-womens"
+          />
+          <ProductGrid plain viewAllHref="/shop?category=womens" products={womensProducts} />
+        </>
       )}
       <PromoBanner />
       <ShopByStyle />

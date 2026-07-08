@@ -54,6 +54,12 @@ export default function Hero() {
           </div>
         </Reveal>
       </div>
+
+      <div className="absolute inset-x-0 bottom-0 hidden items-center justify-between border-t border-border bg-background/50 px-6 py-3 font-mono text-[11px] uppercase tracking-widest text-muted backdrop-blur sm:flex">
+        <span>Warsaw &rarr; Worldwide</span>
+        <span>One-of-one archive</span>
+        <span>Ships in 24h</span>
+      </div>
     </section>
   );
 }

@@ -10,14 +10,17 @@ import { sortProducts } from "@/lib/shop-filters";
 export default async function ShopPage({ searchParams }) {
   const params = await searchParams;
   const activeCategories = params.category ? params.category.split(",").filter(Boolean) : [];
+  const maxPrice = Number(params.max) || null;
   const sort = params.sort || "new";
 
-  const filtered = mockProducts.filter(
-    (product) => activeCategories.length === 0 || activeCategories.includes(product.category),
-  );
+  const filtered = mockProducts.filter((product) => {
+    const matchesCategory = activeCategories.length === 0 || activeCategories.includes(product.category);
+    const matchesPrice = !maxPrice || product.price <= maxPrice;
+    return matchesCategory && matchesPrice;
+  });
   const products = sortProducts(filtered, sort);
   const baseParams = new URLSearchParams(params);
-  const hasFilters = activeCategories.length > 0;
+  const hasFilters = activeCategories.length > 0 || Boolean(maxPrice);
 
   return (
     <div className="px-6 py-16">
@@ -25,7 +28,8 @@ export default async function ShopPage({ searchParams }) {
         <Reveal className="mb-8">
           <h1 className="text-3xl font-semibold uppercase tracking-tight">Shop</h1>
           <p className="mt-2 text-sm text-muted">
-            {products.length} {products.length === 1 ? "piece" : "pieces"} — every one a one-of-one.
+            {products.length} {products.length === 1 ? "piece" : "pieces"}
+            {maxPrice ? ` under €${maxPrice}` : ""} — every one a one-of-one.
           </p>
         </Reveal>
 
