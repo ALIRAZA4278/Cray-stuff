@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import HeaderNavLinks from "./HeaderNavLinks";
+import PlainNavLinks from "./PlainNavLinks";
 
 const navLinks = [
   { href: "/shop", label: "Shop" },
@@ -12,6 +14,11 @@ const navLinks = [
   { href: "/shop?style=gorpcore", label: "Gorpcore" },
   { href: "/shop?style=archive", label: "Archive" },
 ];
+
+const desktopItemClass = "text-muted transition-colors hover:text-foreground";
+const desktopActiveClass = "text-accent";
+const mobileItemClass = "py-2 text-sm text-muted transition-colors hover:text-foreground";
+const mobileActiveClass = "py-2 text-sm text-accent";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -29,11 +36,9 @@ export default function Header() {
         </Link>
 
         <nav className="hidden items-center gap-6 text-sm md:flex">
-          {navLinks.map((link) => (
-            <Link key={link.label} href={link.href} className="text-muted transition-colors hover:text-foreground">
-              {link.label}
-            </Link>
-          ))}
+          <Suspense fallback={<PlainNavLinks links={navLinks} itemClassName={desktopItemClass} />}>
+            <HeaderNavLinks links={navLinks} itemClassName={desktopItemClass} activeClassName={desktopActiveClass} />
+          </Suspense>
         </nav>
 
         <div className="flex items-center gap-4">
@@ -80,16 +85,14 @@ export default function Header() {
 
       {open && (
         <nav className="flex flex-col gap-1 border-t border-border px-6 py-4 md:hidden">
-          {navLinks.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className="py-2 text-sm text-muted transition-colors hover:text-foreground"
-            >
-              {link.label}
-            </Link>
-          ))}
+          <Suspense fallback={<PlainNavLinks links={navLinks} itemClassName={mobileItemClass} />}>
+            <HeaderNavLinks
+              links={navLinks}
+              itemClassName={mobileItemClass}
+              activeClassName={mobileActiveClass}
+              onNavigate={() => setOpen(false)}
+            />
+          </Suspense>
           <Link
             href="/login"
             onClick={() => setOpen(false)}
