@@ -109,6 +109,8 @@ Each product needs:
 - Measurements
 - Short description
 - Price
+- Minimum acceptable offer price (admin-only, hidden from customers — drives
+  Make an Offer auto-accept/counter logic, see Round 5 below)
 - Style tags (Vintage, Y2K, Skate, Japanese, Gorpcore, Archive, etc. — multi-select, extensible)
 
 Initial catalog: ~25–50 products.
@@ -125,11 +127,22 @@ worth prototyping early.
    Users save products they like/want to revisit.
 2. **Price drop notifications** — notify a user if a product on their Fire List
    gets a price reduction.
-3. **Make an Offer** — buyer submits their own price on a product; admin can
-   accept or decline from the dashboard. (Client also described this loosely as
-   "negotiate prices through a built-in chat" — clarify whether offers are a
-   simple form + accept/decline, or a full back-and-forth chat thread. Current
-   spec language leans toward structured offer + admin response, not free-form chat.)
+3. **Make an Offer** — fixed pricing stays the default: any customer can buy
+   instantly at the listed price at any time. Alongside that, a buyer can
+   separately submit their own offer price on a product. Not a live
+   back-and-forth chat, and explicitly **not** an auction/bidding system
+   (decision finalized — see Round 4). **Auto-accept/counter logic (Round 5)**:
+   - Admin sets a **minimum acceptable price** per product (hidden from
+     customers, e.g. listed at 170 PLN, minimum set to 150 PLN).
+   - Offer ≥ minimum → **auto-accepted instantly**, no admin action needed;
+     customer is taken straight to checkout and gets an automatic message
+     like "Your order can be shipped today."
+   - Offer < minimum (e.g. 140 PLN) → system **automatically sends a
+     counteroffer back at the minimum price** (150 PLN) instead of rejecting
+     outright; customer can accept the counter to proceed to checkout.
+   - Admin dashboard still needs manual accept/decline as a fallback (e.g.
+     products with no minimum set), but auto-accept/counter is the primary
+     flow once a minimum is configured.
 4. **Product Q&A** — customers can ask questions directly on a product page;
    admin replies; customer gets notified on reply.
 5. **Advanced filtering** — by style tag, category, size, brand, price, condition.
@@ -192,7 +205,6 @@ later given EU expansion plans.)
 ## Open questions for client (not yet answered)
 
 - Final domain name / brand name for EU-wide positioning — still undecided.
-- Exact mechanics of "Make an Offer": simple accept/decline vs. live negotiation chat.
 - Support period: 1 month or 3 months — conflicting statements.
 - Budget/price range — was discussed live, not finalized in writing here.
 - Marketing budget split: client asked whether to prioritize SEO over other
@@ -332,3 +344,91 @@ copied 1:1 — client wants CRAY STUFF to feel like its own thing):
 - waveclothes.pl — Polish vintage/Y2K/streetwear store, dark hero imagery,
   bold white uppercase condensed typography, minimal nav. Closest match to
   our intended vibe and directly relevant (same Poland market).
+
+## Round 4 — Make an Offer finalized: fixed pricing, not auction/bidding
+
+Resolves the earlier open question on "Make an Offer" mechanics.
+
+- A proposal to make every product go through an **auction-style bidding
+  system** was raised and rejected. Concern: with bidding, a customer with
+  immediate purchase intent has to wait for the auction to end (e.g. 24
+  hours) before they can buy — many won't wait or won't come back to check
+  if they got outbid, which loses sales. Fixed pricing lets an eager buyer
+  purchase instantly.
+- Research into successful vintage/resale stores and marketplaces found
+  **"Make an Offer" is the industry-standard pattern, not per-item auctions.**
+  None of the reviewed competitors ran auctions on every listing.
+- **Final decision**: keep **fixed pricing** as the default on every product
+  (instant "Buy Now" always available) and add **Make an Offer** as a
+  parallel, non-blocking option — e.g. a customer can offer 150 PLN on an
+  item listed at 170 PLN, while the item stays instantly purchasable at 170
+  PLN for anyone else in the meantime. No bidding, no waiting period, no
+  per-product auction countdown.
+- This is a **custom feature to build** (not available off-the-shelf in
+  Stripe/Shopify-style checkouts) — confirmed in scope, ties directly to the
+  Admin Dashboard's accept/decline offers screen.
+
+### Competitor research — websites client reviewed
+
+Client's own research into vintage/resale competitors that informed the
+Make an Offer vs. bidding decision above:
+rokit.co.uk, myvintage.uk, demandvintage.com, dbberdan.co.uk, thrift.plus,
+sunshinethrift.co.uk, thrifted.com, depop.com, thriftandtreasures.com.
+
+Findings worth carrying into the build (from a quick pass of these sites):
+
+- **Thrift+** keeps "Watchlist" and "Offers" as permanent top-nav items,
+  separate from the product page — supports adding a **"My Offers"** view
+  in the Customer Dashboard (not just a button on Product Details) so buyers
+  can track offers they've sent.
+- **DB Berdan** runs "MAKE AN OFFER" as a scrolling marquee/ticker across the
+  site — treats it as a headline feature, not a buried option. Worth
+  considering a small ticker/banner treatment for ours too.
+- **Demand Vintage** also uses a purple/violet accent for a vintage-resale
+  brand — reassures our violet accent choice isn't off for this category.
+- **MyVintage.uk**'s copy — "one-of-a-kind vintage... once it's gone, it's
+  gone for good" — closely mirrors our own "one-of-one" positioning; good
+  sign our messaging direction is industry-aligned, not invented in a vacuum.
+- **Thrifted.com** puts quick style-filter tabs (e.g. Workwear / Designer /
+  Skater) directly on the homepage — an alternative/complementary treatment
+  to our tile-based "Shop by Style" section, worth keeping in mind for Shop
+  page filters.
+- **Depop** couldn't be reviewed — its site is behind a Cloudflare bot-check
+  page that we don't attempt to bypass. If Depop's offer/negotiation UX is
+  specifically important as a reference, client should describe it directly
+  or send screenshots.
+
+## Round 5 — client confirms Make an Offer intent + auto-accept/counter logic
+
+Client confirmed "Make an Offer" (not auction/bidding) was their intent all
+along — Round 4's decision was correct, just a wording mix-up earlier.
+
+New mechanic requested (see updated "Core custom features" and "Product data
+model" above for the full spec):
+
+- Admin sets a **minimum acceptable price** per product.
+- Offer at/above minimum → **auto-accepted instantly**, buyer goes straight
+  to checkout, gets an automatic "Your order can be shipped today" message.
+- Offer below minimum → system **auto-counters at the minimum price**
+  instead of rejecting.
+- Manual admin accept/decline remains as a fallback for products with no
+  minimum set.
+
+**Design/vibe feedback on the competitor list above**: client said 2 of the
+9 sites caught their attention, but most felt "too vintage" — client is
+aiming for a **vintage + Y2K + skate** blend, and stressed that a **darker,
+skate-inspired vibe is important and should be reflected throughout the
+site**. Client didn't name which 2 sites specifically — worth confirming,
+but our own read is that **thrifted.com** (has a dedicated "Vintage Skater"
+tab, streetwear-heavy photography) and **demandvintage.com** (dark hero,
+streetwear "Culture" hoodie imagery, violet accent) are the most likely
+candidates based on tone alone.
+
+This also **resolves the earlier "dark theme concern"** from Round 2: the
+concern was about contrast/balance, not about removing the darkness —
+client has now confirmed dark/skate-inspired is the intended direction, not
+something to lighten.
+
+**Timeline note**: client needs more time to send the materials we asked for
+(product photos, data, etc.) — they're busy and want to think it through
+properly. No fixed date given; don't block other work waiting on this.
