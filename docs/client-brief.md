@@ -525,3 +525,157 @@ while keeping a premium brand image — not generic "About" boilerplate. We
 don't have real founder-story content yet; don't fabricate it. Currently
 `/faq` is a placeholder stand-in for About Us — build a real dedicated About
 page once the client provides their story.
+
+## Round 7 — Wiktor's direct answers (Vinted model, colors, Fire List spec, questions for us)
+
+Wiktor answered the Round 6 questions directly and in detail. This is the
+most authoritative source on these topics — supersedes vaguer earlier notes.
+
+### How Vinted actually works (Wiktor's own explanation) — and what does/doesn't transfer
+
+- Seller lists at their own price. Buyer pays via Apple Pay, card, **BLIK**,
+  etc. **BLIK confirmed as essential for Poland** (6-digit instant-payment
+  code, very widely used) — already in scope, now with a first-person reason
+  why it matters.
+- Buyer also pays **shipping + a "buyer protection" fee** — this fee **is
+  Vinted's platform commission**, paid by the buyer, not the seller.
+- Vinted **holds the payout** in the seller's wallet until 2 days after the
+  buyer confirms receipt — Wiktor explicitly dislikes this delay.
+- Vinted itself doesn't handle packing/shipping — Wiktor packs and ships
+  every order himself via InPost/Orlen Paczka/GLS/DPD. Vinted only connects
+  buyer and seller.
+- **Important scope clarification**: CRAY STUFF is a **single-seller store**,
+  not a multi-seller marketplace — there is no third-party "platform" to
+  take a commission, so **Vinted's buyer-protection-fee/escrow/2-day-hold
+  model does not directly apply**. Payment can settle normally through
+  Stripe/BLIK without an artificial holding period, unless Wiktor
+  specifically wants an escrow-style trust mechanic for buyer confidence.
+  **Open question to confirm with Wiktor**: does he want any form of
+  delayed payout / buyer confirmation window for trust reasons, or is
+  standard immediate settlement fine? Default assumption until answered:
+  normal settlement, no artificial hold.
+- **Positioning**: Wiktor wants CRAY STUFF to be *"the best parts of Vinted
+  combined with a professional standalone website"* — curated, not a
+  flea-market of thousands of random listings. He sees Vinted's decline
+  (poor moderation, fakes, unfair seller bans) as the gap CRAY STUFF fills:
+  a trusted, single-curator store for people who specifically like his taste.
+
+### Shipping — carrier list update
+
+Wiktor's own carriers: **InPost, Orlen Paczka, GLS, DPD** (this replaces the
+earlier-mentioned **DHL** — Wiktor did not mention DHL this time, said GLS
+instead). **Use InPost as primary for Poland**, add international shipping
+options so European (and ideally worldwide) customers can order easily.
+Update carrier list to InPost / Orlen Paczka / GLS / DPD — confirm with
+Wiktor whether DHL should still be offered or was dropped intentionally.
+
+### Fire List — exact interaction spec
+
+- Icon-based, default state: **grey or dark-grey outline heart**.
+- On click: **fills solid with a purple glow matching brand accent color**.
+- This is now a precise spec — matches our existing `FireListButton`/heart
+  icon pattern closely, but should be updated to use an explicit **glow**
+  effect (not just a color/fill change) on activation.
+- **Notification preference**: price-drop alerts on Fire List items should
+  ideally be **SMS** (client's stated preference — "people rarely check
+  email"), with **email as an acceptable fallback** given SMS has real
+  per-message cost. **This needs a business decision from us**: SMS requires
+  a third-party provider (e.g. Twilio) and ongoing per-message cost — not
+  something to build/enable without confirming budget. Recommend: build
+  email notifications first (near-zero marginal cost), keep SMS as a
+  clearly-scoped paid add-on to propose separately.
+- Most-saved items automatically populate the homepage **Most Popular**
+  section (already built this way) — Wiktor's own reasoning: social proof,
+  showing visitors what others want.
+
+### Sold Out — confirmed directly, plus a new idea
+
+- Wiktor directly confirms: sold items **stay visible with a "Sold Out"
+  label** instead of disappearing — builds trust, shows the store is
+  actually active/selling.
+- **New idea**: seed the site at launch with a handful of **previously-sold
+  items** (marked Sold Out) purely to demonstrate the kind of product range
+  and show early activity/credibility. This means the admin product form
+  needs a way to mark a product "sold" without it ever having gone through
+  a real checkout on this site (e.g. a manual "mark as sold" toggle, not
+  only an automatic status change on purchase).
+
+### Design direction — concrete grey
+
+- Wiktor's refined color direction: a **concrete grey aesthetic** — popular
+  in streetwear/vintage product photography, reads as clean but industrial,
+  fits the skate/Y2K mood he's going for.
+- This **resolves the earlier "too dark" concern** (Round 2) in a concrete
+  way: not pure black, a grey-toned concrete/industrial surface instead.
+- Also reinforces: overall design must feel **professional and trustworthy**
+  — explicitly does not want the site to read as "some random scam website."
+- **24-hour shipping** should be a highlighted trust element (ties into the
+  rotating announcement bar below).
+
+### Rotating announcement bar — confirmed exact copy
+
+Wiktor's exact requested messages to rotate at the top of the site:
+
+- "Shipping within 24 hours"
+- "10% off for newsletter subscribers"
+- "New drop available now"
+
+(Currently the top bar is static — "Free shipping on orders over 250 PLN."
+Needs converting to a rotating/carousel bar using these three messages —
+note the free-shipping-threshold message may need to be folded in as a
+fourth rotating message, or replaced; confirm which with Wiktor.)
+
+### Mannequin image — needs a correction, not a cost estimate
+
+Wiktor loved a "mannequin image" he believes he saw showing product fit, and
+wants **one per product**, and is asking how we made it, turnaround time,
+cost, and whether AI/ChatGPT was used.
+
+**We have not built this.** Product photos on the current build are
+placeholder stock images (Picsum, random royalty-free photos used purely to
+preview layout/spacing) — not AI-generated mannequin/fit renders, and we
+have not built any mannequin-image generation pipeline. Some placeholder
+photos happen to include people/figures, which is likely what he saw and
+mistook for an intentional fit visualization. **This needs a clarifying
+reply to Wiktor** (see ready-to-send reply below) rather than a fabricated
+answer about process/cost for something we didn't actually build.
+
+If Wiktor wants real mannequin/fit shots, that's a **photography decision on
+his end** (photographing items on a mannequin/model when he shoots each
+piece) — not something we generate artificially — unless he specifically
+wants us to scope an AI image-generation add-on, which would be a separate,
+priced feature to discuss.
+
+### Content structure advice + more reference sites — pending
+
+Wiktor asked for our advice on content structure/best practices (first
+website) and said he'll send examples of Polish stores he likes. No content
+sent yet in this message — follow up once received.
+
+### Draft/preview availability
+
+Wiktor asked if there's an early draft to see. **Yes** — the homepage, Shop,
+and Product Details pages are built and running on a local dev server.
+Recommend deploying the current build to a **Vercel staging URL** (per the
+already-agreed live-preview process) so Wiktor can view it directly on his
+own phone/laptop — this requires an explicit go-ahead to deploy, not done
+automatically.
+
+### Ready-to-send reply covering Wiktor's direct questions
+
+**On the mannequin image:**
+To be transparent — the version you've seen so far uses placeholder stock
+photos just to preview the layout and spacing, not real product photos or
+AI-generated mannequin renders yet. A couple of those placeholders happened
+to include people, which is probably what caught your eye. We haven't built
+any AI image-generation for mannequin shots — once you send real product
+photos (including shots on a mannequin or model, if you take them that way),
+those will show up directly in the gallery. If you'd like us to explore an
+AI-generated fit-visualization feature on top of that, we can scope it as a
+separate add-on and give you a real cost/timeline for it.
+
+**On seeing a draft:**
+Yes — the homepage, shop, and product pages are already built and running.
+We'd like to publish it to a private staging link (Vercel) so you can open
+it directly on your phone or laptop, the same way we discussed earlier. Say
+the word and we'll get that link over to you.

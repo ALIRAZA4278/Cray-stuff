@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import AnnouncementBar from "./AnnouncementBar";
 import HeaderNavLinks from "./HeaderNavLinks";
+import { useCart } from "@/lib/CartContext";
 
 const navLinks = [
   { href: "/shop", label: "Shop" },
@@ -22,12 +24,11 @@ const mobileActiveClass = "py-2 text-sm text-accent";
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [lang, setLang] = useState("EN");
+  const { items } = useCart();
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
-      <div className="border-b border-border px-6 py-2 text-center text-xs uppercase tracking-wide text-muted">
-        Free shipping on orders over 250 PLN
-      </div>
+      <AnnouncementBar />
 
       <div className="flex items-center justify-between px-6 py-4">
         <Link href="/" className="text-lg font-semibold uppercase tracking-tight">
@@ -59,8 +60,17 @@ export default function Header() {
           <Link href="/fire-list" aria-label="Fire List" className="text-muted transition-colors hover:text-foreground">
             <HeartIcon />
           </Link>
-          <Link href="/cart" aria-label="Cart" className="text-muted transition-colors hover:text-foreground">
+          <Link
+            href="/cart"
+            aria-label="Cart"
+            className="relative text-muted transition-colors hover:text-foreground"
+          >
             <BagIcon />
+            {items.length > 0 && (
+              <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-accent font-mono text-[10px] text-accent-foreground">
+                {items.length}
+              </span>
+            )}
           </Link>
           <Link
             href="/login"

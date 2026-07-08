@@ -11,7 +11,7 @@ const props = [
   },
   {
     title: "Poland-first, worldwide shipping",
-    desc: "Fast local delivery via InPost, DHL, DPD and Orlen Paczka — with shipping available globally too.",
+    desc: "Fast local delivery via InPost, Orlen Paczka, GLS and DPD — with shipping available globally too.",
   },
 ];
 

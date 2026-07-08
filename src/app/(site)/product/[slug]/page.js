@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import ProductGallery from "@/components/product/ProductGallery";
+import CartActions from "@/components/product/CartActions";
 import MakeOfferDialog from "@/components/product/MakeOfferDialog";
 import FireListButton from "@/components/product/FireListButton";
 import ProductQA from "@/components/product/ProductQA";
@@ -29,7 +30,14 @@ export default async function ProductPage({ params }) {
           <ProductGallery slug={product.slug} name={product.name} />
 
           <div>
-            <p className="font-mono text-xs uppercase tracking-widest text-accent">{product.brand}</p>
+            <div className="flex items-center gap-3">
+              <p className="font-mono text-xs uppercase tracking-widest text-accent">{product.brand}</p>
+              {product.sold && (
+                <span className="rounded-sm border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-muted">
+                  Sold Out
+                </span>
+              )}
+            </div>
             <h1 className="mt-2 text-3xl font-semibold uppercase tracking-tight">{product.name}</h1>
             <p className="mt-4 font-mono text-2xl font-medium">&euro;{product.price}</p>
 
@@ -59,13 +67,16 @@ export default async function ProductPage({ params }) {
             <p className="mt-6 text-sm leading-relaxed text-muted">{product.description}</p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link
-                href="/checkout"
-                className="rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
-              >
-                Buy now
-              </Link>
-              <MakeOfferDialog price={product.price} minOffer={product.minOffer} />
+              {product.sold ? (
+                <span className="cursor-not-allowed rounded-full border border-border px-6 py-3 text-sm font-medium text-muted">
+                  Sold Out
+                </span>
+              ) : (
+                <>
+                  <CartActions product={product} />
+                  <MakeOfferDialog price={product.price} minOffer={product.minOffer} />
+                </>
+              )}
               <FireListButton />
             </div>
           </div>

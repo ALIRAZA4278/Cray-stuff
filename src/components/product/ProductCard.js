@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import FireListToggle from "@/components/product/FireListToggle";
 
 export default function ProductCard({ product }) {
   return (
@@ -13,22 +14,23 @@ export default function ProductCard({ product }) {
           alt={product.name}
           fill
           sizes="(max-width: 640px) 60vw, 300px"
-          className="object-cover grayscale-[40%] transition-transform duration-500 group-hover:scale-105"
+          className={`object-cover transition-transform duration-500 group-hover:scale-105 ${
+            product.sold ? "grayscale" : "grayscale-[40%]"
+          }`}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/5 to-black/20" />
+        {product.sold && (
+          <div className="absolute inset-0 flex items-center justify-center bg-background/50">
+            <span className="rounded-sm border border-border bg-background/90 px-3 py-1 font-mono text-xs uppercase tracking-widest">
+              Sold Out
+            </span>
+          </div>
+        )}
         <div className="absolute left-3 top-3 flex origin-top-left items-center gap-1 rounded-sm border border-border bg-background/80 px-2 py-1 font-mono text-[10px] text-muted backdrop-blur transition-transform duration-300 group-hover:-rotate-3">
           <span className="h-1.5 w-1.5 rounded-full border border-muted" />
           N&deg; {String(product.id).padStart(3, "0")}/1
         </div>
-        <button
-          type="button"
-          aria-label="Add to Fire List"
-          className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white/80 backdrop-blur transition-colors group-hover:text-accent"
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-4 w-4">
-            <path d="M12 21s-7.5-4.6-10-9.3C.4 8.1 2.3 4.5 5.9 4c2-.3 3.9.7 4.9 2.3C11.9 4.7 13.8 3.7 15.8 4c3.6.5 5.5 4.1 3.9 7.7C21.5 16.4 12 21 12 21z" />
-          </svg>
-        </button>
+        <FireListToggle />
       </div>
       <div className="mt-4 flex items-start justify-between gap-2">
         <div>

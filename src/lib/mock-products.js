@@ -76,6 +76,7 @@ export const mockProducts = [
     condition: "Very Good",
     measurements: "Chest 20in · Length 25in · Sleeve 23in",
     description: "Boxy fit skate hoodie with faded front graphic. Drawstrings intact, no pilling.",
+    sold: true,
   },
   {
     id: "6",
