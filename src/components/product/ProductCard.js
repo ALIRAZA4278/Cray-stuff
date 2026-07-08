@@ -5,9 +5,9 @@ export default function ProductCard({ product }) {
   return (
     <Link
       href={`/product/${product.slug}`}
-      className="group block rounded-lg border border-border bg-white/[0.03] p-4 transition-transform duration-300 hover:-translate-y-1"
+      className="group block rounded-lg border border-border bg-surface p-4 transition-transform duration-300 hover:-translate-y-1"
     >
-      <div className="relative aspect-[3/4] overflow-hidden rounded-md border border-border bg-white/[0.03]">
+      <div className="relative aspect-[3/4] overflow-hidden rounded-md border border-border bg-surface">
         <Image
           src={`https://picsum.photos/seed/${product.slug}/600/800`}
           alt={product.name}

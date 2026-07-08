@@ -35,7 +35,7 @@ export default function MakeOfferDialog({ price, minOffer }) {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 px-6"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-overlay px-6"
         >
           <div className="relative w-full max-w-sm rounded-lg border border-border bg-background p-8">
             <button

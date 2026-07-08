@@ -7,6 +7,8 @@
   --accent-foreground: #ffffff;
   --border: rgba(255, 255, 255, 0.1);
   --muted: #a1a1aa;
+  --surface: rgba(255, 255, 255, 0.03);
+  --overlay: rgba(0, 0, 0, 0.7);
 }
 
 @theme inline {
@@ -16,6 +18,8 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-border: var(--border);
   --color-muted: var(--muted);
+  --color-surface: var(--surface);
+  --color-overlay: var(--overlay);
   --font-sans: var(--font-space-grotesk);
   --font-mono: var(--font-jetbrains-mono);
 }

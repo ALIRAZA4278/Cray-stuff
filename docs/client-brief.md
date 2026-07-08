@@ -43,8 +43,10 @@ All features listed in this brief will be built — nothing here is optional or
 
 A curated online store for vintage, Y2K, Japanese, skate and streetwear clothing.
 Not a clothing brand — a marketplace-style store where the owner personally sources,
-photographs and lists every item. Every product is **one-of-one**: once sold, it's
-removed from the store (no restock, no variants of the same item).
+photographs and lists every item. Every product is **one-of-one** (no restock,
+no variants of the same item). **Updated per Round 6**: sold items are no
+longer removed from the store — they stay visible with a **"Sold Out"** badge
+instead (excluded from Buy Now/Make an Offer, but still browsable).
 
 **Vibe**: premium, minimal, dark, editorial. Inspired by SSENSE, Grailed, END
 Clothing, COS, and vintage boutiques in Tokyo/Copenhagen — NOT a typical
@@ -432,3 +434,94 @@ something to lighten.
 **Timeline note**: client needs more time to send the materials we asked for
 (product photos, data, etc.) — they're busy and want to think it through
 properly. No fixed date given; don't block other work waiting on this.
+
+## Round 6 — structure feedback (from Wiktor's team, pre-review notes)
+
+Feedback given to review internally before showing the site structure to
+Wiktor directly. Mixes new requirements, scope corrections, and confirmations
+of decisions already made.
+
+**⚠️ Scope change — sold items stay visible ("Sold Out" badge)**
+This **reverses** the earlier rule in "What it is" above ("once sold, it's
+removed from the store"). New instruction: **keep sold products visible on
+the site with a "Sold Out" badge instead of removing them.** Rationale
+implied: sold listings still show catalog depth/history and social proof
+(items actually sell). Build impact: products need a `sold` status field;
+sold items should be excluded from Buy Now/Make an Offer actions but still
+browsable, filterable, and visible in Latest Drop/Most Popular/Shop. **Flag
+this explicitly to the client as a confirmed reversal before building it**,
+since it directly contradicts the original one-of-one/removed-on-sale spec.
+
+### New brand reference: Vinted
+
+Client wants a **"premium, Vinted-inspired experience"** — a premium European
+vintage/streetwear brand feel, explicitly "not a standard Shopify-style
+website." Vinted is a large European C2C fashion resale marketplace — worth
+a dedicated reference pass (layout, listing cards, Make an Offer-equivalent
+UX) alongside the sites already reviewed in Round 4/5.
+
+### Homepage direction
+
+- Should feel more premium/unique with a **"concrete/streetwear" aesthetic**
+  — a new descriptor (industrial/urban texture), not previously specified.
+  Worth exploring textured/concrete-style surface treatments distinct from
+  our current flat dark palette.
+- **Top announcement bar should rotate messages**, not stay static — cycle
+  between: 24-hour shipping, newsletter discount, new drops. (Ours is
+  currently a single static "Free shipping over 250 PLN" line — needs to
+  become a rotating/carousel bar.)
+- **Most Popular section on homepage** — already built, ranked by Fire List
+  saves. Confirms our existing approach is correct, no change needed.
+
+### Fire List — confirmed as core, not cosmetic
+
+Client's team stressed Fire List is a core feature, not a generic wishlist —
+matches what we've already built (custom name, drives Most Popular ranking).
+Needs room reserved for **future notifications** (see AI features below).
+
+### Product Details page — additional image types
+
+Beyond the general gallery already speced, product pages need distinct:
+
+- **Mannequin fit image** — how the piece sits on a form/model.
+- **Lifestyle image(s)** — styled/worn-in-context shots.
+
+These are new categories on top of plain product photos — worth modeling as
+tagged image types (not just an unordered gallery array) so admin can mark
+which photo is which when uploading.
+
+### Checkout payment methods — explicit list
+
+BLIK, cards, **Apple Pay, Google Pay**, etc. Apple Pay/Google Pay weren't
+explicitly named before (Stripe usually bundles these automatically once
+enabled) — now explicitly required, not just implied.
+
+### Bilingual — English is default
+
+Confirms Round 3's bilingual requirement, now specific: **English by
+default, with a Polish language switch** (not Polish-first). Matches what's
+already built (header EN/PL toggle defaults to EN).
+
+**Shipping, customer dashboard, InPost-first** — no changes, matches what's
+already speced and built.
+
+### Future AI features — explicitly Phase 2, not Phase 1
+
+Client wants the structure to **leave room for** (but not build now):
+
+- Chat assistant
+- Automatic offers (our Make an Offer auto-accept/counter logic is already
+  a strong foundation for this)
+- Abandoned cart reminders
+- Fire List notifications
+
+Don't build these now — just avoid architecting in a way that blocks adding
+them later (e.g. keep offer logic and cart/session data structured cleanly).
+
+### About Us section
+
+Should be designed around **Wiktor's personal story** (founder narrative)
+while keeping a premium brand image — not generic "About" boilerplate. We
+don't have real founder-story content yet; don't fabricate it. Currently
+`/faq` is a placeholder stand-in for About Us — build a real dedicated About
+page once the client provides their story.

@@ -6,12 +6,12 @@ const columns = [
     title: "Shop",
     links: [
       { href: "/shop", label: "All Products" },
-      { href: "/shop?style=vintage", label: "Vintage" },
-      { href: "/shop?style=y2k", label: "Y2K" },
-      { href: "/shop?style=japanese", label: "Japanese" },
-      { href: "/shop?style=skate", label: "Skate" },
-      { href: "/shop?style=gorpcore", label: "Gorpcore" },
-      { href: "/shop?style=archive", label: "Archive" },
+      { href: "/shop/vintage", label: "Vintage" },
+      { href: "/shop/y2k", label: "Y2K" },
+      { href: "/shop/japanese", label: "Japanese" },
+      { href: "/shop/skate", label: "Skate" },
+      { href: "/shop/gorpcore", label: "Gorpcore" },
+      { href: "/shop/archive", label: "Archive" },
     ],
   },
   {

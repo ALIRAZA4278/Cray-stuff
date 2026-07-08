@@ -45,7 +45,7 @@ export default function Hero() {
             </Link>
             <Link
               href="/shop"
-              className="rounded-full border border-border px-6 py-3 text-sm font-medium transition-colors hover:border-white/30"
+              className="rounded-full border border-border px-6 py-3 text-sm font-medium transition-colors hover:border-accent"
             >
               New Drop
             </Link>

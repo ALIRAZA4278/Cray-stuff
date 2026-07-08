@@ -11,12 +11,12 @@ const links = [
 
 export default function AdminSidebar() {
   return (
-    <nav className="w-56 shrink-0 space-y-2 border-r border-white/10 p-4">
+    <nav className="w-56 shrink-0 space-y-2 border-r border-border p-4">
       {links.map((link) => (
         <Link
           key={link.href}
           href={link.href}
-          className="block text-sm text-zinc-300 hover:text-white"
+          className="block text-sm text-muted transition-colors hover:text-foreground"
         >
           {link.label}
         </Link>

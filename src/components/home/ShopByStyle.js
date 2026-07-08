@@ -14,7 +14,7 @@ export default function ShopByStyle() {
           {styleTags.map((style, index) => (
             <Reveal key={style} delay={index * 0.05}>
               <Link
-                href={`/shop?style=${style.toLowerCase()}`}
+                href={`/shop/${style.toLowerCase()}`}
                 className="group relative flex aspect-square items-end overflow-hidden rounded-lg border border-border transition-colors hover:border-accent"
               >
                 <Image
