@@ -1,5 +1,5 @@
 import Hero from "@/components/home/Hero";
-import QuickStyleTabs from "@/components/home/QuickStyleTabs";
+import BrandTicker from "@/components/home/BrandTicker";
 import TrustBar from "@/components/home/TrustBar";
 import BrowseByCategory from "@/components/home/BrowseByCategory";
 import ProductGrid from "@/components/home/ProductGrid";
@@ -19,16 +19,29 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <QuickStyleTabs />
       <TrustBar />
+      <ProductGrid
+        eyebrow="New this week"
+        title="Latest Drop"
+        viewAllHref="/shop"
+        viewAllLabel="Shop new arrivals"
+        products={mockProducts}
+      />
+      <ProductGrid
+        eyebrow="Community favorites"
+        title="Most Popular"
+        viewAllHref="/shop?sort=popular"
+        viewAllLabel="Shop most popular"
+        products={mostPopular}
+      />
+      <BrandTicker />
       <BrowseByCategory />
-      <ProductGrid eyebrow="New this week" title="Latest Drop" viewAllHref="/shop" products={mockProducts} />
-      <ProductGrid eyebrow="Community favorites" title="Most Popular" viewAllHref="/shop" products={mostPopular} />
       {mensProducts.length > 0 && (
         <ProductGrid
           eyebrow="Men's vintage"
           title="Men's Collection"
           viewAllHref="/shop?category=mens"
+          viewAllLabel="Shop men's"
           products={mensProducts}
         />
       )}
@@ -37,6 +50,7 @@ export default function HomePage() {
           eyebrow="Women's vintage"
           title="Women's Collection"
           viewAllHref="/shop?category=womens"
+          viewAllLabel="Shop women's"
           products={womensProducts}
         />
       )}

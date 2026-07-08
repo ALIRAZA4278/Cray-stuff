@@ -16,8 +16,9 @@ const navLinks = [
   { href: "/shop/archive", label: "Archive" },
 ];
 
-const desktopItemClass = "text-muted transition-colors hover:text-foreground";
-const desktopActiveClass = "text-accent";
+const desktopItemClass =
+  "text-xs uppercase tracking-widest text-muted transition-colors hover:text-foreground";
+const desktopActiveClass = "text-xs uppercase tracking-widest text-accent";
 const mobileItemClass = "py-2 text-sm text-muted transition-colors hover:text-foreground";
 const mobileActiveClass = "py-2 text-sm text-accent";
 
@@ -30,16 +31,11 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
       <AnnouncementBar />
 
-      <div className="flex items-center justify-between px-6 py-4">
-        <Link href="/" className="text-lg font-semibold uppercase tracking-tight">
-          Cray<span className="text-accent"> Stuff</span>
-        </Link>
-
-        <nav className="hidden items-center gap-6 text-sm md:flex">
-          <HeaderNavLinks links={navLinks} itemClassName={desktopItemClass} activeClassName={desktopActiveClass} />
-        </nav>
-
+      <div className="relative flex items-center justify-between px-6 py-4">
         <div className="flex items-center gap-4">
+          <Link href="/shop" aria-label="Search" className="text-muted transition-colors hover:text-foreground">
+            <SearchIcon />
+          </Link>
           <div className="hidden items-center gap-1 font-mono text-xs text-muted sm:flex">
             <button
               type="button"
@@ -57,6 +53,16 @@ export default function Header() {
               PL
             </button>
           </div>
+        </div>
+
+        <Link
+          href="/"
+          className="absolute left-1/2 -translate-x-1/2 text-xl font-semibold uppercase tracking-tight"
+        >
+          Cray<span className="text-accent"> Stuff</span>
+        </Link>
+
+        <div className="flex items-center gap-4">
           <Link href="/fire-list" aria-label="Fire List" className="text-muted transition-colors hover:text-foreground">
             <HeartIcon />
           </Link>
@@ -90,6 +96,10 @@ export default function Header() {
         </div>
       </div>
 
+      <nav className="hidden items-center justify-center gap-8 border-t border-border bg-black/20 py-3 md:flex">
+        <HeaderNavLinks links={navLinks} itemClassName={desktopItemClass} activeClassName={desktopActiveClass} />
+      </nav>
+
       {open && (
         <nav className="flex flex-col gap-1 border-t border-border px-6 py-4 md:hidden">
           <HeaderNavLinks
@@ -108,6 +118,15 @@ export default function Header() {
         </nav>
       )}
     </header>
+  );
+}
+
+function SearchIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
+      <circle cx="11" cy="11" r="7" />
+      <path d="M20 20l-4-4" />
+    </svg>
   );
 }
 
