@@ -49,7 +49,7 @@ export default function ProductCard({ product }) {
         <FireListToggle product={product} />
       </div>
       <div className="mt-4 flex items-start justify-between gap-2">
-        <div>
+        <div className="min-w-0">
           <p className="font-mono text-xs uppercase tracking-wide text-accent">{product.brand}</p>
           <p className="mt-0.5 text-base font-medium">{product.name}</p>
           <p className="mt-0.5 font-mono text-[11px] uppercase tracking-wide text-muted">
@@ -63,7 +63,7 @@ export default function ProductCard({ product }) {
             ))}
           </div>
         </div>
-        <p className="whitespace-nowrap font-mono text-base font-medium">&euro;{product.price}</p>
+        <p className="shrink-0 whitespace-nowrap font-mono text-sm font-medium sm:text-base">&euro;{product.price}</p>
       </div>
     </Link>
   );

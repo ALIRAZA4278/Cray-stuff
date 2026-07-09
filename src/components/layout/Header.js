@@ -21,10 +21,10 @@ const navLinks = [
 ];
 
 const desktopItemClass =
-  "nav-underline text-xs uppercase tracking-widest text-muted transition-colors hover:text-foreground";
-const desktopActiveClass = "nav-underline text-xs uppercase tracking-widest text-accent";
-const mobileItemClass = "py-2 text-sm text-muted transition-colors hover:text-foreground";
-const mobileActiveClass = "py-2 text-sm text-accent";
+  "nav-underline text-xs font-semibold uppercase tracking-widest text-muted transition-colors hover:text-foreground";
+const desktopActiveClass = "nav-underline text-xs font-semibold uppercase tracking-widest text-accent";
+const mobileItemClass = "py-2 text-sm font-semibold text-muted transition-colors hover:text-foreground";
+const mobileActiveClass = "py-2 text-sm font-semibold text-accent";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -145,7 +145,7 @@ export default function Header() {
 function HeartIcon({ filled }) {
   return (
     <svg viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
-      <path d="M12 21s-7.5-4.6-10-9.3C.4 8.1 2.3 4.5 5.9 4c2-.3 3.9.7 4.9 2.3C11.9 4.7 13.8 3.7 15.8 4c3.6.5 5.5 4.1 3.9 7.7C21.5 16.4 12 21 12 21z" />
+      <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
     </svg>
   );
 }

@@ -22,9 +22,9 @@ export const metadata = {
 };
 
 // Runs before paint so the correct theme is applied with no flash.
-// Defaults to light (the version the client is reviewing); falls back to the
-// stored choice from the header toggle.
-const themeScript = `(function(){try{var t=localStorage.getItem('cray-theme')||'light';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();`;
+// Defaults to dark (the confirmed brand direction); the header toggle lets
+// customers switch to light and remembers their choice.
+const themeScript = `(function(){try{var t=localStorage.getItem('cray-theme')||'dark';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();`;
 
 export default function RootLayout({ children }) {
   return (
