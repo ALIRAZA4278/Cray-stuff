@@ -24,7 +24,14 @@ export function CartProvider({ children }) {
       if (current.some((item) => item.slug === product.slug)) return current;
       return [
         ...current,
-        { slug: product.slug, name: product.name, brand: product.brand, price: product.price },
+        {
+          slug: product.slug,
+          name: product.name,
+          brand: product.brand,
+          price: product.price,
+          size: product.size ?? null,
+          image: product.images?.[0] ?? null,
+        },
       ];
     });
   }
