@@ -3,6 +3,10 @@ import Link from "next/link";
 import FireListToggle from "@/components/product/FireListToggle";
 
 export default function ProductCard({ product }) {
+  const imgs = product.images && product.images.length ? product.images : null;
+  const primaryImg = imgs ? imgs[0] : `https://picsum.photos/seed/${product.slug}/600/800`;
+  const hoverImg = imgs ? imgs[1] || imgs[0] : `https://picsum.photos/seed/${product.slug}-2/600/800`;
+
   return (
     <Link
       href={`/product/${product.slug}`}
@@ -10,7 +14,7 @@ export default function ProductCard({ product }) {
     >
       <div className="relative aspect-[3/4] overflow-hidden rounded-md border border-border bg-surface">
         <Image
-          src={`https://picsum.photos/seed/${product.slug}/600/800`}
+          src={primaryImg}
           alt={product.name}
           fill
           sizes="(max-width: 640px) 60vw, 300px"
@@ -19,7 +23,7 @@ export default function ProductCard({ product }) {
           }`}
         />
         <Image
-          src={`https://picsum.photos/seed/${product.slug}-2/600/800`}
+          src={hoverImg}
           alt=""
           fill
           sizes="(max-width: 640px) 60vw, 300px"

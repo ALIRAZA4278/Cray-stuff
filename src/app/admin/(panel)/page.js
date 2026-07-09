@@ -2,19 +2,21 @@ import Link from "next/link";
 import AdminHeader from "@/components/admin/AdminHeader";
 import StatCard from "@/components/admin/StatCard";
 import StatusBadge from "@/components/admin/StatusBadge";
-import { mockProducts } from "@/lib/mock-products";
-import { sampleOrders, sampleOffers } from "@/lib/admin-data";
+import { getAllProducts } from "@/lib/products";
+import { getAllOrders } from "@/lib/orders";
+import { getAllOffers } from "@/lib/offers";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export const metadata = { title: "Dashboard — Admin" };
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboardPage() {
-  const live = mockProducts.filter((p) => !p.sold).length;
-  const sold = mockProducts.filter((p) => p.sold).length;
-  const toShip = sampleOrders.filter((o) => o.status === "Paid" || o.status === "New").length;
-  const pendingOffers = sampleOffers.filter((o) => o.status === "Pending");
-  const revenue = sampleOrders.filter((o) => o.status !== "Cancelled").reduce((s, o) => s + o.total, 0);
+  const [products, orders, offers] = await Promise.all([getAllProducts(), getAllOrders(), getAllOffers()]);
+  const live = products.filter((p) => !p.sold).length;
+  const sold = products.filter((p) => p.sold).length;
+  const toShip = orders.filter((o) => o.status === "Paid" || o.status === "New").length;
+  const pendingOffers = offers.filter((o) => o.status === "Pending");
+  const revenue = orders.filter((o) => o.status !== "Cancelled").reduce((s, o) => s + o.total, 0);
 
   let messageCount = 0;
   const supabase = createAdminClient();
@@ -27,7 +29,7 @@ export default async function AdminDashboardPage() {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Live pieces" value={live} hint={`${sold} sold out`} />
-        <StatCard label="Orders to ship" value={toShip} hint={`${sampleOrders.length} orders total`} />
+        <StatCard label="Orders to ship" value={toShip} hint={`${orders.length} orders total`} />
         <StatCard label="Offers to review" value={pendingOffers.length} hint="Rest auto-handled" />
         <StatCard label="Revenue" value={`€${revenue}`} hint="Excludes cancelled" />
       </div>
@@ -41,8 +43,11 @@ export default async function AdminDashboardPage() {
               View all
             </Link>
           </div>
+          {orders.length === 0 ? (
+            <p className="px-5 py-6 text-sm text-muted">No orders yet.</p>
+          ) : (
           <ul>
-            {sampleOrders.slice(0, 5).map((order) => (
+            {orders.slice(0, 5).map((order) => (
               <li key={order.id} className="flex items-center justify-between gap-3 border-b border-border px-5 py-3 text-sm last:border-0">
                 <div>
                   <p className="font-mono text-xs text-muted">{order.id}</p>
@@ -55,6 +60,7 @@ export default async function AdminDashboardPage() {
               </li>
             ))}
           </ul>
+          )}
         </section>
 
         {/* Offers needing review */}

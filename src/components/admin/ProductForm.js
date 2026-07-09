@@ -1,8 +1,8 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import Link from "next/link";
-import { saveProduct } from "@/lib/actions/products";
+import { saveProduct, deleteProduct } from "@/lib/actions/products";
 import { styleTags, categories } from "@/lib/mock-products";
 
 const inputClass =
@@ -13,6 +13,8 @@ const labelClass = "mb-1.5 block text-xs font-medium uppercase tracking-wide tex
 export default function ProductForm({ product }) {
   const [state, formAction, pending] = useActionState(saveProduct, null);
   const isEdit = Boolean(product);
+  const [imagesText, setImagesText] = useState((product?.images || []).join("\n"));
+  const imageUrls = imagesText.split(/[\n,]+/).map((s) => s.trim()).filter(Boolean);
 
   return (
     <form action={formAction} className="max-w-3xl space-y-8">
@@ -21,18 +23,29 @@ export default function ProductForm({ product }) {
       {/* Images */}
       <section>
         <h2 className="text-sm font-medium uppercase tracking-wide text-muted">Photos</h2>
-        <div className="mt-3 grid grid-cols-3 gap-3 sm:grid-cols-5">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <div
-              key={i}
-              className="flex aspect-[3/4] items-center justify-center rounded-lg border border-dashed border-border bg-surface text-2xl text-muted transition-colors hover:border-accent"
-            >
-              +
-            </div>
-          ))}
-        </div>
+        <p className="mt-1 text-xs text-muted">
+          Paste image links — one per line. The first is the main photo. Leave empty to use a placeholder.
+        </p>
+        <textarea
+          name="images"
+          rows={4}
+          value={imagesText}
+          onChange={(e) => setImagesText(e.target.value)}
+          placeholder={"https://…/photo-1.jpg\nhttps://…/photo-2.jpg"}
+          className={`${inputClass} mt-3 resize-none font-mono text-xs`}
+        />
+        {imageUrls.length > 0 && (
+          <div className="mt-3 grid grid-cols-3 gap-3 sm:grid-cols-5">
+            {imageUrls.map((url, i) => (
+              <div key={i} className="relative aspect-[3/4] overflow-hidden rounded-lg border border-border bg-surface">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={url} alt="" className="h-full w-full object-cover" />
+              </div>
+            ))}
+          </div>
+        )}
         <p className="mt-2 text-xs text-muted">
-          7–25 photos per piece. Upload wires to Cloudinary — tag mannequin / lifestyle shots when connected.
+          Direct file upload (Cloudinary) is a separate add-on — links work now.
         </p>
       </section>
 
@@ -144,6 +157,16 @@ export default function ProductForm({ product }) {
         <Link href="/admin/products" className="text-sm text-muted transition-colors hover:text-foreground">
           Cancel
         </Link>
+        {isEdit && (
+          <form action={deleteProduct.bind(null, product.id)} className="ml-auto">
+            <button
+              type="submit"
+              className="rounded-full border border-red-500/40 px-5 py-2 font-mono text-[11px] uppercase tracking-widest text-red-300 transition-colors hover:bg-red-500/10"
+            >
+              Delete
+            </button>
+          </form>
+        )}
       </div>
     </form>
   );

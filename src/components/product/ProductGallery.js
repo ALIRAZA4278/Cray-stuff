@@ -3,8 +3,10 @@
 import { useState } from "react";
 import Image from "next/image";
 
-export default function ProductGallery({ slug, name }) {
-  const images = [1, 2, 3, 4].map((n) => `https://picsum.photos/seed/${slug}-${n}/900/1100`);
+export default function ProductGallery({ slug, name, images: provided = [] }) {
+  const images = provided.length
+    ? provided
+    : [1, 2, 3, 4].map((n) => `https://picsum.photos/seed/${slug}-${n}/900/1100`);
   const [active, setActive] = useState(0);
 
   return (

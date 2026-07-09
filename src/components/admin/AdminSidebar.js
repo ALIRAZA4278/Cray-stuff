@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { signOut } from "@/lib/actions/auth";
+import { adminLogout } from "@/lib/actions/admin-auth";
 
 const links = [
   { href: "/admin", label: "Dashboard" },
@@ -56,7 +56,7 @@ export default function AdminSidebar() {
         >
           &larr; Back to store
         </Link>
-        <form action={signOut}>
+        <form action={adminLogout}>
           <button
             type="submit"
             className="w-full rounded-lg px-3 py-2 text-left text-sm text-muted transition-colors hover:text-foreground"

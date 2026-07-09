@@ -3,22 +3,28 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useCart } from "@/lib/CartContext";
+import { useRequireLogin } from "@/lib/AuthContext";
 
 export default function CartActions({ product }) {
   const { addItem, items } = useCart();
   const router = useRouter();
+  const run = useRequireLogin();
   const [added, setAdded] = useState(false);
 
   const inCart = items.some((item) => item.slug === product.slug);
 
   function handleBuyNow() {
-    addItem(product);
-    router.push("/checkout");
+    run(() => {
+      addItem(product);
+      router.push("/checkout");
+    });
   }
 
   function handleAddToCart() {
-    addItem(product);
-    setAdded(true);
+    run(() => {
+      addItem(product);
+      setAdded(true);
+    });
   }
 
   return (

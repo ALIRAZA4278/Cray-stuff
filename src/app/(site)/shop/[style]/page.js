@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Reveal from "@/components/motion/Reveal";
-import StyleFilterRow from "@/components/shop/StyleFilterRow";
-import CategoryFilterRow from "@/components/shop/CategoryFilterRow";
 import SortSelect from "@/components/shop/SortSelect";
 import ShopResults from "@/components/shop/ShopResults";
-import { mockProducts, styleTags } from "@/lib/mock-products";
-import { sortProducts } from "@/lib/shop-filters";
+import ShopFilterSidebar from "@/components/shop/ShopFilterSidebar";
+import { styleTags } from "@/lib/mock-products";
+import { getAllProducts } from "@/lib/products";
+import { sortProducts, filterProducts, getFacets } from "@/lib/shop-filters";
 import { styleCopy } from "@/lib/style-copy";
 
 export function generateStaticParams() {
@@ -22,17 +22,23 @@ export default async function StyleShopPage({ params, searchParams }) {
   }
 
   const search = await searchParams;
-  const activeCategories = search.category ? search.category.split(",").filter(Boolean) : [];
+  const active = {
+    categories: search.category ? search.category.split(",").filter(Boolean) : [],
+    sizes: search.size ? search.size.split(",").filter(Boolean) : [],
+    brands: search.brand ? search.brand.split(",").filter(Boolean) : [],
+    conditions: search.condition ? search.condition.split(",").filter(Boolean) : [],
+    maxPrice: Number(search.max) || null,
+  };
   const sort = search.sort || "new";
+  const basePath = `/shop/${style}`;
 
-  const filtered = mockProducts.filter((product) => {
-    const matchesStyle = product.tags.some((tag) => tag.toLowerCase() === style);
-    const matchesCategory = activeCategories.length === 0 || activeCategories.includes(product.category);
-    return matchesStyle && matchesCategory;
-  });
+  const all = await getAllProducts();
+  const facets = getFacets(all);
+  const filtered = filterProducts(all, { ...active, style });
   const products = sortProducts(filtered, sort);
   const baseParams = new URLSearchParams(search);
-  const basePath = `/shop/${style}`;
+  const hasFilters =
+    active.categories.length || active.sizes.length || active.brands.length || active.conditions.length || active.maxPrice;
 
   return (
     <div className="px-6 py-16">
@@ -45,25 +51,22 @@ export default async function StyleShopPage({ params, searchParams }) {
           </p>
         </Reveal>
 
-        <Reveal delay={0.05} className="flex flex-col gap-4 border-b border-border pb-6">
-          <div className="flex flex-wrap items-center gap-2">
-            <CategoryFilterRow basePath={basePath} activeCategories={activeCategories} params={baseParams} />
-            <span className="mx-1 h-4 w-px bg-border" />
-            <StyleFilterRow currentStyle={style} />
+        <div className="grid gap-8 lg:grid-cols-[210px_1fr]">
+          <ShopFilterSidebar basePath={basePath} params={baseParams} active={active} facets={facets} currentStyle={style} />
+          <div>
+            <div className="flex items-center justify-between gap-4 border-b border-border pb-4">
+              {hasFilters ? (
+                <Link href={basePath} className="text-sm text-accent hover:opacity-80">
+                  Clear all
+                </Link>
+              ) : (
+                <span />
+              )}
+              <SortSelect value={sort} />
+            </div>
+            <ShopResults products={products} clearHref={basePath} />
           </div>
-          <div className="flex items-center justify-between gap-4">
-            {activeCategories.length > 0 ? (
-              <Link href={basePath} className="text-sm text-accent hover:opacity-80">
-                Clear filters
-              </Link>
-            ) : (
-              <span />
-            )}
-            <SortSelect value={sort} />
-          </div>
-        </Reveal>
-
-        <ShopResults products={products} clearHref={basePath} />
+        </div>
       </div>
     </div>
   );

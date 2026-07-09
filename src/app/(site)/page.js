@@ -9,14 +9,19 @@ import ShopByStyle from "@/components/home/ShopByStyle";
 import Community from "@/components/home/Community";
 import ValueProps from "@/components/home/ValueProps";
 import PhilosophyAndDrop from "@/components/home/PhilosophyAndDrop";
-import { mockProducts } from "@/lib/mock-products";
+import { getAllProducts } from "@/lib/products";
 
-const mostPopular = [...mockProducts].sort((a, b) => b.fireCount - a.fireCount);
-const mensProducts = mockProducts.filter((product) => product.category === "mens");
-const womensProducts = mockProducts.filter((product) => product.category === "womens");
-const dropTarget = Date.now() + 1000 * 60 * 60 * 24 * 7;
+// Storefront reads the live catalog; refresh at most every 60s (plus instant
+// on-demand refresh when admin saves via revalidatePath).
+export const revalidate = 60;
 
-export default function HomePage() {
+export default async function HomePage() {
+  const products = await getAllProducts();
+  const mostPopular = [...products].sort((a, b) => b.fireCount - a.fireCount);
+  const mensProducts = products.filter((product) => product.category === "mens");
+  const womensProducts = products.filter((product) => product.category === "womens");
+  const dropTarget = Date.now() + 1000 * 60 * 60 * 24 * 7;
+
   return (
     <>
       <Hero />
@@ -27,7 +32,7 @@ export default function HomePage() {
         title="Latest Drop"
         viewAllHref="/shop"
         viewAllLabel="Shop new arrivals"
-        products={mockProducts}
+        products={products}
       />
       <ProductGrid
         eyebrow="Community favorites"

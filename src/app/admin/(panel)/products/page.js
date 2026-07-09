@@ -2,12 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import AdminHeader from "@/components/admin/AdminHeader";
 import StatusBadge from "@/components/admin/StatusBadge";
-import { mockProducts } from "@/lib/mock-products";
+import { getAllProducts } from "@/lib/products";
 
 export const metadata = { title: "Products — Admin" };
 
-export default function AdminProductsPage() {
-  const products = mockProducts;
+export default async function AdminProductsPage() {
+  const products = await getAllProducts();
 
   return (
     <div>

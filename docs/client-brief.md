@@ -10,33 +10,35 @@ All features listed in this brief will be built — nothing here is optional or
 
 ## Full feature checklist
 
-- [ ] Home page with hero, Latest Drop, Most Popular, Shop by Style, Brand story, Drop countdown, Newsletter, Footer
-- [ ] Shop page with categories (Men's, Women's, clothing type, style)
-- [ ] Product Details page (photos gallery, brand, size, condition, measurements, description, price, tags)
-- [ ] Framed / slightly 3D product card design
+- [x] ✅ Home page — hero, Latest Drop, Most Popular, Shop by Style, brand ticker/philosophy, Drop countdown, Newsletter, Footer (all live)
+- [x] ✅ Shop page — category (Men's/Women's/Unisex) + style-tag + price filters, sort, per-style pages
+- [x] ✅ Product Details — gallery, brand, size, condition, measurements, description, price, tags, Fire List, Make an Offer, Q&A
+- [x] ✅ Framed / slightly-3D product card (hover lift + shadow + border, image-swap)
 - [x] Login / Register (Email + Google via Supabase Auth working. Apple DEFERRED — button hidden in UI, code commented in SocialAuth.js; needs paid Apple Developer account $99/yr to enable)
-- [~] Customer Dashboard (profile + order-history shell done; live orders pending Stripe checkout)
-- [x] Fire List (custom wishlist — persisted localStorage, header badge, saved-pieces page, purple-glow heart)
-- [ ] Price drop notifications for saved Fire List items
-- [ ] Make an Offer (customer submits price, admin accepts/declines)
-- [ ] Product Q&A (customer asks on product page, admin replies, notification on reply)
-- [ ] Advanced filtering (style tag, category, size, brand, price, condition)
-- [ ] Search
-- [ ] Cart
-- [ ] Checkout with Stripe payments
-- [ ] Free shipping rule (configurable threshold, Poland-first)
+- [x] Customer Dashboard (profile + REAL order history with New→Paid→Shipped→Delivered tracker, matched by checkout email)
+- [x] ✅ Fire List (custom wishlist — persisted, saved-pieces page, PREMIUM animated heart: pop + purple glow-burst, header shows filled accent heart + animated count badge)
+  - LOGIN REQUIRED for all customer actions (add to cart, Buy now, Fire List, Make an Offer, Q&A ask, checkout) — not-signed-in users are sent to /login. Verified.
+- [ ] Price drop notifications for saved Fire List items — NOT built (needs an email/SMS service; brief flagged SMS as a paid add-on)
+- [x] ✅ VERIFIED — Make an Offer: real submit + auto-accept (≥ min) / auto-counter (< min) / Pending, admin accept/decline. Live against Supabase.
+- [x] ✅ VERIFIED — Product Q&A: ask on product page, admin replies from Messages, answers public. Live. (Email "notify on reply" still needs an email service.)
+- [x] ✅ Advanced filtering — category, style, size, brand, condition, price + sort, in a premium left-sidebar (facets derived live from catalog). Verified.
+- [x] ✅ Search — header search box → /shop?q=, matches name/brand/tags/description. Verified.
+- [x] Cart (localStorage, add/remove, header badge)
+- [~] Checkout — full flow + SAVES order to Supabase `orders` (appears in admin Orders + dashboard). Stripe payment step pending (client's Stripe account); no money moves yet.
+- [~] Free shipping rule — basic threshold in checkout; configurable/Poland-first admin setting still pending
 - [x] Contact page (premium form → persists to Supabase contact_messages; needs docs/supabase-schema.sql run once)
 - [x] FAQ page (premium accordion, real brief-accurate content)
-- [x] Admin Dashboard: add/edit/delete products, upload images, set prices, tags & descriptions (UI complete + shared ProductForm; product persistence pending products table)
+- [x] ✅ Admin Dashboard: add/edit/delete products, set prices, tags & descriptions — PERSISTS to Supabase `products`. Product IMAGES via pasted URLs/links (one per line, live preview, storefront uses them; placeholder fallback). Direct file upload (Cloudinary) is the only image piece still pending.
 - [x] Admin Dashboard: accept/decline offers (UI complete; auto-accept/counter explained)
-- [x] Admin Dashboard: reply to customer messages (live inbox reads contact_messages once SQL run)
-- [x] Admin Dashboard: manage orders & shipping (UI complete, sample data)
+- [x] ✅ Admin Dashboard: reply to customer messages (contact inbox + Product Q&A replies — live)
+- [x] Admin Dashboard: manage orders & shipping (REAL — customer checkouts flow into admin Orders; falls back to sample only if orders table missing)
 - [x] Admin Dashboard: manage categories/style tags (interactive add/remove)
-  - Admin gated by ADMIN_EMAILS allow-list (no role system yet). Products/orders/offers read seed data — swap to Supabase when catalog tables added.
-- [ ] Fully responsive (desktop, tablet, mobile)
-- [ ] Basic on-page SEO (URLs, titles, meta, alt text, performance)
-- [ ] Framer Motion animations / premium UI polish (scroll: fade-in + slide-up, kept subtle)
-- [ ] English + Polish language support (bilingual)
+  - Admin is a SEPARATE login at /admin/login (env creds ADMIN_EMAIL/ADMIN_PASSWORD, cookie session) — not customer auth.
+  - CATALOG + orders + offers + Q&A + contact + newsletter are all Supabase-backed and verified live. Remaining externals: Stripe payment, Cloudinary uploads, email notifications.
+- [x] Responsive — Tailwind breakpoints throughout (recommend a final device-QA pass before launch)
+- [~] Basic on-page SEO — clean URLs, page titles/meta + image alt text in place; full pass is post-launch per brief
+- [x] ✅ Framer Motion scroll animations (Reveal: fade-in + slide-up, subtle) across the site
+- [ ] English + Polish — EN/PL toggle is visual only; real i18n/translations NOT built yet (sizeable task)
 - [ ] Logo refinement (T-shirt graphic concept → professional logo)
 - [ ] Staging environment deploy, then live domain connection at launch
 

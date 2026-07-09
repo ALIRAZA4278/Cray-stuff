@@ -1,25 +1,31 @@
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import crypto from "crypto";
 
-// Gate for the /admin section. Requires a signed-in user whose email is in the
-// ADMIN_EMAILS allow-list. Returns the user, or redirects away. There is no
-// role system yet — this allow-list is the intentional interim guard.
+export const ADMIN_COOKIE = "cray_admin";
+
+// The admin session token is derived from the credentials, so changing
+// ADMIN_EMAIL / ADMIN_PASSWORD in .env.local instantly invalidates old sessions.
+export function adminToken() {
+  const secret = `${process.env.ADMIN_EMAIL || ""}:${process.env.ADMIN_PASSWORD || ""}`;
+  return crypto.createHash("sha256").update(secret).digest("hex");
+}
+
+export function verifyAdminCredentials(email, password) {
+  const envEmail = (process.env.ADMIN_EMAIL || "").trim().toLowerCase();
+  const envPassword = process.env.ADMIN_PASSWORD || "";
+  if (!envEmail || !envPassword) return false;
+  return (email || "").trim().toLowerCase() === envEmail && password === envPassword;
+}
+
+// True if the current request carries a valid admin session cookie.
+export async function isAdmin() {
+  if (!process.env.ADMIN_PASSWORD) return false;
+  const store = await cookies();
+  return store.get(ADMIN_COOKIE)?.value === adminToken();
+}
+
+// Gate for the admin dashboard. Redirects to the admin login if not signed in.
 export async function requireAdmin() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) redirect("/login?error=Please sign in to continue.");
-
-  const allowed = (process.env.ADMIN_EMAILS || "")
-    .split(",")
-    .map((email) => email.trim().toLowerCase())
-    .filter(Boolean);
-
-  if (!allowed.includes(user.email?.toLowerCase())) {
-    redirect("/");
-  }
-
-  return user;
+  if (!(await isAdmin())) redirect("/admin/login");
 }

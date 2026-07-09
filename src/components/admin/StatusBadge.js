@@ -17,11 +17,13 @@ const statusTone = {
   // offers
   Pending: "amber",
   "Auto-accepted": "green",
+  Accepted: "green",
   Countered: "violet",
   Declined: "red",
-  // messages
+  // messages / q&a
   new: "amber",
   replied: "green",
+  answered: "green",
   archived: "grey",
   // products
   Live: "green",

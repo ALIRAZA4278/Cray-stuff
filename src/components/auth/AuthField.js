@@ -1,18 +1,18 @@
+import PasswordInput from "@/components/auth/PasswordInput";
+
 const inputClass =
   "w-full rounded-lg border border-border bg-transparent px-4 py-2.5 text-sm outline-none placeholder:text-muted focus:border-accent";
 
 export function AuthField({ label, name, type = "text", autoComplete, required = true, placeholder }) {
+  const commonProps = { name, autoComplete, required, placeholder };
   return (
     <label className="block">
       <span className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-muted">{label}</span>
-      <input
-        name={name}
-        type={type}
-        autoComplete={autoComplete}
-        required={required}
-        placeholder={placeholder}
-        className={inputClass}
-      />
+      {type === "password" ? (
+        <PasswordInput {...commonProps} className={inputClass} />
+      ) : (
+        <input {...commonProps} type={type} className={inputClass} />
+      )}
     </label>
   );
 }

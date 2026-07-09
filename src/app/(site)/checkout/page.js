@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useCart } from "@/lib/CartContext";
+import { placeOrder } from "@/lib/actions/orders";
+import { useAuth } from "@/lib/AuthContext";
 
 const carriers = [
   { id: "inpost", label: "InPost Locker" },
@@ -29,17 +31,60 @@ function pillClass(active) {
 
 export default function CheckoutPage() {
   const { items, subtotal, clearCart } = useCart();
+  const { user, loading } = useAuth();
   const [carrier, setCarrier] = useState("inpost");
   const [payment, setPayment] = useState("card");
   const [placed, setPlaced] = useState(false);
+  const [orderId, setOrderId] = useState(null);
+  const [error, setError] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const shipping = items.length === 0 || subtotal >= 58 ? 0 : 6;
   const total = subtotal + shipping;
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
+    setError(null);
+    setSubmitting(true);
+
+    const form = new FormData(event.target);
+    const result = await placeOrder({
+      items,
+      total,
+      carrier,
+      payment,
+      name: form.get("name"),
+      email: form.get("email"),
+      address: form.get("address"),
+      city: form.get("city"),
+      postal: form.get("postal"),
+      country: form.get("country"),
+    });
+
+    setSubmitting(false);
+
+    if (result?.error) {
+      setError(result.error);
+      return;
+    }
+
+    setOrderId(result.orderId);
     setPlaced(true);
     clearCart();
+  }
+
+  if (!loading && !user) {
+    return (
+      <div className="px-6 py-24 text-center text-muted">
+        <p>Please log in to check out.</p>
+        <Link
+          href="/login"
+          className="mt-4 inline-block rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
+        >
+          Log in
+        </Link>
+      </div>
+    );
   }
 
   if (placed) {
@@ -47,9 +92,14 @@ export default function CheckoutPage() {
       <div className="px-6 py-24 text-center">
         <p className="font-mono text-xs uppercase tracking-widest text-accent">Order placed</p>
         <h1 className="mt-3 text-3xl font-semibold uppercase tracking-tight">Thank you</h1>
+        {orderId && (
+          <p className="mt-3 font-mono text-sm text-muted">
+            Order <span className="text-foreground">{orderId}</span>
+          </p>
+        )}
         <p className="mx-auto mt-3 max-w-md text-sm text-muted">
-          We&apos;ve got your order — a confirmation will be sent to your email once payment processing is fully
-          wired up.
+          We&apos;ve got your order and it&apos;s in our queue. You&apos;ll get a confirmation by email — payment is
+          handled once Stripe is connected.
         </p>
         <Link
           href="/shop"
@@ -79,13 +129,14 @@ export default function CheckoutPage() {
           <h1 className="text-2xl font-semibold uppercase tracking-tight">Checkout</h1>
 
           <div>
-            <h2 className="text-sm font-medium uppercase tracking-wide text-muted">Shipping address</h2>
+            <h2 className="text-sm font-medium uppercase tracking-wide text-muted">Contact & shipping</h2>
             <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              <input required placeholder="Full name" className={`${inputClass} sm:col-span-2`} />
-              <input required placeholder="Address" className={`${inputClass} sm:col-span-2`} />
-              <input required placeholder="City" className={inputClass} />
-              <input required placeholder="Postal code" className={inputClass} />
-              <input required placeholder="Country" className={`${inputClass} sm:col-span-2`} />
+              <input name="name" required placeholder="Full name" className={`${inputClass} sm:col-span-2`} autoComplete="name" />
+              <input name="email" type="email" required placeholder="Email" className={`${inputClass} sm:col-span-2`} autoComplete="email" />
+              <input name="address" required placeholder="Address" className={`${inputClass} sm:col-span-2`} autoComplete="street-address" />
+              <input name="city" required placeholder="City" className={inputClass} autoComplete="address-level2" />
+              <input name="postal" required placeholder="Postal code" className={inputClass} autoComplete="postal-code" />
+              <input name="country" required placeholder="Country" className={`${inputClass} sm:col-span-2`} autoComplete="country-name" />
             </div>
           </div>
 
@@ -119,13 +170,17 @@ export default function CheckoutPage() {
                 </button>
               ))}
             </div>
+            <p className="mt-2 text-xs text-muted">No payment is taken yet — this places the order for review.</p>
           </div>
+
+          {error && <p className="text-sm text-red-400">{error}</p>}
 
           <button
             type="submit"
-            className="w-full rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
+            disabled={submitting}
+            className="w-full rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
           >
-            Place order &mdash; &euro;{total}
+            {submitting ? "Placing order…" : `Place order — €${total}`}
           </button>
         </form>
 

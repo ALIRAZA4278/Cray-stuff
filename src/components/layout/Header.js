@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { motion } from "motion/react";
 import AnnouncementBar from "./AnnouncementBar";
 import HeaderNavLinks from "./HeaderNavLinks";
 import ThemeToggle from "./ThemeToggle";
+import HeaderSearch from "./HeaderSearch";
 import { useCart } from "@/lib/CartContext";
 import { useFireList } from "@/lib/FireListContext";
 
@@ -36,9 +38,7 @@ export default function Header() {
 
       <div className="relative flex items-center justify-between px-6 py-4">
         <div className="flex items-center gap-4">
-          <Link href="/shop" aria-label="Search" className="text-muted transition-colors hover:text-foreground">
-            <SearchIcon />
-          </Link>
+          <HeaderSearch />
           <div className="hidden items-center gap-1 font-mono text-xs text-muted sm:flex">
             <button
               type="button"
@@ -70,13 +70,21 @@ export default function Header() {
           <Link
             href="/fire-list"
             aria-label="Fire List"
-            className="relative text-muted transition-colors hover:text-foreground"
+            className={`relative transition-colors hover:text-foreground ${
+              fireCount > 0 ? "text-accent" : "text-muted"
+            }`}
           >
-            <HeartIcon />
+            <HeartIcon filled={fireCount > 0} />
             {fireCount > 0 && (
-              <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-accent font-mono text-[10px] text-accent-foreground">
+              <motion.span
+                key={fireCount}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 500, damping: 18 }}
+                className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-accent font-mono text-[10px] text-accent-foreground shadow-[0_0_10px_var(--accent-glow)]"
+              >
                 {fireCount}
-              </span>
+              </motion.span>
             )}
           </Link>
           <Link
@@ -134,18 +142,9 @@ export default function Header() {
   );
 }
 
-function SearchIcon() {
+function HeartIcon({ filled }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
-      <circle cx="11" cy="11" r="7" />
-      <path d="M20 20l-4-4" />
-    </svg>
-  );
-}
-
-function HeartIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
+    <svg viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
       <path d="M12 21s-7.5-4.6-10-9.3C.4 8.1 2.3 4.5 5.9 4c2-.3 3.9.7 4.9 2.3C11.9 4.7 13.8 3.7 15.8 4c3.6.5 5.5 4.1 3.9 7.7C21.5 16.4 12 21 12 21z" />
     </svg>
   );
