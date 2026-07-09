@@ -1,6 +1,12 @@
 @import "tailwindcss";
 
-:root {
+/* ─────────────────────────────────────────────────────────────
+   Theme palettes. Every colour lives here so the whole site can
+   switch light/dark from one place (set via data-theme on <html>).
+   Dark = the confirmed concrete-grey direction (default).
+   ───────────────────────────────────────────────────────────── */
+:root,
+:root[data-theme="dark"] {
   --background: #2b2b2a;
   --foreground: #f2f0ea;
   --accent: #7c3aed;
@@ -9,7 +15,25 @@
   --border: rgba(255, 255, 255, 0.1);
   --muted: #a1a1aa;
   --surface: rgba(255, 255, 255, 0.04);
+  --panel: rgba(0, 0, 0, 0.2);
   --overlay: rgba(0, 0, 0, 0.7);
+  --noise-opacity: 0.05;
+  --noise-blend: overlay;
+}
+
+:root[data-theme="light"] {
+  --background: #e9e7e1; /* soft warm concrete */
+  --foreground: #1b1a18;
+  --accent: #6d28d9; /* deeper violet for contrast on light */
+  --accent-foreground: #ffffff;
+  --accent-glow: rgba(109, 40, 217, 0.35);
+  --border: rgba(0, 0, 0, 0.14);
+  --muted: #6b6a70;
+  --surface: rgba(0, 0, 0, 0.035);
+  --panel: rgba(0, 0, 0, 0.05);
+  --overlay: rgba(0, 0, 0, 0.55);
+  --noise-opacity: 0.035;
+  --noise-blend: multiply;
 }
 
 @theme inline {
@@ -20,6 +44,7 @@
   --color-border: var(--border);
   --color-muted: var(--muted);
   --color-surface: var(--surface);
+  --color-panel: var(--panel);
   --color-overlay: var(--overlay);
   --font-sans: var(--font-space-grotesk);
   --font-mono: var(--font-jetbrains-mono);
@@ -46,8 +71,8 @@ body::before {
   inset: 0;
   z-index: 9999;
   pointer-events: none;
-  opacity: 0.05;
-  mix-blend-mode: overlay;
+  opacity: var(--noise-opacity);
+  mix-blend-mode: var(--noise-blend);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 

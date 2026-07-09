@@ -4,7 +4,9 @@ import Link from "next/link";
 import { useState } from "react";
 import AnnouncementBar from "./AnnouncementBar";
 import HeaderNavLinks from "./HeaderNavLinks";
+import ThemeToggle from "./ThemeToggle";
 import { useCart } from "@/lib/CartContext";
+import { useFireList } from "@/lib/FireListContext";
 
 const navLinks = [
   { href: "/shop", label: "Shop" },
@@ -26,6 +28,7 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const [lang, setLang] = useState("EN");
   const { items } = useCart();
+  const { count: fireCount } = useFireList();
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
@@ -53,6 +56,7 @@ export default function Header() {
               PL
             </button>
           </div>
+          <ThemeToggle />
         </div>
 
         <Link
@@ -63,8 +67,17 @@ export default function Header() {
         </Link>
 
         <div className="flex items-center gap-4">
-          <Link href="/fire-list" aria-label="Fire List" className="text-muted transition-colors hover:text-foreground">
+          <Link
+            href="/fire-list"
+            aria-label="Fire List"
+            className="relative text-muted transition-colors hover:text-foreground"
+          >
             <HeartIcon />
+            {fireCount > 0 && (
+              <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-accent font-mono text-[10px] text-accent-foreground">
+                {fireCount}
+              </span>
+            )}
           </Link>
           <Link
             href="/cart"
@@ -96,7 +109,7 @@ export default function Header() {
         </div>
       </div>
 
-      <nav className="hidden items-center justify-center gap-8 border-t border-border bg-black/20 py-3 md:flex">
+      <nav className="hidden items-center justify-center gap-8 border-t border-border bg-panel py-3 md:flex">
         <HeaderNavLinks links={navLinks} itemClassName={desktopItemClass} activeClassName={desktopActiveClass} />
       </nav>
 

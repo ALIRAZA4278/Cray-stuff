@@ -1,14 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useFireList } from "@/lib/FireListContext";
 
-export default function FireListToggle() {
-  const [saved, setSaved] = useState(false);
+export default function FireListToggle({ product }) {
+  const { isSaved, toggle } = useFireList();
+  const saved = isSaved(product.slug);
 
   function handleClick(event) {
     event.preventDefault();
     event.stopPropagation();
-    setSaved((value) => !value);
+    toggle(product);
   }
 
   return (
@@ -16,7 +17,7 @@ export default function FireListToggle() {
       type="button"
       onClick={handleClick}
       aria-pressed={saved}
-      aria-label="Add to Fire List"
+      aria-label={saved ? "Remove from Fire List" : "Add to Fire List"}
       className={`absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/50 backdrop-blur transition-all duration-300 ${
         saved ? "text-accent shadow-[0_0_14px_var(--accent-glow)]" : "text-muted hover:text-foreground"
       }`}

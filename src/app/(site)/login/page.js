@@ -1,8 +1,29 @@
-export default function LoginPage() {
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+import AuthLayout from "@/components/auth/AuthLayout";
+import LoginForm from "./LoginForm";
+
+export const metadata = {
+  title: "Sign in — CRAY STUFF",
+};
+
+export default async function LoginPage({ searchParams }) {
+  const params = await searchParams;
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user) redirect("/account");
+
   return (
-    <div className="px-6 py-24">
-      <h1 className="text-3xl font-semibold tracking-tight">Login</h1>
-      <p className="mt-2 text-muted">Email, Google, and Apple sign-in go here.</p>
-    </div>
+    <AuthLayout
+      eyebrow="Members"
+      title="Welcome back"
+      subtitle="Sign in to your Fire List, offers and order history."
+      alt={{ label: "New here?", href: "/register", cta: "Create an account" }}
+    >
+      <LoginForm initialError={params?.error} />
+    </AuthLayout>
   );
 }

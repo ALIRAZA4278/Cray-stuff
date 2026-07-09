@@ -14,9 +14,9 @@ All features listed in this brief will be built — nothing here is optional or
 - [ ] Shop page with categories (Men's, Women's, clothing type, style)
 - [ ] Product Details page (photos gallery, brand, size, condition, measurements, description, price, tags)
 - [ ] Framed / slightly 3D product card design
-- [ ] Login / Register (Email, Google, Apple via Supabase Auth)
-- [ ] Customer Dashboard (profile, order history, order tracking)
-- [ ] Fire List (custom wishlist)
+- [x] Login / Register (Email + Google via Supabase Auth working. Apple DEFERRED — button hidden in UI, code commented in SocialAuth.js; needs paid Apple Developer account $99/yr to enable)
+- [~] Customer Dashboard (profile + order-history shell done; live orders pending Stripe checkout)
+- [x] Fire List (custom wishlist — persisted localStorage, header badge, saved-pieces page, purple-glow heart)
 - [ ] Price drop notifications for saved Fire List items
 - [ ] Make an Offer (customer submits price, admin accepts/declines)
 - [ ] Product Q&A (customer asks on product page, admin replies, notification on reply)
@@ -25,13 +25,14 @@ All features listed in this brief will be built — nothing here is optional or
 - [ ] Cart
 - [ ] Checkout with Stripe payments
 - [ ] Free shipping rule (configurable threshold, Poland-first)
-- [ ] Contact page
-- [ ] FAQ page
-- [ ] Admin Dashboard: add/edit/delete products, upload images, set prices, tags & descriptions, manage inventory
-- [ ] Admin Dashboard: accept/decline offers
-- [ ] Admin Dashboard: reply to customer messages
-- [ ] Admin Dashboard: manage orders & shipping
-- [ ] Admin Dashboard: manage categories/style tags
+- [x] Contact page (premium form → persists to Supabase contact_messages; needs docs/supabase-schema.sql run once)
+- [x] FAQ page (premium accordion, real brief-accurate content)
+- [x] Admin Dashboard: add/edit/delete products, upload images, set prices, tags & descriptions (UI complete + shared ProductForm; product persistence pending products table)
+- [x] Admin Dashboard: accept/decline offers (UI complete; auto-accept/counter explained)
+- [x] Admin Dashboard: reply to customer messages (live inbox reads contact_messages once SQL run)
+- [x] Admin Dashboard: manage orders & shipping (UI complete, sample data)
+- [x] Admin Dashboard: manage categories/style tags (interactive add/remove)
+  - Admin gated by ADMIN_EMAILS allow-list (no role system yet). Products/orders/offers read seed data — swap to Supabase when catalog tables added.
 - [ ] Fully responsive (desktop, tablet, mobile)
 - [ ] Basic on-page SEO (URLs, titles, meta, alt text, performance)
 - [ ] Framer Motion animations / premium UI polish (scroll: fade-in + slide-up, kept subtle)

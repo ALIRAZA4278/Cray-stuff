@@ -6,7 +6,7 @@ export default function ProductCard({ product }) {
   return (
     <Link
       href={`/product/${product.slug}`}
-      className="group block rounded-lg border border-border bg-surface p-4 transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_16px_40px_rgba(0,0,0,0.35)]"
+      className="group block rounded-lg border border-border bg-surface p-4 transition-all duration-300 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-[0_16px_40px_rgba(0,0,0,0.18)]"
     >
       <div className="relative aspect-[3/4] overflow-hidden rounded-md border border-border bg-surface">
         <Image
@@ -42,7 +42,7 @@ export default function ProductCard({ product }) {
         <div className="absolute bottom-3 left-3 rounded-sm border border-border bg-background/80 px-2 py-1 font-mono text-[10px] uppercase tracking-wide text-foreground backdrop-blur">
           Size {product.size}
         </div>
-        <FireListToggle />
+        <FireListToggle product={product} />
       </div>
       <div className="mt-4 flex items-start justify-between gap-2">
         <div>

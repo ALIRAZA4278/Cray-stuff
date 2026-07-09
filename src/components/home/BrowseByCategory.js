@@ -5,7 +5,7 @@ import Reveal from "@/components/motion/Reveal";
 const tiles = [
   { label: "New Drop", cta: "Shop new drop", href: "/shop?sort=new", seed: "cray-new-drop" },
   { label: "Under €100", cta: "Shop under €100", href: "/shop?max=100", seed: "cray-womens"},
-  { label: "The Archive", cta: "Shop archive", href: "/shop/archive", seed: "cray-mens" },
+{ label: "The Archive", cta: "Shop archive", href: "/shop/archive", seed: "cray-mens" },
 ];
 
 export default function BrowseByCategory() {

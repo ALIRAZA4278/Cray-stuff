@@ -1,16 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useFireList } from "@/lib/FireListContext";
 
-export default function FireListButton() {
-  const [saved, setSaved] = useState(false);
+export default function FireListButton({ product }) {
+  const { isSaved, toggle } = useFireList();
+  const saved = isSaved(product.slug);
 
   return (
     <button
       type="button"
-      onClick={() => setSaved((value) => !value)}
+      onClick={() => toggle(product)}
       aria-pressed={saved}
-      aria-label="Add to Fire List"
+      aria-label={saved ? "Remove from Fire List" : "Add to Fire List"}
       className={`flex h-12 w-12 items-center justify-center rounded-full border transition-all duration-300 ${
         saved
           ? "border-accent text-accent shadow-[0_0_18px_var(--accent-glow)]"

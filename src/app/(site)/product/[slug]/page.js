@@ -77,7 +77,7 @@ export default async function ProductPage({ params }) {
                   <MakeOfferDialog price={product.price} minOffer={product.minOffer} />
                 </>
               )}
-              <FireListButton />
+              <FireListButton product={product} />
             </div>
           </div>
         </div>
