@@ -39,20 +39,20 @@ export default function DropCountdown({ target }) {
         sizes="(max-width: 640px) 100vw, 50vw"
         className="object-cover grayscale-[50%]"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-black/10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/25" />
       <div className="relative z-10">
         <p className="font-mono text-xs uppercase tracking-widest text-accent">Next drop</p>
         <div className="mt-4 flex items-center gap-5">
           {units.map((unit) => (
             <div key={unit.label} className="w-12">
-              <p className="text-2xl font-semibold tabular-nums">{String(unit.value).padStart(2, "0")}</p>
-              <p className="mt-1 text-xs uppercase tracking-wide text-muted">{unit.label}</p>
+              <p className="text-2xl font-semibold tabular-nums text-white">{String(unit.value).padStart(2, "0")}</p>
+              <p className="mt-1 text-xs uppercase tracking-wide text-white/60">{unit.label}</p>
             </div>
           ))}
         </div>
         <button
           type="button"
-          className="mt-6 inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-5 py-2.5 text-sm font-medium backdrop-blur transition-colors hover:border-accent"
+          className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 px-5 py-2.5 text-sm font-medium text-white backdrop-blur transition-colors hover:border-accent hover:bg-accent hover:text-accent-foreground"
         >
           <BellIcon />
           Get notified

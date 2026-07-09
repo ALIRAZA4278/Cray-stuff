@@ -1,9 +1,10 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import Reveal from "@/components/motion/Reveal";
 import SortSelect from "@/components/shop/SortSelect";
 import ShopResults from "@/components/shop/ShopResults";
 import ShopFilterSidebar from "@/components/shop/ShopFilterSidebar";
+import CollapsibleAside from "@/components/shop/CollapsibleAside";
+import ActiveFilters from "@/components/shop/ActiveFilters";
 import { styleTags } from "@/lib/mock-products";
 import { getAllProducts } from "@/lib/products";
 import { sortProducts, filterProducts, getFacets } from "@/lib/shop-filters";
@@ -37,32 +38,35 @@ export default async function StyleShopPage({ params, searchParams }) {
   const filtered = filterProducts(all, { ...active, style });
   const products = sortProducts(filtered, sort);
   const baseParams = new URLSearchParams(search);
-  const hasFilters =
-    active.categories.length || active.sizes.length || active.brands.length || active.conditions.length || active.maxPrice;
 
   return (
     <div className="px-6 py-16">
       <div className="mx-auto max-w-7xl">
-        <Reveal className="mb-8">
-          <h1 className="text-3xl font-semibold uppercase tracking-tight">{styleLabel}</h1>
+        <Reveal className="mb-10">
+          <p className="font-mono text-xs uppercase tracking-widest text-accent">Curated edit</p>
+          <h1 className="mt-2 text-3xl font-semibold uppercase tracking-tight sm:text-4xl">{styleLabel}</h1>
           <p className="mt-2 max-w-xl text-sm text-muted">{styleCopy[style]}</p>
-          <p className="mt-2 text-sm text-muted">
-            {products.length} {products.length === 1 ? "piece" : "pieces"} — every one a one-of-one.
+          <p className="mt-2 font-mono text-[11px] uppercase tracking-widest text-muted">
+            {products.length} {products.length === 1 ? "piece" : "pieces"} — every one a one-of-one
           </p>
         </Reveal>
 
-        <div className="grid gap-8 lg:grid-cols-[210px_1fr]">
-          <ShopFilterSidebar basePath={basePath} params={baseParams} active={active} facets={facets} currentStyle={style} />
+        <div className="grid gap-8 lg:grid-cols-[220px_1fr]">
+          <CollapsibleAside>
+            <ShopFilterSidebar basePath={basePath} params={baseParams} active={active} facets={facets} currentStyle={style} />
+          </CollapsibleAside>
+
           <div>
-            <div className="flex items-center justify-between gap-4 border-b border-border pb-4">
-              {hasFilters ? (
-                <Link href={basePath} className="text-sm text-accent hover:opacity-80">
-                  Clear all
-                </Link>
-              ) : (
-                <span />
-              )}
-              <SortSelect value={sort} />
+            <div className="mb-6 flex flex-col gap-4 border-b border-border pb-5 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex-1">
+                <ActiveFilters basePath={basePath} params={baseParams} active={active} q={null} />
+              </div>
+              <div className="flex shrink-0 items-center gap-4">
+                <span className="hidden font-mono text-[11px] uppercase tracking-widest text-muted sm:inline">
+                  {products.length} results
+                </span>
+                <SortSelect value={sort} />
+              </div>
             </div>
             <ShopResults products={products} clearHref={basePath} />
           </div>
