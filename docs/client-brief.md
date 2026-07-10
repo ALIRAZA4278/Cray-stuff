@@ -42,6 +42,16 @@ All features listed in this brief will be built — nothing here is optional or
 - [ ] Logo refinement (T-shirt graphic concept → professional logo)
 - [ ] Staging environment deploy, then live domain connection at launch
 
+### Round 8 additions (from Wiktor's full brand doc — see Round 8 below)
+- [x] About Us page — real founder story, premium editorial (`/about`). Final copy → copywriter.
+- [x] Slogan "Wear Something Different." (About hero + footer); FAQ rewritten to Round-8 facts; carriers updated (InPost, DPD, DHL, GLS, UPS, Orlen).
+- [ ] Product structure change — condition = **New With Tags / Used** (NO rating like 8/10) + **flaws (text + photos)** + material composition + country of manufacture. Needs new product fields + DB migration + admin form + product page + filters. (SUPERSEDES the Excellent/Very Good/Good grading.)
+- [ ] Categories = **Men / Women × clothing type** (Outerwear, Hoodies, T-Shirts, Long Sleeves, Pants, Shorts, Accessories) — new taxonomy + nav/filter.
+- [ ] Recently Sold page/section + New Arrivals view.
+- [ ] Authenticity Guarantee section/page (100% guarantee) — currently only on About + FAQ.
+- [ ] Testimonials / "What buyers say" — curated real Vinted reviews + real ~520 review count (needs client's reviews).
+- [ ] Offers: surface 48h validity + "offers don't reserve" copy; ~35% suggested max discount as admin guidance.
+
 ## What it is
 
 A curated online store for vintage, Y2K, Japanese, skate and streetwear clothing.
@@ -682,3 +692,73 @@ Yes — the homepage, shop, and product pages are already built and running.
 We'd like to publish it to a private staging link (Vercel) so you can open
 it directly on your phone or laptop, the same way we discussed earlier. Say
 the word and we'll get that link over to you.
+
+## Round 8 — Wiktor's full written brand doc (MOST AUTHORITATIVE; supersedes older rounds where noted)
+
+Wiktor sent a complete, organised brand document (he used AI to help structure
+it; the vision + voice are his). This is now the primary source. Note: final
+site COPY will be done by a professional **content writer** at the end — the
+buildout copy is a placeholder; do NOT tell the client the content is "done."
+
+### Brand
+- **Slogan (official): "Wear Something Different."**
+- Identity: curated handpicked vintage, Y2K, skatewear, Japanese archive +
+  selected high-end pieces. For people who want individuality/character.
+
+### Categories — NEW taxonomy (adds "clothing type" to gender)
+Men AND Women, each with: Outerwear · Hoodies · T-Shirts · Long Sleeves ·
+Pants · Shorts · Accessories. (Style tags Vintage/Y2K/Skate/etc. stay as a
+separate axis.)
+
+### Product info — ⚠️ SUPERSEDES the Excellent/Very Good/Good grading
+Every product: exact measurements · condition description · flaws info +
+**photos of flaws if present** · **new or used** · material composition
+(selected cases) · country of manufacture (selected cases).
+- **NO rating system (no 8/10, 9/10).**
+- New → label **"New With Tags"**; Used → label **"Used"**.
+- All products washed & prepared to wear before shipping.
+- Photography: mannequin, lifestyle, editorial, and in selected cases on model.
+
+### Offers system (refines Round 5)
+Offers do NOT reserve items · accepted offers valid **48 hours** · customer not
+obligated to buy after offering · suggested **max discount ~35%**.
+
+### Fire List
+Save for later; adding to Fire List does NOT reserve the item.
+
+### Shipping — ⚠️ SUPERSEDES Round 7 carrier list
+Carriers: **InPost · DPD · DHL · GLS · UPS · Orlen Paczka** (DHL is back AND UPS
+added vs Round 7). Free shipping: Poland orders over 250 PLN; EU standard rates
+apply.
+
+### Returns (NEW explicit policy)
+14 days per EU regulations · customer covers standard return cost · store covers
+the cost if item is not as described / store's mistake.
+
+### Authenticity (NEW — trust feature)
+**100% authenticity guarantee** · every product checked manually before listing
+· **full refund** if authenticity concerns are confirmed. → warrants an
+Authenticity Guarantee section/page.
+
+### Newsletter / Drops / Packaging
+- Newsletter: early drop access · exclusive codes · **10% off first order**.
+- Drops: frequent; major drops every **1–2 weeks**; **10–30 products** each.
+- Packaging: boxes or premium mailing bags; may include thank-you cards,
+  discount codes, stickers.
+
+### New site sections requested
+About Us · FAQ · **Recently Sold** · **New Arrivals** · **Authenticity
+Guarantee** · Make An Offer · Fire List · Newsletter.
+(FAQ / Privacy Policy / Terms are drafts — finalise before launch.)
+
+### About Us — RESOLVES the Round 6 blocker
+Full founder story provided (Origins 2021 → passion → the meaning of CRAY /
+STUFF → "Wear What You Love" → character-over-perfection → one-person project →
+Welcome). Signed **Wiktor "CRAY", Founder of CRAY STUFF**. → Built as `/about`
+(premium editorial); final wording later by copywriter.
+
+### What we already wired from Round 8 (internal only — NOT to advertise as final content)
+About page live, slogan in footer/about, FAQ facts updated, carriers (DHL+UPS)
+added. Pending code: product structure (New/Used + flaws + material + country),
+clothing-type categories, Recently Sold / New Arrivals, Authenticity section,
+testimonials section (needs real Vinted reviews + ~520 count).

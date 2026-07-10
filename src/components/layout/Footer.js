@@ -25,7 +25,10 @@ const columns = [
   },
   {
     title: "Company",
-    links: [{ href: "/faq", label: "About Us" }],
+    links: [
+      { href: "/about", label: "About Us" },
+      { href: "/shop?sort=new", label: "New Arrivals" },
+    ],
   },
   {
     title: "Legal",
@@ -55,7 +58,7 @@ export default function Footer() {
           <p className="text-lg font-semibold uppercase tracking-tight">
             Cray<span className="text-accent"> Stuff</span>
           </p>
-          <p className="mt-2 text-sm text-muted">Old soul. New style. Second life, first choice.</p>
+          <p className="mt-2 text-sm text-muted">Wear Something Different.</p>
           <div className="mt-4 flex gap-3">
             {socials.map((social) => (
               <a

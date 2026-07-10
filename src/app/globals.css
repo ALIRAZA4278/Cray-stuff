@@ -48,7 +48,7 @@
   --color-overlay: var(--overlay);
   --font-sans: var(--font-space-grotesk);
   --font-mono: var(--font-jetbrains-mono);
-  --font-display: var(--font-oswald);
+  --font-display: var(--font-display-src);
 }
 
 body {

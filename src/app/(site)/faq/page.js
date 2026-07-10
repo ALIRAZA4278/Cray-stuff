@@ -6,40 +6,44 @@ import Reveal from "@/components/motion/Reveal";
 
 const faqs = [
   {
-    q: "What does “one-of-one” mean?",
-    a: "Every piece on CRAY STUFF is a single, hand-sourced item — no restocks, no duplicates, no size runs. Once a piece sells, it's gone for good. That's why we keep sold items visible with a Sold Out label rather than removing them.",
+    q: "What kind of pieces do you sell?",
+    a: "Handpicked vintage, Y2K, skatewear, Japanese archive and selected high-end pieces — for people who appreciate individuality and clothing with character. Every item is one-of-one: no restocks, no duplicates.",
+  },
+  {
+    q: "How do you describe condition and flaws?",
+    a: "We don't use rating scores like 8/10. A piece is simply marked New With Tags or Used. Every listing includes exact measurements, a condition description, and if there are any flaws you'll see them clearly in the photos and read about them in the description. All products are washed and prepared to wear before shipping.",
   },
   {
     q: "How does “Make an Offer” work?",
-    a: "Every piece has a fixed price you can buy instantly. If you'd rather negotiate, submit an offer on the product page. Reasonable offers are accepted automatically and take you straight to checkout; lower offers get an instant counter at the best price we can do. No auctions, no waiting.",
+    a: "Every piece has a fixed price you can buy instantly. You can also submit your own offer — offers don't reserve an item, and you're never obligated to buy after making one. If an offer is accepted, it stays valid for 48 hours. Suggested offers are usually within about 35% of the listed price.",
   },
   {
     q: "What is the Fire List?",
-    a: "The Fire List is your saved-pieces list — tap the heart on any item to add it. If a piece on your Fire List drops in price, we'll let you know. The most-saved pieces across all shoppers shape our Most Popular section.",
+    a: "The Fire List is your saved-pieces list — tap the flame on any item to save it for later. Adding a piece to your Fire List doesn't reserve it, so if you love something, don't wait too long.",
   },
   {
     q: "Which payment methods do you accept?",
-    a: "BLIK, debit and credit cards, Apple Pay and Google Pay — all handled securely through Stripe. BLIK is fully supported for our Polish customers.",
+    a: "BLIK, debit and credit cards, Apple Pay and Google Pay — all handled securely. BLIK is fully supported for our Polish customers.",
   },
   {
-    q: "How fast do you ship, and with which carriers?",
-    a: "Orders are packed and shipped within 24 hours. Within Poland we ship via InPost, Orlen Paczka, GLS and DPD. International shipping is available across Europe and beyond — carrier and cost are shown at checkout.",
+    q: "Which carriers do you ship with?",
+    a: "InPost, DPD, DHL, GLS, UPS and Orlen Paczka. Orders are packed and shipped within 24 hours. The available options and cost are shown at checkout based on your address.",
   },
   {
     q: "Is shipping free?",
-    a: "Shipping is free within Poland on orders over 250 PLN. Below that, a small flat carrier fee is shown at checkout before you pay.",
+    a: "Within Poland, shipping is free on orders over 250 PLN. Across the European Union, standard shipping rates apply and are shown at checkout before you pay.",
   },
   {
-    q: "How do you grade condition?",
-    a: "Each piece is graded honestly — Excellent, Very Good, or Good — with measurements and a written description covering any wear. Vintage means character; we tell you exactly what to expect before you buy.",
+    q: "What is your return policy?",
+    a: "You have 14 days to return a product in line with EU regulations. Customers cover the cost of standard returns. If an item isn't as described, or the mistake was on our side, we cover the return cost.",
   },
   {
-    q: "Can I return a piece?",
-    a: "Because every item is one-of-one and described in detail, we handle returns case by case. If something arrives not as described, contact us within 48 hours of delivery and we'll make it right.",
+    q: "Are the pieces authentic?",
+    a: "Yes — 100% authenticity guarantee. Every product is checked by hand before it's listed. If authenticity concerns are ever confirmed, you get a full refund.",
   },
   {
-    q: "Do you ship outside Poland?",
-    a: "Yes. CRAY STUFF ships across Europe and worldwide. Available carriers and delivery estimates appear at checkout based on your address.",
+    q: "How often do you drop new pieces?",
+    a: "New products are added frequently, with major drops usually every 1–2 weeks. Each drop typically has between 10 and 30 pieces. Join the newsletter for early access and a 10% code on your first order.",
   },
 ];
 

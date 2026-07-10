@@ -9,9 +9,11 @@ import { useAuth } from "@/lib/AuthContext";
 
 const carriers = [
   { id: "inpost", label: "InPost Locker" },
-  { id: "orlen", label: "Orlen Paczka" },
-  { id: "gls", label: "GLS Courier" },
   { id: "dpd", label: "DPD Courier" },
+  { id: "dhl", label: "DHL" },
+  { id: "gls", label: "GLS Courier" },
+  { id: "ups", label: "UPS" },
+  { id: "orlen", label: "Orlen Paczka" },
 ];
 
 const paymentMethods = [

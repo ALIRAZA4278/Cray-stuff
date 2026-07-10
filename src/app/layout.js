@@ -1,4 +1,4 @@
-import { Space_Grotesk, JetBrains_Mono, Oswald } from "next/font/google";
+import { Space_Grotesk, JetBrains_Mono, Archivo_Black } from "next/font/google";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -11,9 +11,11 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 });
 
-const oswald = Oswald({
-  variable: "--font-oswald",
+// Display font — Archivo Black (square, bold, industrial). Client's pick.
+const displayFont = Archivo_Black({
+  variable: "--font-display-src",
   subsets: ["latin"],
+  weight: "400",
 });
 
 export const metadata = {
@@ -31,7 +33,7 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${oswald.variable} h-full antialiased`}
+      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${displayFont.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
