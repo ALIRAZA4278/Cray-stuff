@@ -12,7 +12,7 @@ export default function TrustBar() {
         {items.map((item) => (
           <div
             key={item}
-            className="flex items-center justify-center gap-2 px-4 py-5 text-center font-mono text-[11px] uppercase tracking-widest text-muted"
+            className="flex items-center justify-center gap-2 px-4 py-5 text-center font-mono text-xs font-semibold uppercase tracking-widest text-foreground"
           >
             <CheckIcon />
             {item}
