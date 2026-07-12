@@ -14,12 +14,16 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const supabase = createClient();
-    supabase.auth.getUser().then(({ data }) => {
-      setUser(data.user);
+    // getSession reads the cookie locally, so the user resolves almost
+    // instantly — no network round-trip to leave action buttons thinking
+    // you're logged out for the first second after a page load.
+    supabase.auth.getSession().then(({ data }) => {
+      setUser(data.session?.user ?? null);
       setLoading(false);
     });
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
+      setLoading(false);
     });
     return () => sub.subscription.unsubscribe();
   }, []);
@@ -36,8 +40,15 @@ export function useAuth() {
 export function useRequireLogin() {
   const { user } = useAuth();
   const router = useRouter();
-  return function run(action) {
-    if (!user) {
+  return async function run(action) {
+    let signedIn = user;
+    // If context hasn't resolved yet, don't assume logged out — check the
+    // session directly so a quick click doesn't bounce a logged-in user.
+    if (!signedIn) {
+      const { data } = await createClient().auth.getSession();
+      signedIn = data.session?.user ?? null;
+    }
+    if (!signedIn) {
       router.push("/login");
       return false;
     }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/lib/CartContext";
@@ -50,6 +50,7 @@ export default function CheckoutPage() {
   const { user, loading } = useAuth();
   const [carrier, setCarrier] = useState("inpost");
   const [payment, setPayment] = useState("card");
+  const [email, setEmail] = useState("");
   const [placed, setPlaced] = useState(false);
   const [orderId, setOrderId] = useState(null);
   const [error, setError] = useState(null);
@@ -57,6 +58,12 @@ export default function CheckoutPage() {
 
   const shipping = items.length === 0 || subtotal >= 58 ? 0 : 6;
   const total = subtotal + shipping;
+
+  // Prefill with the signed-in account email so the order lands in this
+  // customer's order history — they can still edit it if ordering for someone else.
+  useEffect(() => {
+    if (user?.email) setEmail((current) => current || user.email);
+  }, [user]);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -70,7 +77,7 @@ export default function CheckoutPage() {
       carrier,
       payment,
       name: form.get("name"),
-      email: form.get("email"),
+      email,
       address: form.get("address"),
       city: form.get("city"),
       postal: form.get("postal"),
@@ -171,7 +178,7 @@ export default function CheckoutPage() {
               <StepLabel n="01">Contact &amp; shipping</StepLabel>
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
                 <input name="name" required placeholder="Full name" className={`${inputClass} sm:col-span-2`} autoComplete="name" />
-                <input name="email" type="email" required placeholder="Email" className={`${inputClass} sm:col-span-2`} autoComplete="email" />
+                <input name="email" type="email" required placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className={`${inputClass} sm:col-span-2`} autoComplete="email" />
                 <input name="address" required placeholder="Address" className={`${inputClass} sm:col-span-2`} autoComplete="street-address" />
                 <input name="city" required placeholder="City" className={inputClass} autoComplete="address-level2" />
                 <input name="postal" required placeholder="Postal code" className={inputClass} autoComplete="postal-code" />
