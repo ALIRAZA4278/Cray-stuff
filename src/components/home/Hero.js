@@ -14,21 +14,31 @@ export default function Hero() {
         className="object-cover grayscale-[30%]"
       />
       {/* Dark editorial wash — rich hero image with legible white type in both themes. */}
-      <div aria-hidden className="absolute inset-0 bg-black/55" />
-      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/35" />
+      <div aria-hidden className="absolute inset-0 bg-black/60" />
+      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-black/40" />
+      {/* Focused vignette so the headline reads against a busy photo */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.6),transparent_70%)]"
+      />
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-1/2 h-[480px] w-[480px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/25 blur-[130px]"
       />
       <div className="relative mx-auto max-w-4xl">
         <Reveal delay={0}>
-          <p className="font-mono text-sm uppercase tracking-widest text-accent">Cray Stuff &mdash; One of one</p>
+          <p className="font-mono text-sm font-semibold uppercase tracking-widest text-violet-300 [text-shadow:0_1px_12px_rgba(0,0,0,0.7)]">
+            Cray Stuff &mdash; One of one
+          </p>
         </Reveal>
         <Reveal delay={0.1}>
-          <h1 className="mt-4 text-4xl font-semibold uppercase leading-[1.05] tracking-tight text-white sm:text-6xl">
+          <h1 className="mt-4 text-4xl font-semibold uppercase leading-[1.05] tracking-tight text-white sm:text-6xl [text-shadow:0_2px_24px_rgba(0,0,0,0.5)]">
             We don&apos;t follow trends.
             <br />
-            <span className="text-outline" style={{ WebkitTextStrokeColor: "#ffffff" }}>
+            <span
+              className="text-outline filter-[drop-shadow(0_2px_12px_rgba(0,0,0,0.65))]"
+              style={{ WebkitTextStrokeColor: "#ffffff", WebkitTextStrokeWidth: "2px" }}
+            >
               Trends follow us.
             </span>
           </h1>

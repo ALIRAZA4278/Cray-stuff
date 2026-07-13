@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { categoryLabels, toggleParam } from "@/lib/shop-filters";
+import { categoryLabels, priceRangeLabel, toggleParam } from "@/lib/shop-filters";
 
 function toggleHref(basePath, params, key, value) {
   const qs = toggleParam(params, key, value).toString();
@@ -34,7 +34,7 @@ export default function ActiveFilters({ basePath, params, active, q }) {
   active.sizes.forEach((s) => chips.push({ key: `s-${s}`, href: toggleHref(basePath, params, "size", s), label: `Size ${s}` }));
   active.brands.forEach((b) => chips.push({ key: `b-${b}`, href: toggleHref(basePath, params, "brand", b), label: b }));
   active.conditions.forEach((c) => chips.push({ key: `cn-${c}`, href: toggleHref(basePath, params, "condition", c), label: c }));
-  if (active.maxPrice) chips.push({ key: "max", href: deleteHref(basePath, params, "max"), label: `Under €${active.maxPrice}` });
+  active.prices.forEach((p) => chips.push({ key: `p-${p}`, href: toggleHref(basePath, params, "price", p), label: priceRangeLabel(p) }));
   if (q) chips.push({ key: "q", href: deleteHref(basePath, params, "q"), label: `“${q}”` });
 
   if (chips.length === 0) return null;

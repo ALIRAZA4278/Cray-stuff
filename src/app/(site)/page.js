@@ -18,8 +18,9 @@ export const revalidate = 60;
 export default async function HomePage() {
   const products = await getAllProducts();
   const mostPopular = [...products].sort((a, b) => b.fireCount - a.fireCount);
-  const mensProducts = products.filter((product) => product.category === "mens");
-  const womensProducts = products.filter((product) => product.category === "womens");
+  // Unisex pieces belong in both edits, so they surface under Men's and Women's.
+  const mensProducts = products.filter((p) => p.category === "mens" || p.category === "unisex");
+  const womensProducts = products.filter((p) => p.category === "womens" || p.category === "unisex");
   const dropTarget = Date.now() + 1000 * 60 * 60 * 24 * 7;
 
   return (

@@ -4,6 +4,7 @@ import { useActionState, useState } from "react";
 import Link from "next/link";
 import { saveProduct, deleteProduct } from "@/lib/actions/products";
 import { styleTags, categories } from "@/lib/mock-products";
+import { conditions } from "@/lib/shop-filters";
 
 const inputClass =
   "w-full rounded-lg border border-border bg-transparent px-4 py-2.5 text-sm outline-none placeholder:text-muted focus:border-accent";
@@ -76,7 +77,7 @@ export default function ProductForm({ product }) {
         <div>
           <label className={labelClass}>Condition</label>
           <select name="condition" defaultValue={product?.condition || "Very Good"} className={inputClass}>
-            {["Excellent", "Very Good", "Good"].map((c) => (
+            {conditions.map((c) => (
               <option key={c} value={c}>
                 {c}
               </option>

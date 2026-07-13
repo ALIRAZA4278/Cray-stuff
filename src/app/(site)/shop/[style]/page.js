@@ -28,7 +28,7 @@ export default async function StyleShopPage({ params, searchParams }) {
     sizes: search.size ? search.size.split(",").filter(Boolean) : [],
     brands: search.brand ? search.brand.split(",").filter(Boolean) : [],
     conditions: search.condition ? search.condition.split(",").filter(Boolean) : [],
-    maxPrice: Number(search.max) || null,
+    prices: search.price ? search.price.split(",").filter(Boolean) : [],
   };
   const sort = search.sort || "new";
   const basePath = `/shop/${style}`;

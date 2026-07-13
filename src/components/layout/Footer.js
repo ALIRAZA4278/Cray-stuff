@@ -55,7 +55,7 @@ export default function Footer() {
 
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-8 px-6 py-12 sm:grid-cols-3 lg:grid-cols-5">
         <div className="col-span-2 sm:col-span-1">
-          <p className="text-lg font-semibold uppercase tracking-tight">
+          <p className="wordmark wordmark--worn text-xl uppercase">
             Cray<span className="text-accent"> Stuff</span>
           </p>
           <p className="mt-2 text-sm text-muted">Wear Something Different.</p>

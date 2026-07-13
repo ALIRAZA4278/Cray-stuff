@@ -19,6 +19,8 @@
   --overlay: rgba(0, 0, 0, 0.7);
   --noise-opacity: 0.05;
   --noise-blend: overlay;
+  /* Soft light mottle — reads as a dark concrete wall behind everything */
+  --surface-texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.014' numOctaves='3' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23c)'/%3E%3C/svg%3E");
 }
 
 :root[data-theme="light"] {
@@ -34,6 +36,8 @@
   --overlay: rgba(0, 0, 0, 0.55);
   --noise-opacity: 0.035;
   --noise-blend: multiply;
+  /* Soft dark mottle over warm grey — poured-concrete look instead of flat white */
+  --surface-texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.014' numOctaves='3' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.10 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23c)'/%3E%3C/svg%3E");
 }
 
 @theme inline {
@@ -53,7 +57,10 @@
 
 body {
   position: relative;
-  background: var(--background);
+  background-color: var(--background);
+  background-image: var(--surface-texture, none);
+  background-size: 700px 700px;
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-sans);
 }
@@ -92,6 +99,18 @@ body::before {
 .text-outline {
   color: transparent;
   -webkit-text-stroke: 1.5px var(--foreground);
+}
+
+/* Logo wordmark — square, heavy display face with a faint worn/distressed
+   texture masked into the letters for a vintage, screen-printed feel. */
+.wordmark {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.wordmark--worn {
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='100'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.62' numOctaves='2' seed='11' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 -8 6.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E") center / 300px 100px;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='100'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.62' numOctaves='2' seed='11' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 -8 6.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E") center / 300px 100px;
 }
 
 .nav-underline {

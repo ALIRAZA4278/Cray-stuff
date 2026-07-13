@@ -19,7 +19,7 @@ export default function AuthLayout({ eyebrow, title, subtitle, children, alt }) 
           className="pointer-events-none absolute -left-24 top-1/3 h-96 w-96 rounded-full opacity-40 blur-3xl"
           style={{ background: "radial-gradient(circle, var(--accent-glow), transparent 70%)" }}
         />
-        <Link href="/" className="relative text-lg font-semibold uppercase tracking-tight">
+        <Link href="/" className="wordmark wordmark--worn relative text-xl uppercase">
           Cray<span className="text-accent"> Stuff</span>
         </Link>
 

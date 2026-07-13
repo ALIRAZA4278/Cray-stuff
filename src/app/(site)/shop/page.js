@@ -4,7 +4,9 @@ import ShopResults from "@/components/shop/ShopResults";
 import ShopFilterSidebar from "@/components/shop/ShopFilterSidebar";
 import CollapsibleAside from "@/components/shop/CollapsibleAside";
 import ActiveFilters from "@/components/shop/ActiveFilters";
+import BrandDiscovery from "@/components/home/BrandDiscovery";
 import { getAllProducts } from "@/lib/products";
+import { getBrandGroups } from "@/lib/brands";
 import { sortProducts, filterProducts, getFacets } from "@/lib/shop-filters";
 
 export default async function ShopPage({ searchParams }) {
@@ -14,13 +16,14 @@ export default async function ShopPage({ searchParams }) {
     sizes: params.size ? params.size.split(",").filter(Boolean) : [],
     brands: params.brand ? params.brand.split(",").filter(Boolean) : [],
     conditions: params.condition ? params.condition.split(",").filter(Boolean) : [],
-    maxPrice: Number(params.max) || null,
+    prices: params.price ? params.price.split(",").filter(Boolean) : [],
   };
   const q = params.q || null;
   const sort = params.sort || "new";
 
   const all = await getAllProducts();
   const facets = getFacets(all);
+  const brandGroups = getBrandGroups(all);
   const filtered = filterProducts(all, { ...active, q });
   const products = sortProducts(filtered, sort);
   const baseParams = new URLSearchParams(params);
@@ -38,6 +41,12 @@ export default async function ShopPage({ searchParams }) {
             it&apos;s gone, it&apos;s gone.
           </p>
         </Reveal>
+
+        {!q && (
+          <div className="mb-12 border-b border-border pb-12">
+            <BrandDiscovery groups={brandGroups} bare />
+          </div>
+        )}
 
         <div className="grid gap-8 lg:grid-cols-[220px_1fr]">
           <CollapsibleAside>

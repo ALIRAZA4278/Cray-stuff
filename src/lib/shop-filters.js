@@ -1,5 +1,25 @@
 export const categoryLabels = { mens: "Men's", womens: "Women's", unisex: "Unisex" };
 
+// Browsable gender buckets. Unisex is intentionally not here — unisex pieces
+// surface under BOTH Men's and Women's rather than living in a separate bucket.
+export const browseCategories = ["mens", "womens"];
+
+// Fixed condition grades shoppers filter by (always shown, not derived from stock).
+export const conditions = ["Excellent", "Very Good", "Good", "Like New"];
+
+// Price brackets. Bounds are inclusive on both ends — with multi-select the
+// boundary overlap just means a €100 piece shows under either neighbouring band.
+export const priceRanges = [
+  { id: "0-50", label: "Under €50", min: 0, max: 50 },
+  { id: "50-100", label: "€50–€100", min: 50, max: 100 },
+  { id: "100-150", label: "€100–€150", min: 100, max: 150 },
+  { id: "150-", label: "€150+", min: 150, max: null },
+];
+
+export function priceRangeLabel(id) {
+  return priceRanges.find((r) => r.id === id)?.label ?? id;
+}
+
 export function sortProducts(products, sort) {
   if (sort === "price-asc") return [...products].sort((a, b) => a.price - b.price);
   if (sort === "price-desc") return [...products].sort((a, b) => b.price - a.price);
@@ -13,21 +33,33 @@ export function getFacets(products) {
   return {
     sizes: uniq(products.map((p) => p.size)).sort(),
     brands: uniq(products.map((p) => p.brand)).sort(),
-    conditions: uniq(products.map((p) => p.condition)),
   };
+}
+
+// True when a product belongs in the selected gender buckets. Unisex pieces
+// count as a match whenever Men's or Women's is being browsed.
+function matchesCategory(product, categories) {
+  if (categories.includes(product.category)) return true;
+  const genderBrowse = categories.some((c) => c === "mens" || c === "womens");
+  return product.category === "unisex" && genderBrowse;
+}
+
+function matchesPrice(product, prices) {
+  const active = priceRanges.filter((r) => prices.includes(r.id));
+  return active.some((r) => product.price >= r.min && (r.max == null || product.price <= r.max));
 }
 
 // Applies every active filter (category, size, brand, condition, price, style, search).
 export function filterProducts(products, filters = {}) {
-  const { categories = [], sizes = [], brands = [], conditions = [], maxPrice = null, style = null, q = null } = filters;
+  const { categories = [], sizes = [], brands = [], conditions = [], prices = [], style = null, q = null } = filters;
   const query = q ? q.trim().toLowerCase() : null;
 
   return products.filter((product) => {
-    if (categories.length && !categories.includes(product.category)) return false;
+    if (categories.length && !matchesCategory(product, categories)) return false;
     if (sizes.length && !sizes.includes(product.size)) return false;
     if (brands.length && !brands.includes(product.brand)) return false;
     if (conditions.length && !conditions.includes(product.condition)) return false;
-    if (maxPrice && product.price > maxPrice) return false;
+    if (prices.length && !matchesPrice(product, prices)) return false;
     if (style && !product.tags.some((tag) => tag.toLowerCase() === style)) return false;
     if (query) {
       const haystack = `${product.name} ${product.brand} ${product.tags.join(" ")} ${product.description || ""}`.toLowerCase();

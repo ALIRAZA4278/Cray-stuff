@@ -61,7 +61,8 @@ export default function Header() {
 
         <Link
           href="/"
-          className="absolute left-1/2 -translate-x-1/2 text-xl font-semibold uppercase tracking-tight"
+          aria-label="Cray Stuff — home"
+          className="wordmark wordmark--worn absolute left-1/2 -translate-x-1/2 text-2xl uppercase"
         >
           Cray<span className="text-accent"> Stuff</span>
         </Link>
