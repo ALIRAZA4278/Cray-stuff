@@ -124,6 +124,45 @@ html.lenis body {
   animation: kenburns 20s ease-in-out infinite alternate;
 }
 
+/* Aurora blobs — the creative living gradient behind the hero. Cheap GPU
+   transforms on a couple of blurred blobs (no full-screen image compositing). */
+@keyframes aurora-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(50px, 34px, 0) scale(1.12);
+  }
+}
+@keyframes aurora-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-46px, -30px, 0) scale(1.1);
+  }
+}
+@keyframes aurora-c {
+  0%,
+  100% {
+    transform: translate3d(-50%, -50%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-50%, -50%, 0) scale(1.18);
+  }
+}
+.aurora-a {
+  animation: aurora-a 16s ease-in-out infinite;
+}
+.aurora-b {
+  animation: aurora-b 21s ease-in-out infinite;
+}
+.aurora-c {
+  animation: aurora-c 13s ease-in-out infinite;
+}
+
 .text-outline {
   color: transparent;
   -webkit-text-stroke: 1.5px var(--foreground);
@@ -164,7 +203,10 @@ html.lenis body {
 
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
-  .animate-kenburns {
+  .animate-kenburns,
+  .aurora-a,
+  .aurora-b,
+  .aurora-c {
     animation: none;
   }
 }

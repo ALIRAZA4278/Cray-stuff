@@ -38,11 +38,9 @@ export default function Hero() {
   const sx = useSpring(px, { stiffness: 55, damping: 18, mass: 0.4 });
   const sy = useSpring(py, { stiffness: 55, damping: 18, mass: 0.4 });
 
-  // Glow chases the cursor; image drifts the opposite way for parallax depth.
-  const glowX = useTransform(sx, [-0.5, 0.5], [-55, 55]);
-  const glowY = useTransform(sy, [-0.5, 0.5], [-55, 55]);
-  const imgX = useTransform(sx, [-0.5, 0.5], [18, -18]);
-  const imgY = useTransform(sy, [-0.5, 0.5], [18, -18]);
+  // Aurora drifts with the cursor for interactive parallax depth.
+  const auroraX = useTransform(sx, [-0.5, 0.5], [-28, 28]);
+  const auroraY = useTransform(sy, [-0.5, 0.5], [-28, 28]);
 
   function handleMove(e) {
     const rect = sectionRef.current?.getBoundingClientRect();
@@ -62,20 +60,20 @@ export default function Hero() {
       onMouseLeave={handleLeave}
       className="relative flex h-[520px] items-center justify-center overflow-hidden border-b border-border px-6 text-center sm:h-[640px]"
     >
-      <motion.div style={{ x: imgX, y: imgY }} className="absolute -inset-10 transform-gpu">
+      {/* Hero image background with a subtle cursor parallax. */}
+      <motion.div aria-hidden style={{ x: auroraX, y: auroraY }} className="absolute -inset-16 transform-gpu">
         <Image
-          src="https://picsum.photos/seed/cray-hero/1920/1080"
+          src="https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/cord-jacket-a.jpg"
           alt=""
           fill
           priority
           sizes="100vw"
-          className="scale-105 object-cover"
+          className="scale-110 object-cover object-center"
         />
       </motion.div>
-      {/* Dark editorial wash — rich hero image with legible white type in both themes. */}
+      {/* Dark editorial wash — legible white type over the photo. */}
       <div aria-hidden className="absolute inset-0 bg-black/60" />
       <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-black/40" />
-      {/* Focused vignette so the headline reads against a busy photo */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.6),transparent_70%)]"

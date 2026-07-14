@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useRef, useState } from "react";
 import Link from "next/link";
 import { saveProduct, deleteProduct } from "@/lib/actions/products";
 import { styleTags, categories } from "@/lib/mock-products";
@@ -16,6 +16,48 @@ export default function ProductForm({ product }) {
   const isEdit = Boolean(product);
   const [imagesText, setImagesText] = useState((product?.images || []).join("\n"));
   const imageUrls = imagesText.split(/[\n,]+/).map((s) => s.trim()).filter(Boolean);
+  const fileInputRef = useRef(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState(null);
+
+  // Signed direct-to-Cloudinary upload: the browser gets a signature from our
+  // admin-only endpoint, then posts the file straight to Cloudinary.
+  async function uploadFiles(files) {
+    const cloud = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+    const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
+    setUploadError(null);
+    setUploading(true);
+    try {
+      for (const file of Array.from(files)) {
+        const timestamp = Math.round(Date.now() / 1000);
+        const folder = "cray-stuff/products";
+        const signRes = await fetch("/api/cloudinary/sign", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ paramsToSign: { timestamp, folder } }),
+        });
+        if (!signRes.ok) throw new Error("not authorised — sign in as admin");
+        const { signature } = await signRes.json();
+
+        const fd = new FormData();
+        fd.append("file", file);
+        fd.append("api_key", apiKey);
+        fd.append("timestamp", timestamp);
+        fd.append("folder", folder);
+        fd.append("signature", signature);
+
+        const upRes = await fetch(`https://api.cloudinary.com/v1_1/${cloud}/image/upload`, { method: "POST", body: fd });
+        const data = await upRes.json();
+        if (!data.secure_url) throw new Error(data.error?.message || "upload failed");
+        setImagesText((prev) => (prev ? `${prev}\n${data.secure_url}` : data.secure_url));
+      }
+    } catch (e) {
+      setUploadError(e.message);
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  }
 
   return (
     <form action={formAction} className="max-w-3xl space-y-8">
@@ -23,9 +65,33 @@ export default function ProductForm({ product }) {
 
       {/* Images */}
       <section>
-        <h2 className="text-sm font-medium uppercase tracking-wide text-muted">Photos</h2>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-sm font-medium uppercase tracking-wide text-muted">Photos</h2>
+          <div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              multiple
+              className="hidden"
+              onChange={(e) => e.target.files?.length && uploadFiles(e.target.files)}
+            />
+            <button
+              type="button"
+              disabled={uploading}
+              onClick={() => fileInputRef.current?.click()}
+              className="inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-xs font-medium uppercase tracking-wide text-accent-foreground transition-opacity hover:opacity-90 disabled:opacity-60"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-4 w-4">
+                <path d="M12 16V4m0 0L8 8m4-4l4 4" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              {uploading ? "Uploading…" : "Upload photos"}
+            </button>
+          </div>
+        </div>
         <p className="mt-1 text-xs text-muted">
-          Paste image links — one per line. The first is the main photo. Leave empty to use a placeholder.
+          Upload from your device, or paste image links below — one per line. The first is the main photo.
         </p>
         <textarea
           name="images"
@@ -46,8 +112,9 @@ export default function ProductForm({ product }) {
           </div>
         )}
         <p className="mt-2 text-xs text-muted">
-          Direct file upload (Cloudinary) is a separate add-on — links work now.
+          Uploads are stored on Cloudinary and served fast, auto-optimised worldwide.
         </p>
+        {uploadError && <p className="mt-1 text-xs text-red-400">Upload failed: {uploadError}</p>}
       </section>
 
       {/* Core details */}
