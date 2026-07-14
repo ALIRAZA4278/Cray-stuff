@@ -11,6 +11,23 @@ function FlameIcon() {
   );
 }
 
+function DiamondIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="h-3 w-3">
+      <path d="M12 2l7 7-7 13-7-13 7-7z" />
+    </svg>
+  );
+}
+
+function TrendIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="h-3.5 w-3.5">
+      <path d="M3 16.5l6-6 4 4 7.5-7.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M15 7h6v6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 function BrandPill({ brand, fire }) {
   return (
     <Link
@@ -30,14 +47,13 @@ function Rail({ label, brands, fire = false, icon = null, delay = 0 }) {
   if (!brands.length) return null;
   return (
     <Reveal delay={delay}>
-      <p
-        className={`mb-3 flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-widest ${
-          fire ? "text-accent" : "text-muted"
-        }`}
-      >
-        {icon}
-        {label}
-      </p>
+      <div className="mb-4 flex items-center gap-3">
+        <span className="flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-[0.22em] text-accent">
+          {icon}
+          {label}
+        </span>
+        <span className="h-px flex-1 bg-gradient-to-r from-accent/40 via-border to-transparent" />
+      </div>
       <div className="flex flex-wrap gap-2.5">
         {brands.map((brand) => (
           <BrandPill key={brand} brand={brand} fire={fire} />
@@ -59,8 +75,8 @@ export default function BrandDiscovery({ groups, bare = false }) {
     <>
       <SectionHeading eyebrow="The labels" title="Shop by brand" link={bare ? null : { href: "/shop", label: "All pieces" }} />
       <div className="space-y-8">
-        <Rail label="Designer" brands={designer} delay={0} />
-        <Rail label="Hot right now" brands={hot} delay={0.05} />
+        <Rail label="Designer" brands={designer} icon={<DiamondIcon />} delay={0} />
+        <Rail label="Hot right now" brands={hot} icon={<TrendIcon />} delay={0.05} />
         <Rail label="On fire" brands={fire} fire icon={<FlameIcon />} delay={0.1} />
       </div>
     </>

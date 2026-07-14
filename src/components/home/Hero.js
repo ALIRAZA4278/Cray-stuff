@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "motion/react";
+import { useRef } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 
 const container = {
   hidden: {},
@@ -31,16 +32,46 @@ function MaskedLine({ children, className }) {
 }
 
 export default function Hero() {
+  const sectionRef = useRef(null);
+  const px = useMotionValue(0); // -0.5 .. 0.5
+  const py = useMotionValue(0);
+  const sx = useSpring(px, { stiffness: 55, damping: 18, mass: 0.4 });
+  const sy = useSpring(py, { stiffness: 55, damping: 18, mass: 0.4 });
+
+  // Glow chases the cursor; image drifts the opposite way for parallax depth.
+  const glowX = useTransform(sx, [-0.5, 0.5], [-55, 55]);
+  const glowY = useTransform(sy, [-0.5, 0.5], [-55, 55]);
+  const imgX = useTransform(sx, [-0.5, 0.5], [18, -18]);
+  const imgY = useTransform(sy, [-0.5, 0.5], [18, -18]);
+
+  function handleMove(e) {
+    const rect = sectionRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    px.set((e.clientX - rect.left) / rect.width - 0.5);
+    py.set((e.clientY - rect.top) / rect.height - 0.5);
+  }
+  function handleLeave() {
+    px.set(0);
+    py.set(0);
+  }
+
   return (
-    <section className="relative flex h-[520px] items-center justify-center overflow-hidden border-b border-border px-6 text-center sm:h-[640px]">
-      <Image
-        src="https://picsum.photos/seed/cray-hero/1920/1080"
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        className="animate-kenburns object-cover grayscale-[30%]"
-      />
+    <section
+      ref={sectionRef}
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+      className="relative flex h-[520px] items-center justify-center overflow-hidden border-b border-border px-6 text-center sm:h-[640px]"
+    >
+      <motion.div style={{ x: imgX, y: imgY }} className="absolute -inset-10 transform-gpu">
+        <Image
+          src="https://picsum.photos/seed/cray-hero/1920/1080"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="scale-105 object-cover"
+        />
+      </motion.div>
       {/* Dark editorial wash — rich hero image with legible white type in both themes. */}
       <div aria-hidden className="absolute inset-0 bg-black/60" />
       <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-black/40" />
@@ -54,7 +85,7 @@ export default function Hero() {
         initial={{ opacity: 0, scale: 0.6 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.2, ease: "easeOut" }}
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[480px] w-[480px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/25 blur-[130px]"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[440px] w-[440px] -translate-x-1/2 -translate-y-1/2 transform-gpu rounded-full bg-accent/25 blur-[95px]"
       />
 
       <motion.div variants={container} initial="hidden" animate="show" className="relative mx-auto max-w-4xl">

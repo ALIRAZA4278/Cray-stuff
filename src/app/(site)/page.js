@@ -5,7 +5,7 @@ import BrowseByCategory from "@/components/home/BrowseByCategory";
 import CollectionBanner from "@/components/home/CollectionBanner";
 import ProductGrid from "@/components/home/ProductGrid";
 import PromoBanner from "@/components/home/PromoBanner";
-import ShopByStyle from "@/components/home/ShopByStyle";
+import HorizontalGallery from "@/components/home/HorizontalGallery";
 import Curtains from "@/components/home/Curtains";
 import Reviews from "@/components/home/Reviews";
 import Community from "@/components/home/Community";
@@ -71,7 +71,7 @@ export default async function HomePage() {
       )}
       <Curtains />
       <PromoBanner />
-      <ShopByStyle />
+      <HorizontalGallery />
       <Reviews />
       <Community />
       <ValueProps />

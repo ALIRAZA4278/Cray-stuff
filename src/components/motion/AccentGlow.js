@@ -5,7 +5,7 @@ export default function AccentGlow({ className = "" }) {
   return (
     <div
       aria-hidden
-      className={`pointer-events-none absolute left-1/2 top-[-80px] h-[480px] w-[560px] -translate-x-1/2 rounded-full bg-[#8b5cf6]/30 blur-[130px] ${className}`}
+      className={`pointer-events-none absolute left-1/2 top-[-80px] h-[400px] w-[480px] -translate-x-1/2 transform-gpu rounded-full bg-[#8b5cf6]/30 blur-[70px] ${className}`}
     />
   );
 }

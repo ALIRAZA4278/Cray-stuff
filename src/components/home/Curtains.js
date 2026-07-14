@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRef } from "react";
-import { motion, useScroll, useTransform, useMotionTemplate } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
 
 // Free rebuild of Motion+'s useCurtains: full-height panels pinned with sticky,
 // each sliding up over the last with a rounded "curtain" lip. The covered panel
@@ -61,25 +61,33 @@ const rise = {
 function Panel({ panel, isLast, total }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const scale = useTransform(scrollYProgress, [0, 1], [1, isLast ? 1 : 0.9]);
-  const bright = useTransform(scrollYProgress, [0, 1], [1, isLast ? 1 : 0.5]);
-  const filter = useMotionTemplate`brightness(${bright})`;
+  const scale = useTransform(scrollYProgress, [0, 1], [1, isLast ? 1 : 0.92]);
+  // Cheap opacity dim for depth instead of an expensive scroll-linked filter.
+  const dim = useTransform(scrollYProgress, [0, 1], [0, isLast ? 0 : 0.5]);
 
   return (
     <section
       ref={ref}
       className="sticky top-0 flex h-[100svh] items-center overflow-hidden rounded-t-[2.75rem] border-t border-white/10 px-6 shadow-[0_-30px_60px_rgba(0,0,0,0.55)]"
     >
-      <motion.div style={{ scale, filter }} className={`absolute inset-0 bg-gradient-to-br ${panel.base}`}>
-        {/* Accent glow */}
-        <div aria-hidden className={`pointer-events-none absolute h-[620px] w-[720px] rounded-full bg-[#8b5cf6]/25 blur-[160px] ${panel.glow}`} />
-        {/* Cooler counter-glow for depth */}
-        <div aria-hidden className="pointer-events-none absolute -bottom-40 left-1/3 h-[460px] w-[520px] rounded-full bg-accent/15 blur-[150px]" />
+      <motion.div style={{ scale }} className={`absolute inset-0 transform-gpu bg-gradient-to-br ${panel.base}`}>
+        {/* Single static accent glow */}
+        <div aria-hidden className={`pointer-events-none absolute h-[520px] w-[600px] transform-gpu rounded-full bg-[#8b5cf6]/30 blur-[95px] ${panel.glow}`} />
         {/* Fine grain */}
         <div aria-hidden className="absolute inset-0 opacity-[0.05] mix-blend-overlay" style={{ backgroundImage: noise }} />
         {/* Vignette */}
         <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(0,0,0,0.5))]" />
+        {/* Depth dim — scroll-linked opacity (GPU-cheap) */}
+        <motion.div aria-hidden style={{ opacity: dim }} className="absolute inset-0 bg-black" />
       </motion.div>
+
+      {/* Giant ghost index number */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 select-none font-display text-[42vw] font-semibold leading-none text-white/[0.03] sm:text-[26vw]"
+      >
+        {panel.index}
+      </span>
 
       {/* Editorial corner labels */}
       <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-center justify-between px-6 pt-8 font-mono text-[11px] uppercase tracking-widest text-white/50 sm:px-10">
@@ -123,9 +131,10 @@ function Panel({ panel, isLast, total }) {
         <motion.div variants={rise}>
           <Link
             href={panel.href}
-            className="mt-9 inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-medium uppercase tracking-wide text-accent-foreground shadow-[0_0_30px_var(--accent-glow)] transition-opacity hover:opacity-90"
+            className="group mt-9 inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-medium uppercase tracking-wide text-accent-foreground shadow-[0_0_30px_var(--accent-glow)] transition-all hover:-translate-y-0.5 hover:shadow-[0_0_46px_var(--accent-glow)]"
           >
-            {panel.cta} &rarr;
+            {panel.cta}
+            <span className="transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
           </Link>
         </motion.div>
       </motion.div>

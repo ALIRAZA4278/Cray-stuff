@@ -60,7 +60,6 @@ body {
   background-color: var(--background);
   background-image: var(--surface-texture, none);
   background-size: 700px 700px;
-  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-sans);
 }
