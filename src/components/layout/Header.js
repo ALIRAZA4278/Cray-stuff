@@ -24,6 +24,7 @@ const navLinks = [
 // Mobile menu leads with the brand + info pages so they're easy to reach;
 // the style edits sit below as a compact secondary row.
 const mobilePrimaryLinks = [
+  { href: "/", label: "Home" },
   { href: "/shop", label: "Shop All" },
   { href: "/reviews", label: "Reviews" },
   { href: "/about", label: "About Us" },
@@ -34,6 +35,7 @@ const mobilePrimaryLinks = [
 const mobileStyleLinks = navLinks.slice(1);
 
 // Desktop top nav leads with the main pages; styles live in the Shop dropdown.
+const desktopHomeLink = [{ href: "/", label: "Home" }];
 const desktopPrimaryLinks = [
   { href: "/about", label: "About Us" },
   { href: "/reviews", label: "Reviews" },
@@ -140,6 +142,7 @@ export default function Header() {
       </div>
 
       <nav className="hidden items-center justify-center gap-8 border-t border-border bg-panel py-3 md:flex">
+        <HeaderNavLinks links={desktopHomeLink} itemClassName={desktopItemClass} activeClassName={desktopActiveClass} />
         <ShopDropdown itemClassName={desktopItemClass} activeClassName={desktopActiveClass} />
         <HeaderNavLinks links={desktopPrimaryLinks} itemClassName={desktopItemClass} activeClassName={desktopActiveClass} />
       </nav>

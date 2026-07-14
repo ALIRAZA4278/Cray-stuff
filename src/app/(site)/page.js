@@ -6,6 +6,7 @@ import CollectionBanner from "@/components/home/CollectionBanner";
 import ProductGrid from "@/components/home/ProductGrid";
 import PromoBanner from "@/components/home/PromoBanner";
 import ShopByStyle from "@/components/home/ShopByStyle";
+import Curtains from "@/components/home/Curtains";
 import Reviews from "@/components/home/Reviews";
 import Community from "@/components/home/Community";
 import ValueProps from "@/components/home/ValueProps";
@@ -68,6 +69,7 @@ export default async function HomePage() {
           <ProductGrid plain viewAllHref="/shop?category=womens" products={womensProducts} />
         </>
       )}
+      <Curtains />
       <PromoBanner />
       <ShopByStyle />
       <Reviews />

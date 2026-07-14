@@ -1,4 +1,5 @@
 import Reveal from "@/components/motion/Reveal";
+import AccentGlow from "@/components/motion/AccentGlow";
 import SectionHeading from "@/components/home/SectionHeading";
 
 const props = [
@@ -18,8 +19,9 @@ const props = [
 
 export default function ValueProps() {
   return (
-    <section className="border-b border-border px-6 py-16">
-      <div className="mx-auto max-w-6xl">
+    <section className="relative overflow-hidden border-b border-border px-6 py-16">
+      <AccentGlow />
+      <div className="relative mx-auto max-w-6xl">
         <SectionHeading eyebrow="Why CRAY STUFF" title="The difference" center />
         <div className="grid divide-y divide-border border-y border-border sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           {props.map((prop, index) => (

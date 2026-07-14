@@ -1,17 +1,27 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "motion/react";
 import Reveal from "@/components/motion/Reveal";
+import RevealText from "@/components/motion/RevealText";
 
 export default function CollectionBanner({ eyebrow, title, href, cta, seed }) {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  // Image drifts slower than the page for a parallax feel. The image is scaled
+  // up so the drift never reveals an edge.
+  const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+
   return (
-    <section className="relative flex h-[340px] items-center overflow-hidden border-b border-border px-6 sm:h-[440px]">
-      <Image
-        src={`https://picsum.photos/seed/${seed}/1600/800`}
-        alt=""
-        fill
-        sizes="100vw"
-        className="object-cover grayscale-[25%]"
-      />
+    <section
+      ref={ref}
+      className="relative flex h-[340px] items-center overflow-hidden border-b border-border px-6 sm:h-[440px]"
+    >
+      <motion.div style={{ y }} className="absolute inset-0">
+        <Image src={`https://picsum.photos/seed/${seed}/1600/800`} alt="" fill sizes="100vw" className="scale-125 object-cover grayscale-[25%]" />
+      </motion.div>
       {/* Dark editorial wash — keeps the banner rich and legible in both themes. */}
       <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/25" />
       <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
@@ -20,7 +30,7 @@ export default function CollectionBanner({ eyebrow, title, href, cta, seed }) {
           {eyebrow}
         </span>
         <h2 className="mt-4 text-5xl font-semibold uppercase leading-none tracking-tight text-white drop-shadow-sm sm:text-7xl">
-          {title}
+          <RevealText text={title} />
         </h2>
         <Link
           href={href}

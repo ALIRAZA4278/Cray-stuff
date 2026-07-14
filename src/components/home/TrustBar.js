@@ -1,21 +1,30 @@
+import CountUp from "@/components/motion/CountUp";
+
 const items = [
-  "1000+ positive reviews",
-  "Worldwide shipping",
-  "Secure payments",
-  "One-of-one pieces",
+  { count: 1000, suffix: "+ positive reviews" },
+  { text: "Worldwide shipping" },
+  { text: "Secure payments" },
+  { text: "One-of-one pieces" },
 ];
 
 export default function TrustBar() {
   return (
     <section className="border-b border-border">
       <div className="mx-auto grid max-w-6xl grid-cols-2 divide-x divide-border sm:grid-cols-4">
-        {items.map((item) => (
+        {items.map((item, index) => (
           <div
-            key={item}
+            key={index}
             className="flex items-center justify-center gap-2 px-4 py-5 text-center font-mono text-xs font-semibold uppercase tracking-widest text-foreground"
           >
             <CheckIcon />
-            {item}
+            {item.count ? (
+              <span>
+                <CountUp to={item.count} />
+                {item.suffix}
+              </span>
+            ) : (
+              item.text
+            )}
           </div>
         ))}
       </div>

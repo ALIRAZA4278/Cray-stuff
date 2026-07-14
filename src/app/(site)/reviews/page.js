@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Reveal from "@/components/motion/Reveal";
+import CountUp from "@/components/motion/CountUp";
+import AccentGlow from "@/components/motion/AccentGlow";
 import ReviewCard from "@/components/reviews/ReviewCard";
 import { reviews, reviewsCount } from "@/lib/reviews";
 import { socialLinks } from "@/lib/site";
@@ -11,14 +13,19 @@ export const metadata = {
 
 export default function ReviewsPage() {
   return (
-    <div className="px-6 py-16">
-      <div className="mx-auto max-w-5xl">
+    <div className="relative overflow-hidden px-6 py-16">
+      <AccentGlow />
+      <div className="relative mx-auto max-w-5xl">
         <Reveal className="text-center">
           <p className="font-mono text-xs uppercase tracking-widest text-accent">The receipts</p>
           <h1 className="mt-3 text-3xl font-semibold uppercase tracking-tight sm:text-5xl">Reviews</h1>
-          <p className="mx-auto mt-3 max-w-xl text-sm text-muted">
-            {reviewsCount}+ buyers across Poland and the EU — in their own words. Every piece hand-picked, honestly
-            described, and packed with care.
+          <p className="mx-auto mt-4 flex items-baseline justify-center gap-2 font-display text-5xl font-semibold uppercase tracking-tight text-accent sm:text-6xl">
+            <CountUp to={reviewsCount} />
+            <span>+</span>
+          </p>
+          <p className="mx-auto mt-2 max-w-xl text-sm text-muted">
+            buyers across Poland and the EU — in their own words. Every piece hand-picked, honestly described, and
+            packed with care.
           </p>
           <a
             href={socialLinks.vinted}
