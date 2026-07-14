@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Reveal from "@/components/motion/Reveal";
 import SectionHeading from "@/components/home/SectionHeading";
+import { socialLinks } from "@/lib/site";
 
 const tiles = Array.from({ length: 6 }, (_, index) => `cray-community-${index}`);
 
@@ -11,13 +12,13 @@ export default function Community() {
         <SectionHeading
           eyebrow="Worn by the community"
           title="From our world"
-          link={{ href: "https://instagram.com", label: "@craystuff" }}
+          link={{ href: socialLinks.instagram, label: "@craybze" }}
         />
         <div className="grid grid-cols-3 gap-2 sm:grid-cols-6 sm:gap-3">
           {tiles.map((seed, index) => (
             <Reveal key={seed} delay={index * 0.04}>
               <a
-                href="https://instagram.com"
+                href={socialLinks.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative block aspect-square overflow-hidden rounded-md border border-border transition-colors hover:border-accent"

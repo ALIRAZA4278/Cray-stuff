@@ -36,7 +36,7 @@ export default function FireListPage() {
               </div>
               <h2 className="mt-4 text-2xl font-semibold uppercase tracking-tight">Nothing saved yet</h2>
               <p className="mx-auto mt-2 max-w-sm text-sm text-muted">
-                Tap the heart on any piece to add it here. One-of-one means once it&apos;s gone, it&apos;s gone.
+                Tap the flame on any piece to add it here. One-of-one means once it&apos;s gone, it&apos;s gone.
               </p>
               <Link
                 href="/shop"

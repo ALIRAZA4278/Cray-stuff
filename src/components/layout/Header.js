@@ -5,6 +5,7 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import AnnouncementBar from "./AnnouncementBar";
 import HeaderNavLinks from "./HeaderNavLinks";
+import ShopDropdown from "./ShopDropdown";
 import ThemeToggle from "./ThemeToggle";
 import HeaderSearch from "./HeaderSearch";
 import { useCart } from "@/lib/CartContext";
@@ -18,6 +19,26 @@ const navLinks = [
   { href: "/shop/skate", label: "Skate" },
   { href: "/shop/gorpcore", label: "Gorpcore" },
   { href: "/shop/archive", label: "Archive" },
+];
+
+// Mobile menu leads with the brand + info pages so they're easy to reach;
+// the style edits sit below as a compact secondary row.
+const mobilePrimaryLinks = [
+  { href: "/shop", label: "Shop All" },
+  { href: "/reviews", label: "Reviews" },
+  { href: "/about", label: "About Us" },
+  { href: "/contact", label: "Contact" },
+  { href: "/faq", label: "FAQ" },
+  { href: "/fire-list", label: "Fire List" },
+];
+const mobileStyleLinks = navLinks.slice(1);
+
+// Desktop top nav leads with the main pages; styles live in the Shop dropdown.
+const desktopPrimaryLinks = [
+  { href: "/about", label: "About Us" },
+  { href: "/reviews", label: "Reviews" },
+  { href: "/contact", label: "Contact" },
+  { href: "/faq", label: "FAQ" },
 ];
 
 const desktopItemClass =
@@ -119,24 +140,43 @@ export default function Header() {
       </div>
 
       <nav className="hidden items-center justify-center gap-8 border-t border-border bg-panel py-3 md:flex">
-        <HeaderNavLinks links={navLinks} itemClassName={desktopItemClass} activeClassName={desktopActiveClass} />
+        <ShopDropdown itemClassName={desktopItemClass} activeClassName={desktopActiveClass} />
+        <HeaderNavLinks links={desktopPrimaryLinks} itemClassName={desktopItemClass} activeClassName={desktopActiveClass} />
       </nav>
 
       {open && (
-        <nav className="flex flex-col gap-1 border-t border-border px-6 py-4 md:hidden">
-          <HeaderNavLinks
-            links={navLinks}
-            itemClassName={mobileItemClass}
-            activeClassName={mobileActiveClass}
-            onNavigate={() => setOpen(false)}
-          />
+        <nav className="flex flex-col border-t border-border px-6 py-4 md:hidden">
+          {mobilePrimaryLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={() => setOpen(false)}
+              className="border-b border-border/50 py-3 text-lg font-semibold uppercase tracking-tight transition-colors hover:text-accent"
+            >
+              {link.label}
+            </Link>
+          ))}
           <Link
             href="/login"
             onClick={() => setOpen(false)}
-            className="py-2 text-sm text-muted transition-colors hover:text-foreground"
+            className="border-b border-border/50 py-3 text-lg font-semibold uppercase tracking-tight transition-colors hover:text-accent"
           >
-            Login
+            Account
           </Link>
+
+          <p className="mb-2 mt-5 font-mono text-[11px] uppercase tracking-widest text-muted">Shop by style</p>
+          <div className="flex flex-wrap gap-2">
+            {mobileStyleLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setOpen(false)}
+                className="rounded-full border border-border px-3.5 py-1.5 text-xs font-medium uppercase tracking-wide text-muted transition-colors hover:border-accent hover:text-foreground"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
         </nav>
       )}
     </header>

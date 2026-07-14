@@ -6,6 +6,7 @@ import CollectionBanner from "@/components/home/CollectionBanner";
 import ProductGrid from "@/components/home/ProductGrid";
 import PromoBanner from "@/components/home/PromoBanner";
 import ShopByStyle from "@/components/home/ShopByStyle";
+import Reviews from "@/components/home/Reviews";
 import Community from "@/components/home/Community";
 import ValueProps from "@/components/home/ValueProps";
 import PhilosophyAndDrop from "@/components/home/PhilosophyAndDrop";
@@ -69,6 +70,7 @@ export default async function HomePage() {
       )}
       <PromoBanner />
       <ShopByStyle />
+      <Reviews />
       <Community />
       <ValueProps />
       <PhilosophyAndDrop dropTarget={dropTarget} />

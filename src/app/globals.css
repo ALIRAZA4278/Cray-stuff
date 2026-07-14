@@ -96,6 +96,20 @@ body::before {
   animation: marquee 22s linear infinite;
 }
 
+@keyframes kenburns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.09);
+  }
+}
+
+/* Slow, continuous zoom on hero imagery — always-on life without being loud. */
+.animate-kenburns {
+  animation: kenburns 20s ease-in-out infinite alternate;
+}
+
 .text-outline {
   color: transparent;
   -webkit-text-stroke: 1.5px var(--foreground);
@@ -135,7 +149,8 @@ body::before {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-marquee {
+  .animate-marquee,
+  .animate-kenburns {
     animation: none;
   }
 }

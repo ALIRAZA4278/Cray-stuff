@@ -1,5 +1,6 @@
 import Link from "next/link";
 import NewsletterForm from "@/components/layout/NewsletterForm";
+import { socialLinks } from "@/lib/site";
 
 const columns = [
   {
@@ -19,6 +20,7 @@ const columns = [
     links: [
       { href: "/contact", label: "Contact" },
       { href: "/faq", label: "FAQ" },
+      { href: "/reviews", label: "Reviews" },
       { href: "/account/orders", label: "Track Order" },
       { href: "/fire-list", label: "Fire List" },
     ],
@@ -40,8 +42,8 @@ const columns = [
 ];
 
 const socials = [
-  { label: "Instagram", href: "https://instagram.com" },
-  { label: "TikTok", href: "https://tiktok.com" },
+  { label: "Instagram", href: socialLinks.instagram },
+  { label: "TikTok", href: socialLinks.tiktok },
 ];
 
 export default function Footer() {
@@ -67,12 +69,22 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={social.label}
-                className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted transition-colors hover:text-foreground"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-foreground transition-all hover:border-accent hover:bg-accent hover:text-accent-foreground hover:shadow-[0_0_18px_var(--accent-glow)]"
               >
                 <SocialIcon name={social.label} />
               </a>
             ))}
           </div>
+          <a
+            href={socialLinks.vinted}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:border-accent hover:text-accent"
+          >
+            <SocialIcon name="Vinted" />
+            Shop our Vinted
+            <span aria-hidden>&rarr;</span>
+          </a>
         </div>
         {columns.map((column) => (
           <div key={column.title}>
@@ -110,7 +122,7 @@ export default function Footer() {
 function SocialIcon({ name }) {
   if (name === "Instagram") {
     return (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-4 w-4">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
         <rect x="3" y="3" width="18" height="18" rx="5" />
         <circle cx="12" cy="12" r="4" />
         <circle cx="17" cy="7" r="1" fill="currentColor" stroke="none" />
@@ -118,8 +130,16 @@ function SocialIcon({ name }) {
     );
   }
 
+  if (name === "Vinted") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-4 w-4">
+        <path d="M4 8l6 12 4-9c1-2.2 2.6-3.4 4.6-3.6" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-4 w-4">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
       <path d="M16 3v11.5a3.5 3.5 0 1 1-3.5-3.5" />
       <path d="M16 3c.5 3 2.5 5 5 5.5" />
     </svg>
