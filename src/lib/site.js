@@ -3,5 +3,5 @@
 export const socialLinks = {
   instagram: "https://instagram.com/craybze",
   tiktok: "https://tiktok.com/@craystuff",
-  vinted: "https://www.vinted.pl/member/craystuff",
+  vinted: "https://www.vinted.pl/member/221261342-craybze",
 };

@@ -8,6 +8,26 @@ Source: WhatsApp/email conversation with client, consolidated for build referenc
 All features listed in this brief will be built — nothing here is optional or
 "maybe later." Use the checklist below to track build status feature by feature.
 
+## Pending from client (blockers) — as of 2026-07-14
+
+Things we need FROM Wiktor to finish. Consolidated message sent to him on this date.
+
+**Needed now (to replace placeholders):**
+- [ ] Real product photos + details (brand, name, price, size, measurements, condition + flaws, material, country, category Men's/Women's/Unisex, style) — via us or he adds in admin
+- [ ] Real reviews — screenshots/text from his Instagram highlights (@craybze) to replace placeholders; label as Vinted customer reviews. Currently placeholders in `src/lib/reviews.js`
+- [ ] Exact Vinted review count (he said ~520) — shown as social proof (`reviewsCount` in reviews.js)
+- [ ] Exact **Vinted profile URL**, **TikTok** handle, confirm **Instagram = @craybze** — placeholders in `src/lib/site.js`
+- [ ] Logo: the font-style reference photo he promised (square + distressed vintage), and/or a real logo file
+
+**Before launch:**
+- [ ] Domain name to launch on
+- [ ] Confirm final condition options (Excellent / Very Good / Good / Like New — his latest)
+- [ ] Which brands count as "Designer" for the brand rail
+
+**When ready (payment = last step):**
+- [ ] Stripe account (turns on real checkout/payments — everything else works without it)
+- [ ] Optional: Apple Developer account (Apple sign-in), Cloudinary (drag-drop image upload) — nice-to-haves, not blockers
+
 ## Full feature checklist
 
 - [x] ✅ Home page — hero, Latest Drop, Most Popular, Shop by Style, brand ticker/philosophy, Drop countdown, Newsletter, Footer (all live)

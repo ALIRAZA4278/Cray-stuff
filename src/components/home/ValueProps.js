@@ -23,7 +23,7 @@ export default function ValueProps() {
         <SectionHeading eyebrow="Why CRAY STUFF" title="The difference" center />
         <div className="grid divide-y divide-border border-y border-border sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           {props.map((prop, index) => (
-            <Reveal key={prop.title} delay={index * 0.08} className="p-8">
+            <Reveal key={prop.title} delay={index * 0.08} variant="scale" className="p-8">
               <p className="font-display text-4xl font-semibold text-accent/25">{String(index + 1).padStart(2, "0")}</p>
               <h3 className="mt-4 text-base font-semibold uppercase tracking-tight">{prop.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted">{prop.desc}</p>

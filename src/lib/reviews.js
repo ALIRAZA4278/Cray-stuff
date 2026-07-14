@@ -1,49 +1,116 @@
-// ⚠️ PLACEHOLDER reviews — replace with the real customer reviews from the
-// CRAY STUFF Instagram highlights before launch. Kept in one file so they're
-// trivial to swap. `source` is shown as a small badge (e.g. "Vinted").
-export const reviewsCount = 500; // approx. count of Vinted reviews — update to the exact number
+// Real customer reviews pulled from the CRAY STUFF Vinted profile
+// (vinted.pl/member/221261342-craybze). Non-English reviews have been
+// translated to English; names are the customers' Vinted handles. Automatic
+// Vinted "successful transaction" comments are intentionally excluded.
+export const reviewsCount = 530; // real total from the Vinted profile (vinted.pl/member/221261342-craybze)
 
 export const reviews = [
   {
-    name: "Marta K.",
-    location: "Kraków, PL",
+    name: "mimii2115",
     rating: 5,
-    text: "Piece arrived even better than in the photos. Everything described honestly, washed and pressed, packed with real care. Exactly the kind of vintage I was hoping for.",
+    text: "Highly recommend — great communication, fast shipping, and the condition matched the listing perfectly!",
     source: "Vinted",
   },
   {
-    name: "Tomasz W.",
-    location: "Warsaw, PL",
+    name: "tooomaszm",
     rating: 5,
-    text: "Fast shipping and the jacket is one of a kind — I get asked about it constantly. You can tell each item is actually hand-picked, not just flipped.",
+    text: "Fast shipping and great contact with the seller. The package was well packed and the trousers are MEGA!!!",
     source: "Vinted",
   },
   {
-    name: "Julia R.",
-    location: "Berlin, DE",
+    name: "klaudiaszeszy",
     rating: 5,
-    text: "Ordered from Germany and it came quickly and perfectly wrapped. The condition notes were spot on. Already planning my next order.",
+    text: "Super friendly seller! Really helpful with my decision. Everything exactly as described. Thank you and warmly recommend!",
     source: "Vinted",
   },
   {
-    name: "Kuba M.",
-    location: "Gdańsk, PL",
+    name: "igiskl",
     rating: 5,
-    text: "Made an offer, got a fair reply within a day, and the piece shipped the same week. Smooth from start to finish — proper seller.",
+    text: "Perfect communication, no problems, fast delivery <3",
     source: "Vinted",
   },
   {
-    name: "Ola S.",
-    location: "Wrocław, PL",
+    name: "whatspoppin123",
     rating: 5,
-    text: "Genuinely rare pieces you won't find anywhere else. Quality is exactly as promised and the packaging feels premium. Highly recommend.",
+    text: "Transaction and delivery were super fast, the hoodie is beautiful with amazing material! Recommend.",
     source: "Vinted",
   },
   {
-    name: "Daniel P.",
-    location: "Amsterdam, NL",
+    name: "daviddipp",
     rating: 5,
-    text: "Everything felt trustworthy — clear photos, honest flaws listed, quick answers to my questions. The hoodie is now my favourite thing I own.",
+    text: "There was a small hiccup but he sorted it out like a legend! Really nice and easy to deal with.",
+    source: "Vinted",
+  },
+  {
+    name: "asymetriaaa",
+    rating: 5,
+    text: "Nicely packaged and the hoodie is exactly like in the photos.",
+    source: "Vinted",
+  },
+  {
+    name: "nadiaj344",
+    rating: 5,
+    text: "Everything great, wonderful seller — package sent right away and super quick to reply :))",
+    source: "Vinted",
+  },
+  {
+    name: "drakengard3zero",
+    rating: 5,
+    text: "Great guy, got an awesome jacket ✌️",
+    source: "Vinted",
+  },
+  {
+    name: "ptyb",
+    rating: 5,
+    text: "Great contact, fast shipping, item exactly as described. Recommend!",
+    source: "Vinted",
+  },
+  {
+    name: "kjarmul",
+    rating: 5,
+    text: "Everything as described, easy price negotiation, recommend :) ❤️",
+    source: "Vinted",
+  },
+  {
+    name: "cristiano86cta",
+    rating: 5,
+    text: "The product is superb. Thank you 🙏",
+    source: "Vinted",
+  },
+  {
+    name: "bazyakiv",
+    rating: 5,
+    text: "Everything's great! Fast delivery and stylish clothing.",
+    source: "Vinted",
+  },
+  {
+    name: "bartek2197",
+    rating: 5,
+    text: "Successful transaction! Product matched the description, very fast shipping!",
+    source: "Vinted",
+  },
+  {
+    name: "iloveyouvinteed1",
+    rating: 5,
+    text: "Highly recommend and thank you from the bottom of my heart.",
+    source: "Vinted",
+  },
+  {
+    name: "flagusek",
+    rating: 5,
+    text: "Great, good contact, fast shipping 💪",
+    source: "Vinted",
+  },
+  {
+    name: "liutaurasr",
+    rating: 5,
+    text: "Love the sweatshirt",
+    source: "Vinted",
+  },
+  {
+    name: "sabipula",
+    rating: 5,
+    text: "Top, highly recommend!!",
     source: "Vinted",
   },
 ];

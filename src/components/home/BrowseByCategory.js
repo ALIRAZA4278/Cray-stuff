@@ -4,16 +4,18 @@ import Reveal from "@/components/motion/Reveal";
 
 const tiles = [
   { label: "New Drop", cta: "Shop new drop", href: "/shop?sort=new", seed: "cray-new-drop" },
-  { label: "Under €100", cta: "Shop under €100", href: "/shop?max=100", seed: "cray-womens"},
-{ label: "The Archive", cta: "Shop archive", href: "/shop/archive", seed: "cray-mens" },
+  { label: "Under €100", cta: "Shop under €100", href: "/shop?price=0-50,50-100", seed: "cray-womens" },
+  { label: "The Archive", cta: "Shop archive", href: "/shop/archive", seed: "cray-mens" },
 ];
+
+const tileVariants = ["left", "up", "right"];
 
 export default function BrowseByCategory() {
   return (
     <section className="border-b border-border">
       <div className="grid grid-cols-1 sm:grid-cols-3">
         {tiles.map((tile, index) => (
-          <Reveal key={tile.label} delay={index * 0.08}>
+          <Reveal key={tile.label} delay={index * 0.08} variant={tileVariants[index] ?? "up"}>
             <Link
               href={tile.href}
               className="group relative flex h-[420px] items-end overflow-hidden border-border sm:border-r last:border-r-0"
