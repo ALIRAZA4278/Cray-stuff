@@ -40,7 +40,7 @@ export default async function SoldPage() {
         ) : (
           <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {sold.map((product, index) => (
-              <Reveal key={product.id} delay={(index % 4) * 0.05}>
+              <Reveal key={product.id} delay={(index % 4) * 0.05} className="h-full">
                 <ProductCard product={product} />
               </Reveal>
             ))}

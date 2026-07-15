@@ -49,7 +49,7 @@ export default function FireListPage() {
         ) : (
           <div className="mt-10 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
             {items.map((product, index) => (
-              <Reveal key={product.slug} delay={index * 0.04}>
+              <Reveal key={product.slug} delay={index * 0.04} className="h-full">
                 <ProductCard product={product} />
               </Reveal>
             ))}
