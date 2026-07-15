@@ -31,14 +31,13 @@ function MaskedLine({ children, className }) {
   );
 }
 
-// Four pieces from the catalog, side by side. Each column drifts on its own
-// clock so the strip never looks like a static collage.
-// TODO(wiktor): swap these for the four pieces you want to lead with.
+// Four different pieces, side by side. Each column drifts on its own clock so
+// the strip never looks like a static collage.
 const heroShots = [
   "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/cord-jacket-a.jpg",
+  "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/true-religion-jeans.jpg",
+  "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/dg-belt.jpg",
   "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/y2k-jeans-1.jpg",
-  "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/y2k-jeans-2.jpg",
-  "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/cord-jacket-b.jpg",
 ];
 
 export default function Hero() {
@@ -104,11 +103,15 @@ export default function Hero() {
         </div>
       </motion.div>
       {/* Dark editorial wash — legible white type over the photo. */}
-      <div aria-hidden className="absolute inset-0 bg-black/60" />
-      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-black/40" />
+      <div aria-hidden className="absolute inset-0 bg-black/55" />
+      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/35" />
+      {/* Soft scrim behind the headline. This has to live outside the reveal
+          masks: a text-shadow inside one gets clipped flat by its
+          overflow-hidden, which reads as a hard edge above and below each line.
+          An ellipse out here falls off evenly on every side instead. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.6),transparent_70%)]"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[125%] w-[150%] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.72)_0%,rgba(0,0,0,0.5)_32%,rgba(0,0,0,0.22)_52%,transparent_72%)]"
       />
       <motion.div
         aria-hidden
@@ -125,12 +128,12 @@ export default function Hero() {
         >
           Cray Stuff &mdash; One of one
         </motion.p>
-        <h1 className="mt-4 text-4xl font-semibold uppercase leading-[1.05] tracking-tight text-white sm:text-6xl [text-shadow:0_2px_24px_rgba(0,0,0,0.5)]">
+        {/* No text-shadow on the lines — the reveal masks would clip it square.
+            The scrim above does the legibility work. */}
+        <h1 className="mt-4 text-4xl font-semibold uppercase leading-[1.05] tracking-tight text-white sm:text-6xl">
           <MaskedLine>We don&apos;t follow trends.</MaskedLine>
-          <MaskedLine
-            className="text-outline filter-[drop-shadow(0_2px_12px_rgba(0,0,0,0.65))]"
-            // stroke styling lives on the span so the mask can still clip it
-          >
+          <MaskedLine className="text-outline">
+            {/* stroke styling lives on the span so the mask can still clip it */}
             <span style={{ WebkitTextStrokeColor: "#ffffff", WebkitTextStrokeWidth: "2px" }}>Trends follow us.</span>
           </MaskedLine>
         </h1>

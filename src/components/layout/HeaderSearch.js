@@ -22,14 +22,14 @@ export default function HeaderSearch() {
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-label="Search"
-        className="text-muted transition-colors hover:text-foreground"
+        className="flex h-10 w-10 items-center justify-center text-muted transition-colors hover:text-foreground"
       >
         <SearchIcon />
       </button>
       {open && (
         <form
           onSubmit={submit}
-          className="absolute left-0 top-8 z-50 flex w-60 items-center gap-2 rounded-lg border border-border bg-background p-2 shadow-[0_12px_30px_rgba(0,0,0,0.3)]"
+          className="absolute left-0 top-11 z-50 flex w-60 items-center gap-2 rounded-lg border border-border bg-background p-2 shadow-[0_12px_30px_rgba(0,0,0,0.3)]"
         >
           <input
             autoFocus

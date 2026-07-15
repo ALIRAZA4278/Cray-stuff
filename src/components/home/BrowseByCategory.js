@@ -2,29 +2,26 @@ import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/motion/Reveal";
 
-// Each tile takes a real catalog photo. Swapping one is a single-line change —
-// drop the new Cloudinary URL in and nothing else moves.
-// TODO(wiktor): waiting on the shorts photo (New Drop), the True Religion jeans
-// (Under €100) and the D&G belt (The Archive). Current shots are the closest
-// real pieces we have so nothing here is a stock placeholder.
+// Wiktor's own shots, one per tile. Swapping one is a single-line change — drop
+// the new Cloudinary URL in and nothing else moves.
 const tiles = [
   {
     label: "New Drop",
     cta: "Shop new drop",
     href: "/shop?sort=new",
-    image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/cord-jacket-a.jpg",
+    image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/new-drop-jeans.jpg",
   },
   {
     label: "Under €100",
     cta: "Shop under €100",
     href: "/shop?price=0-50,50-100",
-    image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/y2k-jeans-1.jpg",
+    image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/true-religion-jeans.jpg",
   },
   {
     label: "The Archive",
     cta: "Shop archive",
     href: "/shop/archive",
-    image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/cord-jacket-b.jpg",
+    image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/dg-belt.jpg",
   },
 ];
 

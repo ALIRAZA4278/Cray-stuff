@@ -18,7 +18,7 @@ const styles = [
   {
     tag: "Y2K",
     blurb: "Baggy, loud, unmistakably 2000s.",
-    image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/y2k-jeans-1.jpg",
+    image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/true-religion-jeans.jpg",
   },
   {
     tag: "Skate",

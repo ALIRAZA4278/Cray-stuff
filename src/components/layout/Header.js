@@ -19,6 +19,7 @@ const navLinks = [
   { href: "/shop/skate", label: "Skate" },
   { href: "/shop/gorpcore", label: "Gorpcore" },
   { href: "/shop/archive", label: "Archive" },
+  { href: "/shop/hidden-gems", label: "Hidden Gems" },
 ];
 
 // Mobile menu leads with the brand + info pages so they're easy to reach;
@@ -60,10 +61,10 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
       <AnnouncementBar />
 
-      <div className="relative flex items-center justify-between px-6 py-4">
-        <div className="flex items-center gap-4">
+      <div className="relative flex items-center justify-between gap-2 px-4 py-4 sm:px-6">
+        <div className="flex items-center gap-0.5 sm:gap-1">
           <HeaderSearch />
-          <div className="hidden items-center gap-1 font-mono text-xs text-muted sm:flex">
+          <div className="hidden items-center gap-1 px-1 font-mono text-xs text-muted sm:flex">
             <button
               type="button"
               onClick={() => setLang("EN")}
@@ -80,22 +81,30 @@ export default function Header() {
               PL
             </button>
           </div>
-          <ThemeToggle />
+          {/* Hidden on phones — it lives in the menu there. Two icons a side is
+              all a narrow bar can hold without crowding the wordmark. */}
+          <div className="hidden sm:block">
+            <ThemeToggle />
+          </div>
         </div>
 
+        {/* Centred on desktop. On mobile it stays in the flex flow — absolute
+            centring made it collide with the cart/fire icons on narrow screens. */}
         <Link
           href="/"
           aria-label="Cray Stuff — home"
-          className="wordmark wordmark--worn absolute left-1/2 -translate-x-1/2 text-2xl uppercase"
+          className="wordmark wordmark--worn whitespace-nowrap text-lg uppercase sm:text-2xl md:absolute md:left-1/2 md:-translate-x-1/2"
         >
           Cray<span className="text-accent"> Stuff</span>
         </Link>
 
-        <div className="flex items-center gap-4">
+        {/* Icons get a 40px tap box (the glyph is only 20px) so they're
+            comfortable on a phone and can't be mis-tapped for the wordmark. */}
+        <div className="flex items-center gap-0.5 sm:gap-1">
           <Link
             href="/fire-list"
             aria-label="Fire List"
-            className={`relative transition-colors hover:text-foreground ${
+            className={`relative flex h-10 w-10 items-center justify-center transition-colors hover:text-foreground ${
               fireCount > 0 ? "text-accent" : "text-muted"
             }`}
           >
@@ -106,7 +115,7 @@ export default function Header() {
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ type: "spring", stiffness: 500, damping: 18 }}
-                className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-accent font-mono text-[10px] text-accent-foreground shadow-[0_0_10px_var(--accent-glow)]"
+                className="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-accent font-mono text-[10px] text-accent-foreground shadow-[0_0_10px_var(--accent-glow)]"
               >
                 {fireCount}
               </motion.span>
@@ -115,11 +124,11 @@ export default function Header() {
           <Link
             href="/cart"
             aria-label="Cart"
-            className="relative text-muted transition-colors hover:text-foreground"
+            className="relative flex h-10 w-10 items-center justify-center text-muted transition-colors hover:text-foreground"
           >
             <BagIcon />
             {items.length > 0 && (
-              <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-accent font-mono text-[10px] text-accent-foreground">
+              <span className="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-accent font-mono text-[10px] text-accent-foreground">
                 {items.length}
               </span>
             )}
@@ -127,7 +136,7 @@ export default function Header() {
           <Link
             href="/login"
             aria-label="Account"
-            className="hidden text-muted transition-colors hover:text-foreground sm:block"
+            className="hidden h-10 w-10 items-center justify-center text-muted transition-colors hover:text-foreground sm:flex"
           >
             <UserIcon />
           </Link>
@@ -135,7 +144,7 @@ export default function Header() {
             type="button"
             aria-label="Toggle menu"
             onClick={() => setOpen((value) => !value)}
-            className="text-muted transition-colors hover:text-foreground md:hidden"
+            className="flex h-10 w-10 items-center justify-center text-muted transition-colors hover:text-foreground md:hidden"
           >
             <MenuIcon open={open} />
           </button>
@@ -180,6 +189,36 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
+          </div>
+
+          {/* The EN/PL switch and theme toggle are hidden from the narrow top
+              bar, so mobile gets them here instead. */}
+          <div className="mt-5 flex items-end justify-between gap-4">
+            <div>
+              <p className="mb-2 font-mono text-[11px] uppercase tracking-widest text-muted">Language</p>
+              <div className="flex gap-2">
+                {["EN", "PL"].map((code) => (
+                  <button
+                    key={code}
+                    type="button"
+                    onClick={() => setLang(code)}
+                    className={`rounded-full border px-4 py-1.5 font-mono text-xs uppercase tracking-wide transition-colors ${
+                      lang === code
+                        ? "border-accent bg-accent/10 text-foreground"
+                        : "border-border text-muted hover:border-accent hover:text-foreground"
+                    }`}
+                  >
+                    {code}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <p className="mb-2 font-mono text-[11px] uppercase tracking-widest text-muted">Theme</p>
+              <div className="rounded-full border border-border">
+                <ThemeToggle />
+              </div>
+            </div>
           </div>
         </nav>
       )}
