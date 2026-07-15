@@ -11,9 +11,9 @@ export default function ProductCard({ product }) {
   return (
     <Link
       href={`/product/${product.slug}`}
-      className="group block rounded-lg border border-border bg-surface p-4 transition-all duration-300 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-[0_16px_40px_rgba(0,0,0,0.18)]"
+      className="group flex h-full flex-col rounded-lg border border-border bg-surface p-4 transition-all duration-300 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-[0_16px_40px_rgba(0,0,0,0.18)]"
     >
-      <div className="relative aspect-[3/4] overflow-hidden rounded-md border border-border bg-surface">
+      <div className="relative aspect-[3/4] shrink-0 overflow-hidden rounded-md border border-border bg-surface">
         <Image
           src={primaryImg}
           alt={product.name}
