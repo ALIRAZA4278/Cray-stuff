@@ -62,8 +62,22 @@ export default function Header() {
       <AnnouncementBar />
 
       <div className="relative flex items-center justify-between gap-2 px-4 py-4 sm:px-6">
+        {/* Two icons a side below sm, so the wordmark lands dead centre on its
+            own — no absolute positioning to collide with anything. */}
         <div className="flex items-center gap-0.5 sm:gap-1">
           <HeaderSearch />
+          <Link
+            href="/cart"
+            aria-label="Cart"
+            className="relative flex h-10 w-10 items-center justify-center text-muted transition-colors hover:text-foreground"
+          >
+            <BagIcon />
+            {items.length > 0 && (
+              <span className="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-accent font-mono text-[10px] text-accent-foreground">
+                {items.length}
+              </span>
+            )}
+          </Link>
           <div className="hidden items-center gap-1 px-1 font-mono text-xs text-muted sm:flex">
             <button
               type="button"
@@ -88,12 +102,14 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Centred on desktop. On mobile it stays in the flex flow — absolute
-            centring made it collide with the cart/fire icons on narrow screens. */}
+        {/* Below sm the two icon groups are equal width, so plain flex centring
+            puts the wordmark dead centre without risking a collision. From sm up
+            the groups differ, so it gets absolutely centred instead — there's
+            plenty of room by then. */}
         <Link
           href="/"
           aria-label="Cray Stuff — home"
-          className="wordmark wordmark--worn whitespace-nowrap text-lg uppercase sm:text-2xl md:absolute md:left-1/2 md:-translate-x-1/2"
+          className="wordmark wordmark--worn whitespace-nowrap text-lg uppercase sm:absolute sm:left-1/2 sm:-translate-x-1/2 sm:text-2xl"
         >
           Cray<span className="text-accent"> Stuff</span>
         </Link>
@@ -119,18 +135,6 @@ export default function Header() {
               >
                 {fireCount}
               </motion.span>
-            )}
-          </Link>
-          <Link
-            href="/cart"
-            aria-label="Cart"
-            className="relative flex h-10 w-10 items-center justify-center text-muted transition-colors hover:text-foreground"
-          >
-            <BagIcon />
-            {items.length > 0 && (
-              <span className="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-accent font-mono text-[10px] text-accent-foreground">
-                {items.length}
-              </span>
             )}
           </Link>
           <Link

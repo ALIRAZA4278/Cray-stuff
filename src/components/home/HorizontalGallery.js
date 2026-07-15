@@ -27,7 +27,9 @@ export default function HorizontalGallery() {
   useGSAP(
     () => {
       const el = track.current;
-      const distance = () => el.scrollWidth - window.innerWidth;
+      // Measure against the section, not the window — window.innerWidth counts
+      // the scrollbar and leaves the last card short.
+      const distance = () => Math.max(0, el.scrollWidth - root.current.clientWidth);
       gsap.to(el, {
         x: () => -distance(),
         ease: "none",
@@ -40,6 +42,18 @@ export default function HorizontalGallery() {
           invalidateOnRefresh: true,
         },
       });
+
+      // The track keeps growing after the first measurement as images and fonts
+      // land. Without re-measuring, the pin length stays stuck on the old width
+      // and the run stops before the last card is fully in view.
+      let lastWidth = el.scrollWidth;
+      const observer = new ResizeObserver(() => {
+        if (el.scrollWidth === lastWidth) return;
+        lastWidth = el.scrollWidth;
+        ScrollTrigger.refresh();
+      });
+      observer.observe(el);
+      return () => observer.disconnect();
     },
     { scope: root }
   );
