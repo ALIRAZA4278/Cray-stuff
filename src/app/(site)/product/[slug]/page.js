@@ -8,6 +8,8 @@ import ProductQA from "@/components/product/ProductQA";
 import ProductCard from "@/components/product/ProductCard";
 import Reveal from "@/components/motion/Reveal";
 import { getProductBySlug, getAllProducts } from "@/lib/products";
+import { pieceNumber } from "@/lib/piece-number";
+import { slugify } from "@/lib/shop-filters";
 import { getQuestionsForProduct } from "@/lib/qa";
 
 const assurances = [
@@ -45,7 +47,7 @@ export default async function ProductPage({ params }) {
     .sort((a, b) => (a.category === product.category ? -1 : 1) - (b.category === product.category ? -1 : 1))
     .slice(0, 4);
 
-  const number = String(product.id).replace(/\D/g, "").slice(0, 3).padStart(3, "0");
+  const number = pieceNumber(product.id);
 
   return (
     <div className="px-6 py-16">
@@ -105,7 +107,7 @@ export default async function ProductPage({ params }) {
               {product.tags.map((tag) => (
                 <Link
                   key={tag}
-                  href={`/shop/${tag.toLowerCase()}`}
+                  href={`/shop/${slugify(tag)}`}
                   className="rounded border border-border px-2 py-1 text-xs text-muted transition-colors hover:border-accent hover:text-foreground"
                 >
                   {tag}
@@ -122,6 +124,18 @@ export default async function ProductPage({ params }) {
                 <dt className="font-mono text-[11px] uppercase tracking-widest text-muted">Condition</dt>
                 <dd className="mt-1 font-medium">{product.condition}</dd>
               </div>
+              {product.material && (
+                <div>
+                  <dt className="font-mono text-[11px] uppercase tracking-widest text-muted">Material</dt>
+                  <dd className="mt-1 font-medium">{product.material}</dd>
+                </div>
+              )}
+              {product.country && (
+                <div>
+                  <dt className="font-mono text-[11px] uppercase tracking-widest text-muted">Made in</dt>
+                  <dd className="mt-1 font-medium">{product.country}</dd>
+                </div>
+              )}
               <div className="col-span-2">
                 <dt className="font-mono text-[11px] uppercase tracking-widest text-muted">Measurements</dt>
                 <dd className="mt-1 font-medium">{product.measurements}</dd>
@@ -129,6 +143,19 @@ export default async function ProductPage({ params }) {
             </dl>
 
             <p className="mt-6 text-sm leading-relaxed text-muted">{product.description}</p>
+
+            {product.flaws && (
+              <div className="mt-5 rounded-lg border border-border bg-surface p-4">
+                <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-accent">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-3.5 w-3.5">
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M12 8v5M12 16.5v.01" strokeLinecap="round" />
+                  </svg>
+                  Flaws — told straight
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{product.flaws}</p>
+              </div>
+            )}
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
               {product.sold ? (

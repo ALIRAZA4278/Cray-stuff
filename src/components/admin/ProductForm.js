@@ -4,7 +4,7 @@ import { useActionState, useRef, useState } from "react";
 import Link from "next/link";
 import { saveProduct, deleteProduct } from "@/lib/actions/products";
 import { styleTags, categories } from "@/lib/mock-products";
-import { conditions } from "@/lib/shop-filters";
+import { clothingTypes, conditions } from "@/lib/shop-filters";
 
 const inputClass =
   "w-full rounded-lg border border-border bg-transparent px-4 py-2.5 text-sm outline-none placeholder:text-muted focus:border-accent";
@@ -165,9 +165,51 @@ export default function ProductForm({ product }) {
           <label className={labelClass}>Measurements</label>
           <input name="measurements" defaultValue={product?.measurements} placeholder="Chest 22in · Length 27in · Sleeve 25in" className={inputClass} />
         </div>
+        <div>
+          <label className={labelClass}>Material</label>
+          <input name="material" defaultValue={product?.material} placeholder="100% cotton" className={inputClass} />
+        </div>
+        <div>
+          <label className={labelClass}>Country of manufacture</label>
+          <input name="country" defaultValue={product?.country} placeholder="Made in Japan" className={inputClass} />
+        </div>
+        <div className="sm:col-span-2">
+          <label className={labelClass}>
+            Flaws <span className="normal-case text-muted/70">— be honest, it builds trust</span>
+          </label>
+          <textarea
+            name="flaws"
+            rows={2}
+            defaultValue={product?.flaws}
+            placeholder="Small stain on left cuff · slight fading at the hem. Leave empty if there are none."
+            className={`${inputClass} resize-none`}
+          />
+        </div>
         <div className="sm:col-span-2">
           <label className={labelClass}>Description</label>
           <textarea name="description" rows={4} defaultValue={product?.description} placeholder="Honest condition notes, fit, and story…" className={`${inputClass} resize-none`} />
+        </div>
+      </section>
+
+      {/* Clothing type — what the piece IS (stored alongside style tags) */}
+      <section>
+        <h2 className="text-sm font-medium uppercase tracking-wide text-muted">Type</h2>
+        <p className="mt-1 text-xs text-muted">What the piece is — powers the Shorts / Hoodies / T-Shirts sections.</p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {clothingTypes.map((type) => (
+            <label key={type} className="cursor-pointer">
+              <input
+                type="checkbox"
+                name="tags"
+                value={type}
+                defaultChecked={product?.tags?.includes(type)}
+                className="peer sr-only"
+              />
+              <span className="rounded-full border border-border px-3.5 py-1.5 text-sm text-muted transition-colors peer-checked:border-accent peer-checked:bg-accent/10 peer-checked:text-foreground">
+                {type}
+              </span>
+            </label>
+          ))}
         </div>
       </section>
 

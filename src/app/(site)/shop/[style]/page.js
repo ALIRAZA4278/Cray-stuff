@@ -7,16 +7,20 @@ import CollapsibleAside from "@/components/shop/CollapsibleAside";
 import ActiveFilters from "@/components/shop/ActiveFilters";
 import { styleTags } from "@/lib/mock-products";
 import { getAllProducts } from "@/lib/products";
-import { sortProducts, filterProducts, getFacets } from "@/lib/shop-filters";
+import { sortProducts, filterProducts, getFacets, clothingTypes, slugify } from "@/lib/shop-filters";
 import { styleCopy } from "@/lib/style-copy";
 
+// One route serves both style edits (Vintage, Y2K…) and clothing types
+// (Shorts, Hoodies…) — both live on a product's tags.
+const browsableTags = [...styleTags, ...clothingTypes];
+
 export function generateStaticParams() {
-  return styleTags.map((style) => ({ style: style.toLowerCase() }));
+  return browsableTags.map((tag) => ({ style: slugify(tag) }));
 }
 
 export default async function StyleShopPage({ params, searchParams }) {
   const { style } = await params;
-  const styleLabel = styleTags.find((tag) => tag.toLowerCase() === style);
+  const styleLabel = browsableTags.find((tag) => slugify(tag) === style);
 
   if (!styleLabel) {
     notFound();

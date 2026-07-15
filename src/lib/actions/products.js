@@ -42,6 +42,9 @@ export async function saveProduct(prevState, formData) {
     category: formData.get("category")?.toString() || "unisex",
     measurements: formData.get("measurements")?.toString().trim() || null,
     description: formData.get("description")?.toString().trim() || null,
+    flaws: formData.get("flaws")?.toString().trim() || null,
+    material: formData.get("material")?.toString().trim() || null,
+    country: formData.get("country")?.toString().trim() || null,
     tags: formData.getAll("tags").map(String),
     sold: formData.get("sold") === "on",
   };

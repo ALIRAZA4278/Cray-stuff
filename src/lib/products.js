@@ -18,6 +18,9 @@ function mapRow(row) {
     condition: row.condition,
     measurements: row.measurements,
     description: row.description,
+    flaws: row.flaws || null,
+    material: row.material || null,
+    country: row.country || null,
     sold: row.sold || false,
     images: row.images || [],
   };

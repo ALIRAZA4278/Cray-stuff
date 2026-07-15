@@ -7,6 +7,15 @@ export const browseCategories = ["mens", "womens"];
 // Fixed condition grades shoppers filter by (always shown, not derived from stock).
 export const conditions = ["Excellent", "Very Good", "Good", "Like New"];
 
+// Clothing types (what the piece IS) — separate from style tags (its vibe).
+// Stored on the product's `tags`, so a piece can be e.g. ["Y2K", "Shorts"].
+export const clothingTypes = ["Outerwear", "Hoodies", "T-Shirts", "Long Sleeves", "Pants", "Shorts", "Accessories"];
+
+// "Long Sleeves" -> "long-sleeves" so labels survive a round trip through URLs.
+export function slugify(label) {
+  return String(label).toLowerCase().trim().replace(/\s+/g, "-");
+}
+
 // Price brackets. Bounds are inclusive on both ends — with multi-select the
 // boundary overlap just means a €100 piece shows under either neighbouring band.
 export const priceRanges = [
@@ -60,7 +69,8 @@ export function filterProducts(products, filters = {}) {
     if (brands.length && !brands.includes(product.brand)) return false;
     if (conditions.length && !conditions.includes(product.condition)) return false;
     if (prices.length && !matchesPrice(product, prices)) return false;
-    if (style && !product.tags.some((tag) => tag.toLowerCase() === style)) return false;
+    // `style` is a slug and covers both style tags and clothing types.
+    if (style && !product.tags.some((tag) => slugify(tag) === style)) return false;
     if (query) {
       const haystack = `${product.name} ${product.brand} ${product.tags.join(" ")} ${product.description || ""}`.toLowerCase();
       if (!haystack.includes(query)) return false;

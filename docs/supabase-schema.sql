@@ -157,3 +157,9 @@ alter table public.newsletter_subscribers enable row level security;
 drop policy if exists "anon can subscribe" on public.newsletter_subscribers;
 create policy "anon can subscribe"
   on public.newsletter_subscribers for insert to anon, authenticated with check (true);
+
+-- Richer product info (Wiktor's brand doc): honest flaws, fabric, origin.
+-- Safe to re-run.
+alter table products add column if not exists flaws text;
+alter table products add column if not exists material text;
+alter table products add column if not exists country text;

@@ -1,6 +1,14 @@
 import FilterPill from "@/components/shop/FilterPill";
 import { styleTags } from "@/lib/mock-products";
-import { browseCategories, categoryLabels, conditions, priceRanges, toggleParam } from "@/lib/shop-filters";
+import {
+  browseCategories,
+  categoryLabels,
+  clothingTypes,
+  conditions,
+  priceRanges,
+  slugify,
+  toggleParam,
+} from "@/lib/shop-filters";
 
 function Group({ label, children }) {
   return (
@@ -25,12 +33,23 @@ export default function ShopFilterSidebar({ basePath, params, active, facets, cu
         ))}
       </Group>
 
+      <Group label="Type">
+        {clothingTypes.map((t) => {
+          const slug = slugify(t);
+          return (
+            <FilterPill key={t} href={`/shop/${slug}`} active={currentStyle === slug}>
+              {t}
+            </FilterPill>
+          );
+        })}
+      </Group>
+
       <Group label="Style">
         <FilterPill href="/shop" active={!currentStyle}>
           All
         </FilterPill>
         {styleTags.map((s) => {
-          const slug = s.toLowerCase();
+          const slug = slugify(s);
           return (
             <FilterPill key={s} href={`/shop/${slug}`} active={currentStyle === slug}>
               {s}

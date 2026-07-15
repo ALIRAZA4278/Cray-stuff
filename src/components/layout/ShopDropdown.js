@@ -11,6 +11,7 @@ const shopLinks = [
   { href: "/shop/skate", label: "Skate" },
   { href: "/shop/gorpcore", label: "Gorpcore" },
   { href: "/shop/archive", label: "Archive" },
+  { href: "/sold", label: "Recently Sold" },
 ];
 
 // Desktop "Shop" nav item with a hover/focus dropdown of the style edits, so the

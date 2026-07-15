@@ -26,6 +26,7 @@ const navLinks = [
 const mobilePrimaryLinks = [
   { href: "/", label: "Home" },
   { href: "/shop", label: "Shop All" },
+  { href: "/sold", label: "Recently Sold" },
   { href: "/reviews", label: "Reviews" },
   { href: "/about", label: "About Us" },
   { href: "/contact", label: "Contact" },

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import FireListToggle from "@/components/product/FireListToggle";
+import { pieceNumber } from "@/lib/piece-number";
 
 export default function ProductCard({ product }) {
   const imgs = product.images && product.images.length ? product.images : null;
@@ -41,7 +42,7 @@ export default function ProductCard({ product }) {
         )}
         <div className="absolute left-3 top-3 flex origin-top-left items-center gap-1 rounded-sm border border-border bg-background/80 px-2 py-1 font-mono text-[10px] text-muted backdrop-blur transition-transform duration-300 group-hover:-rotate-3">
           <span className="h-1.5 w-1.5 rounded-full border border-muted" />
-          N&deg; {String(product.id).padStart(3, "0")}/1
+          N&deg; {pieceNumber(product.id)}/1
         </div>
         <div className="absolute bottom-3 left-3 rounded-sm border border-border bg-background/80 px-2 py-1 font-mono text-[10px] uppercase tracking-wide text-foreground backdrop-blur">
           Size {product.size}
