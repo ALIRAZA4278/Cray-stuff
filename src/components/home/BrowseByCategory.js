@@ -2,10 +2,30 @@ import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/motion/Reveal";
 
+// Each tile takes a real catalog photo. Swapping one is a single-line change —
+// drop the new Cloudinary URL in and nothing else moves.
+// TODO(wiktor): waiting on the shorts photo (New Drop), the True Religion jeans
+// (Under €100) and the D&G belt (The Archive). Current shots are the closest
+// real pieces we have so nothing here is a stock placeholder.
 const tiles = [
-  { label: "New Drop", cta: "Shop new drop", href: "/shop?sort=new", seed: "cray-new-drop" },
-  { label: "Under €100", cta: "Shop under €100", href: "/shop?price=0-50,50-100", seed: "cray-womens" },
-  { label: "The Archive", cta: "Shop archive", href: "/shop/archive", seed: "cray-mens" },
+  {
+    label: "New Drop",
+    cta: "Shop new drop",
+    href: "/shop?sort=new",
+    image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/cord-jacket-a.jpg",
+  },
+  {
+    label: "Under €100",
+    cta: "Shop under €100",
+    href: "/shop?price=0-50,50-100",
+    image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/y2k-jeans-1.jpg",
+  },
+  {
+    label: "The Archive",
+    cta: "Shop archive",
+    href: "/shop/archive",
+    image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/cord-jacket-b.jpg",
+  },
 ];
 
 const tileVariants = ["left", "up", "right"];
@@ -21,7 +41,7 @@ export default function BrowseByCategory() {
               className="group relative flex h-[420px] items-end overflow-hidden border-border sm:border-r last:border-r-0"
             >
               <Image
-                src={`https://picsum.photos/seed/${tile.seed}/800/1000`}
+                src={tile.image}
                 alt={tile.label}
                 fill
                 sizes="(max-width: 640px) 100vw, 33vw"
@@ -29,7 +49,7 @@ export default function BrowseByCategory() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/10" />
               <div className="relative z-10 p-6">
-                <p className="text-2xl font-semibold uppercase tracking-tight">{tile.label}</p>
+                <p className="text-2xl font-semibold uppercase tracking-tight text-white">{tile.label}</p>
                 <span className="mt-1 inline-block text-sm text-accent">{tile.cta} &rarr;</span>
               </div>
             </Link>

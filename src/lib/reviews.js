@@ -1,11 +1,17 @@
 // Real customer reviews pulled from the CRAY STUFF Vinted profile
 // (vinted.pl/member/221261342-craybze). Non-English reviews have been
 // translated to English; names are the customers' Vinted handles. Automatic
-// Vinted "successful transaction" comments are intentionally excluded.
-// Wiktor confirmed ~120 real reviews on the current Vinted account. The 1,000+
-// from his older (now banned) accounts is deliberately NOT claimed — it can't be
-// verified or linked to, so it would hurt trust more than help.
-export const reviewsCount = 120;
+// Vinted "successful transaction" comments are intentionally excluded from the
+// quotes below — we only show reviews someone actually wrote.
+//
+// The count is the full rating total on the live profile, automatic ones
+// included, because that's the number a visitor sees when they click through to
+// verify it. Anything else would look like we're inflating. Vinted has no public
+// API and blocks scrapers, so this can't self-update — bump it here when it
+// drifts. It moves slowly and the profile link is always next to it.
+// The 1,000+ from the older (banned) accounts is deliberately NOT claimed: it
+// can't be linked to, so it would cost more trust than it buys.
+export const reviewsCount = 525;
 
 export const reviews = [
   {

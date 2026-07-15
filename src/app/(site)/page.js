@@ -2,7 +2,7 @@ import Hero from "@/components/home/Hero";
 import BrandTicker from "@/components/home/BrandTicker";
 import TrustBar from "@/components/home/TrustBar";
 import BrowseByCategory from "@/components/home/BrowseByCategory";
-import CollectionBanner from "@/components/home/CollectionBanner";
+import ChooseYourStyle from "@/components/home/ChooseYourStyle";
 import ProductGrid from "@/components/home/ProductGrid";
 import PromoBanner from "@/components/home/PromoBanner";
 import HorizontalGallery from "@/components/home/HorizontalGallery";
@@ -19,9 +19,6 @@ export const revalidate = 60;
 export default async function HomePage() {
   const products = await getAllProducts();
   const mostPopular = [...products].sort((a, b) => b.fireCount - a.fireCount);
-  // Unisex pieces belong in both edits, so they surface under Men's and Women's.
-  const mensProducts = products.filter((p) => p.category === "mens" || p.category === "unisex");
-  const womensProducts = products.filter((p) => p.category === "womens" || p.category === "unisex");
   const dropTarget = Date.now() + 1000 * 60 * 60 * 24 * 7;
 
   return (
@@ -44,30 +41,7 @@ export default async function HomePage() {
         products={mostPopular}
       />
       <BrandTicker />
-      {mensProducts.length > 0 && (
-        <>
-          <CollectionBanner
-            eyebrow="Men's vintage"
-            title="Men's Collection"
-            href="/shop?category=mens"
-            cta="Shop men's"
-            seed="cray-banner-mens"
-          />
-          <ProductGrid plain viewAllHref="/shop?category=mens" products={mensProducts} />
-        </>
-      )}
-      {womensProducts.length > 0 && (
-        <>
-          <CollectionBanner
-            eyebrow="Women's vintage"
-            title="Women's Collection"
-            href="/shop?category=womens"
-            cta="Shop women's"
-            seed="cray-banner-womens"
-          />
-          <ProductGrid plain viewAllHref="/shop?category=womens" products={womensProducts} />
-        </>
-      )}
+      <ChooseYourStyle />
       <Curtains />
       <PromoBanner />
       <HorizontalGallery />

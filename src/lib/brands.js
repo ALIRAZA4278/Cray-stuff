@@ -14,10 +14,22 @@ const DESIGNER_BRANDS = [
   "Arc'teryx",
 ];
 
-// Manual override for the 🔥 Fire rail. Leave empty to keep it fully automatic
-// (ranked by Fire count). Add brand names here to pin exactly what shows, e.g.
-// MANUAL_FIRE_BRANDS = ["Ed Hardy", "Rocawear"].
-export const MANUAL_FIRE_BRANDS = [];
+// Manual override for the 🔥 Fire rail — the labels we want to be known for.
+// Names are matched against the live catalog, so a brand only shows once it's
+// actually in stock. Ones we don't carry yet stay dormant here and light up on
+// their own the moment the first piece is listed. Leave empty to go back to
+// fully automatic (ranked by Fire count).
+export const MANUAL_FIRE_BRANDS = [
+  "True Religion",
+  "Miss Me",
+  "Ecko Unltd",
+  "Southpole",
+  "FUBU",
+  "Dolce & Gabbana",
+  "Harley-Davidson",
+  "Dickies",
+  "Carhartt",
+];
 
 // Groups catalog brands into the three storefront rails.
 // - fire: brands of the most saved pieces (auto — highest total Fire count),

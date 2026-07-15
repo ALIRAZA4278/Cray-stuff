@@ -22,8 +22,8 @@ export default function ReviewsPage() {
             <span>+</span>
           </p>
           <p className="mx-auto mt-2 max-w-xl text-sm text-muted">
-            buyers across Poland and the EU — in their own words. Every piece hand-picked, honestly described, and
-            packed with care.
+            ratings on Vinted from buyers across Poland and the EU. Below are the ones who took the time to write
+            something — no automatic comments, no edits.
           </p>
           <a
             href={socialLinks.vinted}

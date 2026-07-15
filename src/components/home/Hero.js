@@ -31,6 +31,16 @@ function MaskedLine({ children, className }) {
   );
 }
 
+// Four pieces from the catalog, side by side. Each column drifts on its own
+// clock so the strip never looks like a static collage.
+// TODO(wiktor): swap these for the four pieces you want to lead with.
+const heroShots = [
+  "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/cord-jacket-a.jpg",
+  "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/y2k-jeans-1.jpg",
+  "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/y2k-jeans-2.jpg",
+  "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/cord-jacket-b.jpg",
+];
+
 export default function Hero() {
   const sectionRef = useRef(null);
   const px = useMotionValue(0); // -0.5 .. 0.5
@@ -60,16 +70,38 @@ export default function Hero() {
       onMouseLeave={handleLeave}
       className="relative flex h-[520px] items-center justify-center overflow-hidden border-b border-border px-6 text-center sm:h-[640px]"
     >
-      {/* Hero image background with a subtle cursor parallax. */}
+      {/* Four-up product strip; whole strip drifts with the cursor for depth. */}
       <motion.div aria-hidden style={{ x: auroraX, y: auroraY }} className="absolute -inset-16 transform-gpu">
-        <Image
-          src="https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/cord-jacket-a.jpg"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="scale-110 object-cover object-center"
-        />
+        <div className="grid h-full w-full grid-cols-2 sm:grid-cols-4">
+          {heroShots.map((src, index) => (
+            <div key={src} className="relative overflow-hidden border-white/10 sm:border-r last:border-r-0">
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: index % 2 === 0 ? [-16, 16] : [16, -16] }}
+                transition={{
+                  opacity: { duration: 0.8, delay: index * 0.1 },
+                  y: {
+                    duration: 7 + index * 1.3,
+                    repeat: Infinity,
+                    repeatType: "mirror",
+                    ease: "easeInOut",
+                    delay: index * 0.1,
+                  },
+                }}
+                className="absolute -inset-y-10 inset-x-0 transform-gpu"
+              >
+                <Image
+                  src={src}
+                  alt=""
+                  fill
+                  priority={index < 2}
+                  sizes="(max-width: 640px) 50vw, 25vw"
+                  className="object-cover object-center grayscale-[30%]"
+                />
+              </motion.div>
+            </div>
+          ))}
+        </div>
       </motion.div>
       {/* Dark editorial wash — legible white type over the photo. */}
       <div aria-hidden className="absolute inset-0 bg-black/60" />

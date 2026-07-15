@@ -2,8 +2,9 @@ import CountUp from "@/components/motion/CountUp";
 import { reviewsCount } from "@/lib/reviews";
 
 // Review count comes from one place so the site never claims more than is real.
+// "Ratings" not "five-star reviews" — we can't verify every one of them is a 5.
 const items = [
-  { count: reviewsCount, suffix: "+ five-star reviews" },
+  { count: reviewsCount, suffix: "+ Vinted ratings" },
   { text: "Worldwide shipping" },
   { text: "Secure payments" },
   { text: "One-of-one pieces" },

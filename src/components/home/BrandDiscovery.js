@@ -72,7 +72,11 @@ export default function BrandDiscovery({ groups, bare = false }) {
 
   const inner = (
     <>
-      <SectionHeading eyebrow="The labels" title="Shop by brand" link={bare ? null : { href: "/shop", label: "All pieces" }} />
+      <SectionHeading
+        eyebrow="Choose your style"
+        title="Shop by brand & style"
+        link={bare ? null : { href: "/shop", label: "All pieces" }}
+      />
       <div className="space-y-8">
         <Rail label="Designer" brands={designer} icon={<DiamondIcon />} delay={0} />
         <Rail label="Hot right now" brands={hot} icon={<TrendIcon />} delay={0.05} />

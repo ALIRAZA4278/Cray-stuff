@@ -95,7 +95,7 @@ export const mockProducts = [
   },
 ];
 
-export const styleTags = ["Vintage", "Y2K", "Japanese", "Skate", "Gorpcore", "Archive"];
+export const styleTags = ["Vintage", "Y2K", "Japanese", "Skate", "Gorpcore", "Archive", "Hidden Gems"];
 export const categories = ["mens", "womens", "unisex"];
 
 export function getProductBySlug(slug) {
