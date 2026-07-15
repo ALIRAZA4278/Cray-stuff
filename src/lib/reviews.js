@@ -2,7 +2,10 @@
 // (vinted.pl/member/221261342-craybze). Non-English reviews have been
 // translated to English; names are the customers' Vinted handles. Automatic
 // Vinted "successful transaction" comments are intentionally excluded.
-export const reviewsCount = 530; // real total from the Vinted profile (vinted.pl/member/221261342-craybze)
+// Wiktor confirmed ~120 real reviews on the current Vinted account. The 1,000+
+// from his older (now banned) accounts is deliberately NOT claimed — it can't be
+// verified or linked to, so it would hurt trust more than help.
+export const reviewsCount = 120;
 
 export const reviews = [
   {
