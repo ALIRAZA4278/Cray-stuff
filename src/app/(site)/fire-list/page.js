@@ -47,7 +47,7 @@ export default function FireListPage() {
             </div>
           </Reveal>
         ) : (
-          <div className="mt-10 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
+          <div className="mt-10 grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
             {items.map((product, index) => (
               <Reveal key={product.slug} delay={index * 0.04} className="h-full">
                 <ProductCard product={product} />

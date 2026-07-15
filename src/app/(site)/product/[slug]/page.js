@@ -214,7 +214,7 @@ export default async function ProductPage({ params }) {
                 View all &rarr;
               </Link>
             </div>
-            <div className="grid grid-cols-2 items-stretch gap-4 sm:gap-6 lg:grid-cols-4">
+            <div className="grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
               {related.map((item, index) => (
                 <Reveal key={item.slug} delay={index * 0.04} className="h-full">
                   <ProductCard product={item} />

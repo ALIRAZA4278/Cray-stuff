@@ -15,7 +15,7 @@ export default function ShopResults({ products, clearHref }) {
   }
 
   return (
-    <div className="mt-8 grid grid-cols-2 items-stretch gap-4 sm:grid-cols-3 lg:grid-cols-4">
+    <div className="mt-8 grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {products.map((product, index) => (
         <Reveal key={product.id} delay={(index % 4) * 0.05} className="h-full">
           <ProductCard product={product} />

@@ -38,7 +38,7 @@ export default async function SoldPage() {
             <p className="text-sm text-muted">Nothing archived yet — sold pieces will appear here.</p>
           </div>
         ) : (
-          <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="mt-12 grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {sold.map((product, index) => (
               <Reveal key={product.id} delay={(index % 4) * 0.05} className="h-full">
                 <ProductCard product={product} />
