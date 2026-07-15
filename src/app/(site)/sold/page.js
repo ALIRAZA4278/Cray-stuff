@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Reveal from "@/components/motion/Reveal";
 import CountUp from "@/components/motion/CountUp";
-import AccentGlow from "@/components/motion/AccentGlow";
 import ProductCard from "@/components/product/ProductCard";
 import { getAllProducts } from "@/lib/products";
 
@@ -18,7 +17,6 @@ export default async function SoldPage() {
 
   return (
     <div className="relative overflow-hidden px-6 py-16">
-      <AccentGlow />
       <div className="relative mx-auto max-w-7xl">
         <Reveal className="text-center">
           <p className="font-mono text-xs uppercase tracking-widest text-accent">The archive</p>

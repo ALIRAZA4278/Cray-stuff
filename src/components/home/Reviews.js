@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Reveal from "@/components/motion/Reveal";
-import AccentGlow from "@/components/motion/AccentGlow";
 import SectionHeading from "@/components/home/SectionHeading";
 import ReviewCard from "@/components/reviews/ReviewCard";
 import { reviews, reviewsCount } from "@/lib/reviews";
@@ -11,7 +10,6 @@ export default function Reviews() {
 
   return (
     <section className="relative overflow-hidden border-b border-border px-6 py-16">
-      <AccentGlow />
       <div className="relative mx-auto max-w-7xl">
         <SectionHeading
           eyebrow={`${reviewsCount}+ happy buyers`}

@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
+import { reviewsCount } from "@/lib/reviews";
 
 // Free rebuild of Motion+'s useCurtains: full-height panels pinned with sticky,
 // each sliding up over the last with a rounded "curtain" lip. The covered panel
 // scales down and dims for depth (scroll-linked via useScroll/useMotionTemplate).
-// Backgrounds are designed dark panels (gradient + accent glow) that sit on the
-// brand theme rather than stock photos.
+// Backgrounds are designed dark panels (gradient only) that sit on the brand
+// theme rather than stock photos.
 const panels = [
   {
     index: "01",
@@ -18,7 +19,6 @@ const panels = [
     meta: ["Vintage", "Y2K", "Skate", "Archive"],
     cta: "Shop the drop",
     href: "/shop",
-    glow: "left-[15%] top-[10%]",
     base: "from-[#241f33] via-[#191622] to-[#0d0b12]",
   },
   {
@@ -29,18 +29,16 @@ const panels = [
     meta: ["New weekly", "Ships in 24h", "Warsaw → Worldwide"],
     cta: "New arrivals",
     href: "/shop?sort=new",
-    glow: "left-1/2 top-[35%] -translate-x-1/2",
     base: "from-[#20202a] via-[#161620] to-[#0b0b10]",
   },
   {
     index: "03",
     eyebrow: "Our philosophy",
     title: "Second life. First choice.",
-    copy: "Vintage with history and character — clothing that deserves a second life, not a landfill. Sourced by hand, checked by hand, and loved by 530+ buyers across the EU.",
-    meta: ["Est. 2021", "Hand-checked", "530+ reviews"],
+    copy: `Vintage with history and character — clothing that deserves a second life, not a landfill. Sourced by hand, checked by hand, and loved by ${reviewsCount}+ buyers across the EU.`,
+    meta: ["Est. 2021", "Hand-checked", `${reviewsCount}+ reviews`],
     cta: "Our story",
     href: "/about",
-    glow: "right-[12%] bottom-[8%]",
     base: "from-[#26202f] via-[#181521] to-[#0c0a11]",
   },
 ];
@@ -71,8 +69,6 @@ function Panel({ panel, isLast, total }) {
       className="sticky top-0 flex h-[100svh] items-center overflow-hidden rounded-t-[2.75rem] border-t border-white/10 px-6 shadow-[0_-30px_60px_rgba(0,0,0,0.55)]"
     >
       <motion.div style={{ scale }} className={`absolute inset-0 transform-gpu bg-gradient-to-br ${panel.base}`}>
-        {/* Single static accent glow */}
-        <div aria-hidden className={`pointer-events-none absolute h-[520px] w-[600px] transform-gpu rounded-full bg-[#8b5cf6]/30 blur-[95px] ${panel.glow}`} />
         {/* Fine grain */}
         <div aria-hidden className="absolute inset-0 opacity-[0.05] mix-blend-overlay" style={{ backgroundImage: noise }} />
         {/* Vignette */}

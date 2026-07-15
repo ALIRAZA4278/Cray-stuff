@@ -9,7 +9,6 @@ import HorizontalGallery from "@/components/home/HorizontalGallery";
 import Curtains from "@/components/home/Curtains";
 import Reviews from "@/components/home/Reviews";
 import Community from "@/components/home/Community";
-import ValueProps from "@/components/home/ValueProps";
 import PhilosophyAndDrop from "@/components/home/PhilosophyAndDrop";
 import { getAllProducts } from "@/lib/products";
 
@@ -74,7 +73,6 @@ export default async function HomePage() {
       <HorizontalGallery />
       <Reviews />
       <Community />
-      <ValueProps />
       <PhilosophyAndDrop dropTarget={dropTarget} />
     </>
   );

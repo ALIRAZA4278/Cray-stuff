@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Reveal from "@/components/motion/Reveal";
 import RevealText from "@/components/motion/RevealText";
-import AccentGlow from "@/components/motion/AccentGlow";
 import ProductCarousel from "@/components/home/ProductCarousel";
 
 export default function ProductGrid({
@@ -14,7 +13,6 @@ export default function ProductGrid({
 }) {
   return (
     <section className="relative overflow-hidden border-b border-border px-6 py-16">
-      <AccentGlow />
       <div className="relative mx-auto max-w-7xl">
         {!plain && (
           <Reveal className="mb-8 text-center">

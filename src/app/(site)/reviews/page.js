@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Reveal from "@/components/motion/Reveal";
 import CountUp from "@/components/motion/CountUp";
-import AccentGlow from "@/components/motion/AccentGlow";
 import ReviewCard from "@/components/reviews/ReviewCard";
 import { reviews, reviewsCount } from "@/lib/reviews";
 import { socialLinks } from "@/lib/site";
@@ -14,7 +13,6 @@ export const metadata = {
 export default function ReviewsPage() {
   return (
     <div className="relative overflow-hidden px-6 py-16">
-      <AccentGlow />
       <div className="relative mx-auto max-w-5xl">
         <Reveal className="text-center">
           <p className="font-mono text-xs uppercase tracking-widest text-accent">The receipts</p>

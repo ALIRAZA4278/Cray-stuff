@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/motion/Reveal";
+import ValueProps from "@/components/home/ValueProps";
 
 export const metadata = {
   title: "About — CRAY STUFF",
@@ -115,6 +116,8 @@ export default function AboutPage() {
           </div>
         </Reveal>
       </section>
+
+      <ValueProps />
 
       <div className="mx-auto max-w-3xl px-6 py-20">
         {/* Selected by hand */}

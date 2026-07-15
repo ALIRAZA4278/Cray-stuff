@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Reveal from "@/components/motion/Reveal";
-import AccentGlow from "@/components/motion/AccentGlow";
 import SectionHeading from "@/components/home/SectionHeading";
 
 function FlameIcon() {
@@ -86,7 +85,6 @@ export default function BrandDiscovery({ groups, bare = false }) {
 
   return (
     <section className="relative overflow-hidden border-b border-border px-6 py-16">
-      <AccentGlow />
       <div className="relative mx-auto max-w-7xl">{inner}</div>
     </section>
   );
