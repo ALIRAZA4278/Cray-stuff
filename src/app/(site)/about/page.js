@@ -12,31 +12,37 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <div>
-      {/* Hero */}
-      <section className="relative flex h-[420px] items-center overflow-hidden border-b border-border px-6 sm:h-[520px]">
-        <Image
-          src="/PRODOCT/ABOUT/founder-street-jeans.jpg"
-          alt="Wiktor, founder of CRAY STUFF"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-top grayscale-[30%]"
-        />
-        <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/30" />
-        <Reveal className="relative mx-auto w-full max-w-4xl text-center">
-          <p className="font-mono text-xs uppercase tracking-widest text-accent">Our story</p>
-          <h1 className="mt-4 text-5xl uppercase leading-none tracking-tight text-white sm:text-7xl">
-            Wear Something
-            <br />
-            <span className="text-outline" style={{ WebkitTextStrokeColor: "#ffffff" }}>
-              Different.
-            </span>
-          </h1>
-          <p className="mx-auto mt-6 max-w-xl text-sm leading-relaxed text-white/75">
-            A curated home for handpicked vintage, Y2K, skatewear, Japanese archive and selected high-end pieces — for
-            people who appreciate individuality, originality and clothing with character.
-          </p>
-        </Reveal>
+      {/* Hero — split so the full portrait shows without cropping */}
+      <section className="border-b border-border">
+        <div className="mx-auto grid max-w-6xl items-center gap-8 px-6 py-12 lg:grid-cols-2 lg:gap-12 lg:py-16">
+          <Reveal className="order-2 lg:order-1">
+            <p className="font-mono text-xs uppercase tracking-widest text-accent">Our story</p>
+            <h1 className="mt-4 text-5xl uppercase leading-none tracking-tight sm:text-7xl">
+              Wear Something
+              <br />
+              <span className="text-outline" style={{ WebkitTextStrokeColor: "currentColor" }}>
+                Different.
+              </span>
+            </h1>
+            <p className="mt-6 max-w-md text-sm leading-relaxed text-muted">
+              A curated home for handpicked vintage, Y2K, skatewear, Japanese archive and selected high-end pieces — for
+              people who appreciate individuality, originality and clothing with character.
+            </p>
+          </Reveal>
+
+          <Reveal className="order-1 lg:order-2">
+            <div className="relative mx-auto aspect-[3/4] w-full max-w-sm overflow-hidden rounded-2xl border border-border">
+              <Image
+                src="/PRODOCT/ABOUT/founder-street-jeans.jpg"
+                alt="Wiktor, founder of CRAY STUFF"
+                fill
+                priority
+                sizes="(max-width: 1024px) 90vw, 400px"
+                className="object-cover"
+              />
+            </div>
+          </Reveal>
+        </div>
       </section>
 
       <div className="mx-auto max-w-3xl px-6 py-20">
@@ -88,22 +94,15 @@ export default function AboutPage() {
         </Reveal>
       </div>
 
-      {/* Wear what you love — full-bleed image band */}
-      <section className="relative flex min-h-[360px] items-center overflow-hidden border-y border-border px-6 py-16">
-        <Image
-          src="/PRODOCT/ABOUT/founder-stairs.jpg"
-          alt=""
-          fill
-          sizes="100vw"
-          className="object-cover object-center grayscale-[35%]"
-        />
-        <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/30" />
-        <Reveal className="relative mx-auto w-full max-w-3xl">
+      {/* Wear what you love — split so the founder portrait shows in full */}
+      <section className="border-y border-border">
+        <div className="mx-auto grid max-w-6xl items-center gap-8 px-6 py-16 lg:grid-cols-[1fr_360px] lg:gap-12">
+        <Reveal className="w-full">
           <p className="font-mono text-xs uppercase tracking-widest text-accent">Wear what you love</p>
-          <h2 className="mt-3 text-3xl uppercase leading-tight tracking-tight text-white sm:text-4xl">
+          <h2 className="mt-3 text-3xl uppercase leading-tight tracking-tight sm:text-4xl">
             Not to follow trends — but to find pieces that feel like your own.
           </h2>
-          <div className="mt-5 space-y-3 text-sm leading-relaxed text-white/75">
+          <div className="mt-5 space-y-3 text-sm leading-relaxed text-muted">
             <p>
               Fashion today often feels repetitive. The same cuts, the same trends, the same outfits everywhere. CRAY
               STUFF was created for people looking for something different.
@@ -115,6 +114,19 @@ export default function AboutPage() {
             </p>
           </div>
         </Reveal>
+
+        <Reveal className="w-full">
+          <div className="relative mx-auto aspect-[3/4] w-full max-w-xs overflow-hidden rounded-2xl border border-border lg:max-w-none">
+            <Image
+              src="/PRODOCT/ABOUT/founder-stairs.jpg"
+              alt=""
+              fill
+              sizes="(max-width: 1024px) 80vw, 360px"
+              className="object-cover"
+            />
+          </div>
+        </Reveal>
+        </div>
       </section>
 
       <ValueProps />

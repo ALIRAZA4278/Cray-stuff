@@ -6,15 +6,16 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { styleImages } from "@/lib/style-images";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const items = [
-  { n: "01", label: "Vintage", href: "/shop/vintage", seed: "cray-hz-vintage" },
-  { n: "02", label: "Y2K", href: "/shop/y2k", seed: "cray-hz-y2k" },
-  { n: "03", label: "Skate", href: "/shop/skate", seed: "cray-hz-skate" },
-  { n: "04", label: "Archive", href: "/shop/archive", seed: "cray-hz-archive" },
-  { n: "05", label: "Just Swag", href: "/shop/just-swag", seed: "cray-hz-just-swag" },
+  { n: "01", label: "Vintage", href: "/shop/vintage", image: styleImages.vintage },
+  { n: "02", label: "Y2K", href: "/shop/y2k", image: styleImages.y2k },
+  { n: "03", label: "Skate", href: "/shop/skate", image: styleImages.skate },
+  { n: "04", label: "Archive", href: "/shop/archive", image: styleImages.archive },
+  { n: "05", label: "Just Swag", href: "/shop/just-swag", image: styleImages["just-swag"] },
 ];
 
 // GSAP ScrollTrigger horizontal scroll: the section pins while a vertical scroll
@@ -72,7 +73,7 @@ export default function HorizontalGallery() {
             className="group relative h-[64vh] w-[82vw] shrink-0 overflow-hidden rounded-2xl border border-border sm:w-[40vw]"
           >
             <Image
-              src={`https://picsum.photos/seed/${item.seed}/900/1100`}
+              src={item.image}
               alt={item.label}
               fill
               sizes="(max-width: 640px) 82vw, 40vw"

@@ -3,6 +3,8 @@ import Link from "next/link";
 import Reveal from "@/components/motion/Reveal";
 import SectionHeading from "@/components/home/SectionHeading";
 import { styleTags } from "@/lib/mock-products";
+import { slugify } from "@/lib/shop-filters";
+import { styleImages } from "@/lib/style-images";
 
 export default function ShopByStyle() {
   return (
@@ -13,11 +15,11 @@ export default function ShopByStyle() {
           {styleTags.map((style, index) => (
             <Reveal key={style} delay={index * 0.05}>
               <Link
-                href={`/shop/${style.toLowerCase()}`}
+                href={`/shop/${slugify(style)}`}
                 className="group relative flex aspect-square items-end overflow-hidden rounded-lg border border-border transition-colors hover:border-accent"
               >
                 <Image
-                  src={`https://picsum.photos/seed/cray-style-${style.toLowerCase()}/400/400`}
+                  src={styleImages[slugify(style)]}
                   alt={style}
                   fill
                   sizes="(max-width: 640px) 50vw, 16vw"
