@@ -88,7 +88,7 @@ export default async function ProductPage({ params }) {
             </p>
 
             <div className="mt-5 flex flex-wrap items-center gap-4">
-              <p className="font-mono text-3xl font-medium">&euro;{product.price}</p>
+              <p className="font-mono text-3xl font-medium">${product.price}</p>
               {product.sold ? (
                 <span className="rounded-sm border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-muted">
                   Sold Out
@@ -187,8 +187,8 @@ export default async function ProductPage({ params }) {
             {/* Shipping / returns / authenticity */}
             <div className="mt-8 divide-y divide-border border-y border-border">
               <InfoRow title="Shipping">
-                Packed and shipped within 24 hours via InPost, Orlen Paczka, GLS or DPD. Free within Poland over 250 PLN.
-                International options shown at checkout.
+                Packed and shipped within 24 hours via InPost, Orlen Paczka, GLS or DPD. Free shipping on orders of 3
+                items or more. International options shown at checkout.
               </InfoRow>
               <InfoRow title="Returns">
                 Every piece is one-of-one and described in detail. If it arrives not as described, message us within 48

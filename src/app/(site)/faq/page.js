@@ -31,7 +31,7 @@ const faqs = [
   },
   {
     q: "Is shipping free?",
-    a: "Within Poland, shipping is free on orders over 250 PLN. Across the European Union, standard shipping rates apply and are shown at checkout before you pay.",
+    a: "Shipping is free on any order of 3 items or more. On smaller orders a flat shipping rate applies and is shown at checkout before you pay.",
   },
   {
     q: "What is your return policy?",

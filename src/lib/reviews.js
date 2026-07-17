@@ -11,7 +11,7 @@
 // drifts. It moves slowly and the profile link is always next to it.
 // The 1,000+ from the older (banned) accounts is deliberately NOT claimed: it
 // can't be linked to, so it would cost more trust than it buys.
-export const reviewsCount = 525;
+export const reviewsCount = 539;
 
 export const reviews = [
   {

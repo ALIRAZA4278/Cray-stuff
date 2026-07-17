@@ -17,6 +17,7 @@ export default async function ShopPage({ searchParams }) {
     brands: params.brand ? params.brand.split(",").filter(Boolean) : [],
     conditions: params.condition ? params.condition.split(",").filter(Boolean) : [],
     prices: params.price ? params.price.split(",").filter(Boolean) : [],
+    availability: params.availability || null,
   };
   const q = params.q || null;
   const sort = params.sort || "new";

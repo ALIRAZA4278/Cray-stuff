@@ -12,10 +12,9 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 const items = [
   { n: "01", label: "Vintage", href: "/shop/vintage", seed: "cray-hz-vintage" },
   { n: "02", label: "Y2K", href: "/shop/y2k", seed: "cray-hz-y2k" },
-  { n: "03", label: "Japanese", href: "/shop/japanese", seed: "cray-hz-japanese" },
-  { n: "04", label: "Skate", href: "/shop/skate", seed: "cray-hz-skate" },
-  { n: "05", label: "Gorpcore", href: "/shop/gorpcore", seed: "cray-hz-gorpcore" },
-  { n: "06", label: "Archive", href: "/shop/archive", seed: "cray-hz-archive" },
+  { n: "03", label: "Skate", href: "/shop/skate", seed: "cray-hz-skate" },
+  { n: "04", label: "Archive", href: "/shop/archive", seed: "cray-hz-archive" },
+  { n: "05", label: "Just Swag", href: "/shop/just-swag", seed: "cray-hz-just-swag" },
 ];
 
 // GSAP ScrollTrigger horizontal scroll: the section pins while a vertical scroll

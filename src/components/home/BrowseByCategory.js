@@ -12,8 +12,8 @@ const tiles = [
     image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/new-drop-jeans.jpg",
   },
   {
-    label: "Under €100",
-    cta: "Shop under €100",
+    label: "Under $100",
+    cta: "Shop under $100",
     href: "/shop?price=0-50,50-100",
     image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/true-religion-jeans.jpg",
   },

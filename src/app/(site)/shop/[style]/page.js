@@ -33,6 +33,7 @@ export default async function StyleShopPage({ params, searchParams }) {
     brands: search.brand ? search.brand.split(",").filter(Boolean) : [],
     conditions: search.condition ? search.condition.split(",").filter(Boolean) : [],
     prices: search.price ? search.price.split(",").filter(Boolean) : [],
+    availability: search.availability || null,
   };
   const sort = search.sort || "new";
   const basePath = `/shop/${style}`;

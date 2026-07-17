@@ -54,7 +54,7 @@ export const mockProducts = [
     brand: "Kapital",
     price: 129,
     minOffer: 105,
-    tags: ["Japanese", "90s"],
+    tags: ["Archive", "90s"],
     fireCount: 28,
     category: "unisex",
     size: "M",
@@ -85,7 +85,7 @@ export const mockProducts = [
     brand: "The North Face",
     price: 119,
     minOffer: 95,
-    tags: ["Archive", "Gorpcore"],
+    tags: ["Archive"],
     fireCount: 19,
     category: "womens",
     size: "M",
@@ -95,7 +95,7 @@ export const mockProducts = [
   },
 ];
 
-export const styleTags = ["Vintage", "Y2K", "Japanese", "Skate", "Gorpcore", "Archive", "Hidden Gems"];
+export const styleTags = ["Vintage", "Y2K", "Skate", "Archive", "Just Swag"];
 export const categories = ["mens", "womens", "unisex"];
 
 export function getProductBySlug(slug) {

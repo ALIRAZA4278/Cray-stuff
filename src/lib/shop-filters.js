@@ -17,12 +17,12 @@ export function slugify(label) {
 }
 
 // Price brackets. Bounds are inclusive on both ends — with multi-select the
-// boundary overlap just means a €100 piece shows under either neighbouring band.
+// boundary overlap just means a $100 piece shows under either neighbouring band.
 export const priceRanges = [
-  { id: "0-50", label: "Under €50", min: 0, max: 50 },
-  { id: "50-100", label: "€50–€100", min: 50, max: 100 },
-  { id: "100-150", label: "€100–€150", min: 100, max: 150 },
-  { id: "150-", label: "€150+", min: 150, max: null },
+  { id: "0-50", label: "Under $50", min: 0, max: 50 },
+  { id: "50-100", label: "$50–$100", min: 50, max: 100 },
+  { id: "100-150", label: "$100–$150", min: 100, max: 150 },
+  { id: "150-", label: "$150+", min: 150, max: null },
 ];
 
 export function priceRangeLabel(id) {
@@ -58,12 +58,14 @@ function matchesPrice(product, prices) {
   return active.some((r) => product.price >= r.min && (r.max == null || product.price <= r.max));
 }
 
-// Applies every active filter (category, size, brand, condition, price, style, search).
+// Applies every active filter (category, size, brand, condition, price, style, availability, search).
 export function filterProducts(products, filters = {}) {
-  const { categories = [], sizes = [], brands = [], conditions = [], prices = [], style = null, q = null } = filters;
+  const { categories = [], sizes = [], brands = [], conditions = [], prices = [], style = null, availability = null, q = null } = filters;
   const query = q ? q.trim().toLowerCase() : null;
 
   return products.filter((product) => {
+    if (availability === "available" && product.sold) return false;
+    if (availability === "sold" && !product.sold) return false;
     if (categories.length && !matchesCategory(product, categories)) return false;
     if (sizes.length && !sizes.includes(product.size)) return false;
     if (brands.length && !brands.includes(product.brand)) return false;
@@ -77,6 +79,15 @@ export function filterProducts(products, filters = {}) {
     }
     return true;
   });
+}
+
+// Single-select param: clicking the active value clears it, otherwise it
+// replaces whatever was there (used for Availability — Available vs Sold).
+export function setParam(params, key, value) {
+  const next = new URLSearchParams(params);
+  if (next.get(key) === value) next.delete(key);
+  else next.set(key, value);
+  return next;
 }
 
 export function toggleParam(params, key, value) {

@@ -7,10 +7,9 @@ const shopLinks = [
   { href: "/shop", label: "All Products" },
   { href: "/shop/vintage", label: "Vintage" },
   { href: "/shop/y2k", label: "Y2K" },
-  { href: "/shop/japanese", label: "Japanese" },
   { href: "/shop/skate", label: "Skate" },
-  { href: "/shop/gorpcore", label: "Gorpcore" },
   { href: "/shop/archive", label: "Archive" },
+  { href: "/shop/just-swag", label: "Just Swag" },
   { href: "/sold", label: "Recently Sold" },
 ];
 

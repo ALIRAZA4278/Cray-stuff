@@ -34,10 +34,14 @@ function MaskedLine({ children, className }) {
 // Four different pieces, side by side. Each column drifts on its own clock so
 // the strip never looks like a static collage.
 const heroShots = [
-  "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/cord-jacket-a.jpg",
+  // Far left: the shorts photo (same piece as the New Drop tile, no text baked in).
+  "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/new-drop-jeans.jpg",
+  // Second: True Religion — stays exactly as it was.
   "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/true-religion-jeans.jpg",
-  "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/dg-belt.jpg",
-  "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/y2k-jeans-1.jpg",
+  // Third: Real Point (Really Point) Y2K zip hoodie.
+  "/PRODOCT/NEW/real-point-hoodie.jpg",
+  // Far right: Nike Brasil track jacket.
+  "/PRODOCT/NEW/brazil-track-jacket.jpg",
 ];
 
 export default function Hero() {
@@ -161,7 +165,7 @@ export default function Hero() {
       </motion.div>
 
       <div className="absolute inset-x-0 bottom-0 hidden items-center justify-between border-t border-white/10 bg-black/30 px-6 py-3 font-mono text-[11px] uppercase tracking-widest text-white/60 backdrop-blur sm:flex">
-        <span>Warsaw &rarr; Worldwide</span>
+        <span>Poland &rarr; Worldwide</span>
         <span>One-of-one archive</span>
         <span>Ships in 24h</span>
       </div>

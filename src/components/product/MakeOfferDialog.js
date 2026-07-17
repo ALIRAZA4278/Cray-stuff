@@ -73,7 +73,7 @@ export default function MakeOfferDialog({ product }) {
             {result?.outcome === "accepted" && (
               <div className="text-center">
                 <p className="font-mono text-xs uppercase tracking-widest text-accent">Offer accepted</p>
-                <h3 className="mt-3 text-lg font-semibold uppercase tracking-tight">You&apos;re in at &euro;{offer}</h3>
+                <h3 className="mt-3 text-lg font-semibold uppercase tracking-tight">You&apos;re in at ${offer}</h3>
                 <p className="mt-2 text-sm text-muted">Your order can be shipped today.</p>
                 <Link href="/checkout" className="mt-6 inline-block rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90">
                   Continue to checkout
@@ -84,13 +84,13 @@ export default function MakeOfferDialog({ product }) {
             {result?.outcome === "countered" && (
               <div className="text-center">
                 <p className="font-mono text-xs uppercase tracking-widest text-accent">Counteroffer</p>
-                <h3 className="mt-3 text-lg font-semibold uppercase tracking-tight">We can do &euro;{result.counter}</h3>
+                <h3 className="mt-3 text-lg font-semibold uppercase tracking-tight">We can do ${result.counter}</h3>
                 <p className="mt-2 text-sm text-muted">
-                  &euro;{offer} is below what we can accept on this piece &mdash; here&apos;s our best price instead.
+                  ${offer} is below what we can accept on this piece &mdash; here&apos;s our best price instead.
                 </p>
                 <div className="mt-6 flex flex-col gap-2">
                   <Link href="/checkout" className="rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90">
-                    Accept &euro;{result.counter}
+                    Accept ${result.counter}
                   </Link>
                   <button type="button" onClick={close} className="text-sm text-muted hover:text-foreground">
                     No thanks
@@ -104,7 +104,7 @@ export default function MakeOfferDialog({ product }) {
                 <p className="font-mono text-xs uppercase tracking-widest text-accent">Offer sent</p>
                 <h3 className="mt-3 text-lg font-semibold uppercase tracking-tight">We&apos;ll be in touch</h3>
                 <p className="mt-2 text-sm text-muted">
-                  Thanks — we&apos;ve got your &euro;{offer} offer and will reply by email shortly.
+                  Thanks — we&apos;ve got your ${offer} offer and will reply by email shortly.
                 </p>
                 <button type="button" onClick={close} className="mt-6 text-sm text-muted hover:text-foreground">
                   Close
@@ -117,7 +117,7 @@ export default function MakeOfferDialog({ product }) {
                 <p className="font-mono text-xs uppercase tracking-widest text-accent">Make an offer</p>
                 <h3 className="mt-3 text-lg font-semibold uppercase tracking-tight">Name your price</h3>
                 <p className="mt-2 text-sm text-muted">
-                  Listed at &euro;{price}. Meet our price and it&apos;s an instant match &mdash; otherwise we&apos;ll counter.
+                  Listed at ${price}. Meet our price and it&apos;s an instant match &mdash; otherwise we&apos;ll counter.
                 </p>
                 <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-3">
                   <input
@@ -126,7 +126,7 @@ export default function MakeOfferDialog({ product }) {
                     required
                     value={offer}
                     onChange={(e) => setOffer(e.target.value)}
-                    placeholder={`Your offer — e.g. €${Math.round(price * 0.85)}`}
+                    placeholder={`Your offer — e.g. $${Math.round(price * 0.85)}`}
                     className={inputClass}
                   />
                   <input

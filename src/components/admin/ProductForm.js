@@ -132,12 +132,12 @@ export default function ProductForm({ product }) {
           <input name="size" defaultValue={product?.size} placeholder="L" className={inputClass} />
         </div>
         <div>
-          <label className={labelClass}>Price (€)</label>
+          <label className={labelClass}>Price ($)</label>
           <input name="price" type="number" required defaultValue={product?.price} placeholder="149" className={inputClass} />
         </div>
         <div>
           <label className={labelClass}>
-            Min. offer (€) <span className="normal-case text-muted/70">— hidden from customers</span>
+            Min. offer ($) <span className="normal-case text-muted/70">— hidden from customers</span>
           </label>
           <input name="minOffer" type="number" defaultValue={product?.minOffer} placeholder="125" className={inputClass} />
         </div>

@@ -31,7 +31,7 @@ export default async function AdminDashboardPage() {
         <StatCard label="Live pieces" value={live} hint={`${sold} sold out`} />
         <StatCard label="Orders to ship" value={toShip} hint={`${orders.length} orders total`} />
         <StatCard label="Offers to review" value={pendingOffers.length} hint="Rest auto-handled" />
-        <StatCard label="Revenue" value={`€${revenue}`} hint="Excludes cancelled" />
+        <StatCard label="Revenue" value={`$${revenue}`} hint="Excludes cancelled" />
       </div>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-2">
@@ -54,7 +54,7 @@ export default async function AdminDashboardPage() {
                   <p>{order.product}</p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="font-mono">&euro;{order.total}</span>
+                  <span className="font-mono">${order.total}</span>
                   <StatusBadge status={order.status} />
                 </div>
               </li>
@@ -82,8 +82,8 @@ export default async function AdminDashboardPage() {
                     <p className="font-mono text-[11px] text-muted">{offer.customer}</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-mono font-medium">&euro;{offer.offer}</p>
-                    <p className="font-mono text-[11px] text-muted">list &euro;{offer.listPrice}</p>
+                    <p className="font-mono font-medium">${offer.offer}</p>
+                    <p className="font-mono text-[11px] text-muted">list ${offer.listPrice}</p>
                   </div>
                 </li>
               ))}

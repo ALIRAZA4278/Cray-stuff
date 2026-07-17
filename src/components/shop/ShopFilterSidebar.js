@@ -8,7 +8,13 @@ import {
   priceRanges,
   slugify,
   toggleParam,
+  setParam,
 } from "@/lib/shop-filters";
+
+const availabilityOptions = [
+  { value: "available", label: "Available" },
+  { value: "sold", label: "Sold" },
+];
 
 function Group({ label, children }) {
   return (
@@ -22,9 +28,18 @@ function Group({ label, children }) {
 // Server-rendered filter sidebar shared by /shop and /shop/[style].
 export default function ShopFilterSidebar({ basePath, params, active, facets, currentStyle = null }) {
   const href = (key, value) => `${basePath}?${toggleParam(params, key, value).toString()}`;
+  const singleHref = (key, value) => `${basePath}?${setParam(params, key, value).toString()}`;
 
   return (
     <aside className="space-y-6">
+      <Group label="Availability">
+        {availabilityOptions.map((o) => (
+          <FilterPill key={o.value} href={singleHref("availability", o.value)} active={active.availability === o.value}>
+            {o.label}
+          </FilterPill>
+        ))}
+      </Group>
+
       <Group label="Category">
         {browseCategories.map((c) => (
           <FilterPill key={c} href={href("category", c)} active={active.categories.includes(c)}>

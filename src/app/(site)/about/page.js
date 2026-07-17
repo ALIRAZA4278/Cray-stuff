@@ -15,12 +15,12 @@ export default function AboutPage() {
       {/* Hero */}
       <section className="relative flex h-[420px] items-center overflow-hidden border-b border-border px-6 sm:h-[520px]">
         <Image
-          src="https://picsum.photos/seed/cray-about-hero/1600/900"
-          alt=""
+          src="/PRODOCT/ABOUT/founder-street-jeans.jpg"
+          alt="Wiktor, founder of CRAY STUFF"
           fill
           priority
           sizes="100vw"
-          className="object-cover grayscale-[30%]"
+          className="object-cover object-top grayscale-[30%]"
         />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/30" />
         <Reveal className="relative mx-auto w-full max-w-4xl text-center">
@@ -91,11 +91,11 @@ export default function AboutPage() {
       {/* Wear what you love — full-bleed image band */}
       <section className="relative flex min-h-[360px] items-center overflow-hidden border-y border-border px-6 py-16">
         <Image
-          src="https://picsum.photos/seed/cray-about-band/1600/700"
+          src="/PRODOCT/ABOUT/founder-stairs.jpg"
           alt=""
           fill
           sizes="100vw"
-          className="object-cover grayscale-[35%]"
+          className="object-cover object-center grayscale-[35%]"
         />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/30" />
         <Reveal className="relative mx-auto w-full max-w-3xl">
@@ -150,6 +150,26 @@ export default function AboutPage() {
             spent searching for clothing that deserves a second life. Not because it&apos;s expensive. Not because
             it&apos;s trendy. Simply because it&apos;s amazing.
           </p>
+        </Reveal>
+
+        {/* Founder gallery — Wiktor in his world */}
+        <Reveal delay={0.05}>
+          <div className="mt-12 grid grid-cols-3 gap-2 sm:gap-3">
+            {["founder-moon", "founder-group-usa", "founder-elevator"].map((name) => (
+              <div
+                key={name}
+                className="relative aspect-[3/4] overflow-hidden rounded-lg border border-border"
+              >
+                <Image
+                  src={`/PRODOCT/ABOUT/${name}.jpg`}
+                  alt=""
+                  fill
+                  sizes="(max-width: 640px) 33vw, 220px"
+                  className="object-cover grayscale-[30%] transition-transform duration-700 hover:scale-105"
+                />
+              </div>
+            ))}
+          </div>
         </Reveal>
 
         {/* Authenticity callout */}

@@ -7,7 +7,7 @@ const messages = [
   "10% off for newsletter subscribers",
   "New drop available now",
   "Make an offer on every item",
-  "Free shipping on orders over 250 PLN",
+  "Free shipping on orders of 3 items or more",
 ];
 
 export default function AnnouncementBar() {

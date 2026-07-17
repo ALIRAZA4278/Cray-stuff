@@ -65,7 +65,7 @@ export default function CartPage() {
                   </p>
                 </div>
                 <div className="flex flex-col items-end gap-3">
-                  <p className="font-mono text-sm font-medium">&euro;{item.price}</p>
+                  <p className="font-mono text-sm font-medium">${item.price}</p>
                   <button
                     type="button"
                     onClick={() => removeItem(item.slug)}
@@ -88,7 +88,7 @@ export default function CartPage() {
               <div className="mt-4 space-y-2 text-sm">
                 <div className="flex justify-between text-muted">
                   <span>Subtotal</span>
-                  <span className="font-mono text-foreground">&euro;{subtotal}</span>
+                  <span className="font-mono text-foreground">${subtotal}</span>
                 </div>
                 <div className="flex justify-between text-muted">
                   <span>Shipping</span>
@@ -97,7 +97,7 @@ export default function CartPage() {
               </div>
               <div className="mt-4 flex justify-between border-t border-border pt-4 text-base font-medium">
                 <span>Total</span>
-                <span className="font-mono">&euro;{subtotal}</span>
+                <span className="font-mono">${subtotal}</span>
               </div>
               <Link
                 href="/checkout"

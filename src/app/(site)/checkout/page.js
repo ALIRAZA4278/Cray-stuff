@@ -56,7 +56,9 @@ export default function CheckoutPage() {
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
-  const shipping = items.length === 0 || subtotal >= 58 ? 0 : 6;
+  // Free shipping on orders of 3 items or more (every piece is one-of-one, so
+  // items.length is the piece count). Smaller orders pay a flat rate.
+  const shipping = items.length === 0 || items.length >= 3 ? 0 : 6;
   const total = subtotal + shipping;
 
   // Prefill with the signed-in account email so the order lands in this
@@ -216,7 +218,7 @@ export default function CheckoutPage() {
               disabled={submitting}
               className="w-full rounded-full bg-accent px-6 py-3.5 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
             >
-              {submitting ? "Placing order…" : `Place order — €${total}`}
+              {submitting ? "Placing order…" : `Place order — $${total}`}
             </button>
           </form>
 
@@ -235,22 +237,22 @@ export default function CheckoutPage() {
                       <p className="truncate text-sm">{item.name}</p>
                       {item.size && <p className="font-mono text-[10px] uppercase tracking-wide text-muted">Size {item.size}</p>}
                     </div>
-                    <span className="font-mono text-sm">&euro;{item.price}</span>
+                    <span className="font-mono text-sm">${item.price}</span>
                   </li>
                 ))}
               </ul>
               <div className="mt-5 space-y-2 border-t border-border pt-4 text-sm">
                 <div className="flex justify-between text-muted">
                   <span>Subtotal</span>
-                  <span className="font-mono">&euro;{subtotal}</span>
+                  <span className="font-mono">${subtotal}</span>
                 </div>
                 <div className="flex justify-between text-muted">
                   <span>Shipping</span>
-                  <span className="font-mono">{shipping === 0 ? "Free" : `€${shipping}`}</span>
+                  <span className="font-mono">{shipping === 0 ? "Free" : `$${shipping}`}</span>
                 </div>
                 <div className="flex justify-between border-t border-border pt-2 text-base font-medium">
                   <span>Total</span>
-                  <span className="font-mono">&euro;{total}</span>
+                  <span className="font-mono">${total}</span>
                 </div>
               </div>
             </div>

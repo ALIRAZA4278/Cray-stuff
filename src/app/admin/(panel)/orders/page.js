@@ -18,7 +18,7 @@ export default async function AdminOrdersPage() {
       <div className="mb-8 grid gap-4 sm:grid-cols-3">
         <StatCard label="Total orders" value={orders.length} />
         <StatCard label="To ship" value={toShip} hint="Paid or new — awaiting dispatch" />
-        <StatCard label="Revenue" value={`€${revenue}`} hint="Excludes cancelled" />
+        <StatCard label="Revenue" value={`$${revenue}`} hint="Excludes cancelled" />
       </div>
 
       {orders.length === 0 ? (
@@ -52,7 +52,7 @@ export default async function AdminOrdersPage() {
                 </td>
                 <td className="px-4 py-3 text-muted">{order.product}</td>
                 <td className="px-4 py-3 font-mono text-muted">{order.date}</td>
-                <td className="px-4 py-3 font-mono">&euro;{order.total}</td>
+                <td className="px-4 py-3 font-mono">${order.total}</td>
                 <td className="px-4 py-3 text-muted">{order.carrier}</td>
                 <td className="px-4 py-3">
                   <OrderStatusSelect id={order.id} status={order.status} />

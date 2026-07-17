@@ -54,9 +54,9 @@ export default async function AdminOffersPage() {
                     <p>{offer.customer}</p>
                     <p className="font-mono text-[11px] text-muted">{offer.email}</p>
                   </td>
-                  <td className="px-4 py-3 font-mono font-medium">&euro;{offer.offer}</td>
-                  <td className="px-4 py-3 font-mono text-muted">{offer.listPrice != null ? `€${offer.listPrice}` : "—"}</td>
-                  <td className="px-4 py-3 font-mono text-muted">{offer.minOffer != null ? `€${offer.minOffer}` : "—"}</td>
+                  <td className="px-4 py-3 font-mono font-medium">${offer.offer}</td>
+                  <td className="px-4 py-3 font-mono text-muted">{offer.listPrice != null ? `$${offer.listPrice}` : "—"}</td>
+                  <td className="px-4 py-3 font-mono text-muted">{offer.minOffer != null ? `$${offer.minOffer}` : "—"}</td>
                   <td className="px-4 py-3">
                     <StatusBadge status={offer.status} />
                   </td>

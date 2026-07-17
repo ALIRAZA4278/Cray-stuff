@@ -6,14 +6,14 @@ import { motion } from "motion/react";
 import SectionHeading from "@/components/home/SectionHeading";
 import { slugify } from "@/lib/shop-filters";
 
-// The four aesthetics the store is built around. "Hidden Gems" is our name for
-// the no-name pieces — cool stuff without a famous label.
+// The four aesthetics the store is built around. "Just Swag" is our name for
+// the no-name pieces — good-looking stuff without a famous label.
 // TODO(wiktor): swap in real lookbook shots per style when they land.
 const styles = [
   {
     tag: "Vintage",
     blurb: "Lived-in, worn-in, one of one.",
-    image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/cord-jacket-a.jpg",
+    image: "/PRODOCT/NEW/usa-leather-jacket.jpg",
   },
   {
     tag: "Y2K",
@@ -26,9 +26,11 @@ const styles = [
     image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/y2k-jeans-2.jpg",
   },
   {
-    tag: "Hidden Gems",
+    tag: "Just Swag",
     blurb: "No label, all character.",
-    image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/cord-jacket-b.jpg",
+    // Picked visually from Wiktor's Just Swag options — the Born To Be Free pants
+    // read boldest at this size.
+    image: "/PRODOCT/NEW/born-to-be-free-pants.jpg",
   },
 ];
 

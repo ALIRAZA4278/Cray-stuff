@@ -3,7 +3,16 @@ import Reveal from "@/components/motion/Reveal";
 import SectionHeading from "@/components/home/SectionHeading";
 import { socialLinks } from "@/lib/site";
 
-const tiles = Array.from({ length: 6 }, (_, index) => `cray-community-${index}`);
+// Real shots from Wiktor's world, not stock placeholders — product flatlays
+// mixed with worn/street shots.
+const tiles = [
+  "/PRODOCT/NEW/checked-hoodie.jpg",
+  "/PRODOCT/NEW/lifestyle-jeans-back.jpg",
+  "/PRODOCT/NEW/stussy-cdg-tee.jpg",
+  "/PRODOCT/NEW/lifestyle-group-usa.jpg",
+  "/PRODOCT/NEW/carhartt-jackets.jpg",
+  "/PRODOCT/NEW/nike-max-shorts.jpg",
+];
 
 export default function Community() {
   return (
@@ -15,8 +24,8 @@ export default function Community() {
           link={{ href: socialLinks.instagram, label: "@craybze" }}
         />
         <div className="grid grid-cols-3 gap-2 sm:grid-cols-6 sm:gap-3">
-          {tiles.map((seed, index) => (
-            <Reveal key={seed} delay={index * 0.04}>
+          {tiles.map((image, index) => (
+            <Reveal key={image} delay={index * 0.04}>
               <a
                 href={socialLinks.instagram}
                 target="_blank"
@@ -24,7 +33,7 @@ export default function Community() {
                 className="group relative block aspect-square overflow-hidden rounded-md border border-border transition-colors hover:border-accent"
               >
                 <Image
-                  src={`https://picsum.photos/seed/${seed}/300/300`}
+                  src={image}
                   alt="Community post"
                   fill
                   sizes="(max-width: 640px) 33vw, 16vw"
