@@ -20,6 +20,11 @@ export default function ProductForm({ product }) {
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState(null);
 
+  // Drop one photo from the list (rebuilds the textarea without that URL).
+  function removeImage(index) {
+    setImagesText(imageUrls.filter((_, i) => i !== index).join("\n"));
+  }
+
   // Signed direct-to-Cloudinary upload: the browser gets a signature from our
   // admin-only endpoint, then posts the file straight to Cloudinary.
   async function uploadFiles(files) {
@@ -104,9 +109,24 @@ export default function ProductForm({ product }) {
         {imageUrls.length > 0 && (
           <div className="mt-3 grid grid-cols-3 gap-3 sm:grid-cols-5">
             {imageUrls.map((url, i) => (
-              <div key={i} className="relative aspect-[3/4] overflow-hidden rounded-lg border border-border bg-surface">
+              <div key={i} className="group relative aspect-[3/4] overflow-hidden rounded-lg border border-border bg-surface">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={url} alt="" className="h-full w-full object-cover" />
+                {i === 0 && (
+                  <span className="absolute left-1.5 top-1.5 rounded bg-black/70 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wide text-white">
+                    Main
+                  </span>
+                )}
+                <button
+                  type="button"
+                  onClick={() => removeImage(i)}
+                  aria-label="Remove photo"
+                  className="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-black/70 text-white opacity-100 transition-colors hover:bg-red-500 sm:opacity-0 sm:group-hover:opacity-100"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-3.5 w-3.5">
+                    <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+                  </svg>
+                </button>
               </div>
             ))}
           </div>
