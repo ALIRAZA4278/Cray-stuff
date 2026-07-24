@@ -163,3 +163,28 @@ create policy "anon can subscribe"
 alter table products add column if not exists flaws text;
 alter table products add column if not exists material text;
 alter table products add column if not exists country text;
+
+-- ─────────────────────────────────────────────────────────────
+-- Discount codes (checkout promos + newsletter offers). Only the server
+-- (service role) reads/writes — codes and their rules never reach the client.
+-- ─────────────────────────────────────────────────────────────
+create table if not exists public.discount_codes (
+  id          uuid primary key default gen_random_uuid(),
+  created_at  timestamptz not null default now(),
+  code        text unique not null,
+  type        text not null default 'percent',  -- percent | fixed
+  value       numeric not null default 0,
+  active      boolean not null default true,
+  min_items   int not null default 1,
+  max_uses    int,
+  used_count  int not null default 0,
+  expires_at  timestamptz
+);
+
+alter table public.discount_codes enable row level security;
+-- No public policies: only the service-role key can read or write codes.
+
+-- Discount fields recorded on an order when a code is used at checkout.
+alter table public.orders add column if not exists subtotal        numeric;
+alter table public.orders add column if not exists discount_code   text;
+alter table public.orders add column if not exists discount_amount numeric not null default 0;

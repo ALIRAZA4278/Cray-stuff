@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/lib/CartContext";
 import { placeOrder } from "@/lib/actions/orders";
+import { validateDiscount } from "@/lib/actions/discounts";
 import { useAuth } from "@/lib/AuthContext";
 
 const carriers = [
@@ -56,10 +57,38 @@ export default function CheckoutPage() {
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
+  // Discount code state.
+  const [codeInput, setCodeInput] = useState("");
+  const [discount, setDiscount] = useState(null); // { code, amount, label }
+  const [discountError, setDiscountError] = useState(null);
+  const [applying, setApplying] = useState(false);
+
   // Free shipping on orders of 3 items or more (every piece is one-of-one, so
   // items.length is the piece count). Smaller orders pay a flat rate.
   const shipping = items.length === 0 || items.length >= 3 ? 0 : 6;
-  const total = subtotal + shipping;
+  const discountValue = discount?.amount || 0;
+  const total = Math.max(0, subtotal + shipping - discountValue);
+
+  async function applyCode() {
+    if (!codeInput.trim() || applying) return;
+    setApplying(true);
+    setDiscountError(null);
+    const res = await validateDiscount({ code: codeInput, subtotal, itemCount: items.length });
+    setApplying(false);
+    if (res.valid) {
+      setDiscount({ code: res.code, amount: res.amount, label: res.label });
+      setCodeInput(res.code);
+    } else {
+      setDiscount(null);
+      setDiscountError(res.message);
+    }
+  }
+
+  function removeDiscount() {
+    setDiscount(null);
+    setCodeInput("");
+    setDiscountError(null);
+  }
 
   // Prefill with the signed-in account email so the order lands in this
   // customer's order history — they can still edit it if ordering for someone else.
@@ -72,10 +101,31 @@ export default function CheckoutPage() {
     setError(null);
     setSubmitting(true);
 
+    // Re-check the code at the last moment so the charged total always matches
+    // a currently-valid discount, even if something changed.
+    let appliedCode = null;
+    let appliedAmount = 0;
+    if (discount?.code) {
+      const check = await validateDiscount({ code: discount.code, subtotal, itemCount: items.length });
+      if (check.valid) {
+        appliedCode = check.code;
+        appliedAmount = check.amount;
+      } else {
+        setDiscount(null);
+        setDiscountError(check.message);
+        setSubmitting(false);
+        return;
+      }
+    }
+    const finalTotal = Math.max(0, subtotal + shipping - appliedAmount);
+
     const form = new FormData(event.target);
     const result = await placeOrder({
       items,
-      total,
+      subtotal,
+      discountCode: appliedCode,
+      discountAmount: appliedAmount,
+      total: finalTotal,
       carrier,
       payment,
       name: form.get("name"),
@@ -241,11 +291,62 @@ export default function CheckoutPage() {
                   </li>
                 ))}
               </ul>
-              <div className="mt-5 space-y-2 border-t border-border pt-4 text-sm">
+              {/* Discount code */}
+              <div className="mt-5 border-t border-border pt-4">
+                {discount ? (
+                  <div className="flex items-center justify-between gap-2 rounded-lg border border-accent/40 bg-accent/5 px-3 py-2">
+                    <div className="min-w-0">
+                      <p className="font-mono text-xs uppercase tracking-wide text-accent">{discount.code}</p>
+                      <p className="text-[11px] text-muted">{discount.label} applied</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={removeDiscount}
+                      className="font-mono text-[11px] uppercase tracking-widest text-muted transition-colors hover:text-foreground"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <div className="flex gap-2">
+                      <input
+                        value={codeInput}
+                        onChange={(e) => setCodeInput(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            applyCode();
+                          }
+                        }}
+                        placeholder="Discount code"
+                        className={`${inputClass} font-mono uppercase`}
+                      />
+                      <button
+                        type="button"
+                        onClick={applyCode}
+                        disabled={applying || !codeInput.trim()}
+                        className="shrink-0 rounded-lg border border-border px-4 text-sm font-medium transition-colors hover:border-accent disabled:opacity-50"
+                      >
+                        {applying ? "…" : "Apply"}
+                      </button>
+                    </div>
+                    {discountError && <p className="mt-1.5 text-xs text-red-400">{discountError}</p>}
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-4 space-y-2 border-t border-border pt-4 text-sm">
                 <div className="flex justify-between text-muted">
                   <span>Subtotal</span>
                   <span className="font-mono">${subtotal}</span>
                 </div>
+                {discountValue > 0 && (
+                  <div className="flex justify-between text-accent">
+                    <span>Discount{discount?.code ? ` (${discount.code})` : ""}</span>
+                    <span className="font-mono">−${discountValue}</span>
+                  </div>
+                )}
                 <div className="flex justify-between text-muted">
                   <span>Shipping</span>
                   <span className="font-mono">{shipping === 0 ? "Free" : `$${shipping}`}</span>

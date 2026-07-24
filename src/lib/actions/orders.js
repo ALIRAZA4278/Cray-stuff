@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isAdmin } from "@/lib/admin-auth";
+import { incrementDiscountUse } from "@/lib/actions/discounts";
 
 const ORDER_STATUSES = ["New", "Paid", "Shipped", "Delivered", "Cancelled"];
 
@@ -26,6 +27,7 @@ export async function updateOrderStatus(id, status) {
 // later. This records the order so it shows up in the admin Orders inbox.
 export async function placeOrder(payload) {
   const { items, total, carrier, payment, name, email, address, city, postal, country } = payload || {};
+  const { subtotal, discountCode, discountAmount } = payload || {};
 
   if (!name || !email || !address) {
     return { error: "Please fill in your name, email and address." };
@@ -36,8 +38,7 @@ export async function placeOrder(payload) {
 
   const id = "CRAY-" + Date.now().toString().slice(-6);
 
-  const supabase = createAdminClient();
-  const { error } = await supabase.from("orders").insert({
+  const record = {
     id,
     customer_name: name,
     email,
@@ -50,7 +51,18 @@ export async function placeOrder(payload) {
     items,
     total,
     status: "New",
-  });
+  };
+
+  // Only reference the discount columns when a code was actually used, so
+  // normal orders keep working even before the schema migration is re-run.
+  if (discountCode) {
+    record.subtotal = subtotal;
+    record.discount_code = discountCode;
+    record.discount_amount = discountAmount || 0;
+  }
+
+  const supabase = createAdminClient();
+  const { error } = await supabase.from("orders").insert(record);
 
   if (error) {
     return {
@@ -59,6 +71,8 @@ export async function placeOrder(payload) {
         : error.message,
     };
   }
+
+  if (discountCode) await incrementDiscountUse(discountCode);
 
   revalidatePath("/admin/orders");
   revalidatePath("/admin");
