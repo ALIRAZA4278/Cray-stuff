@@ -56,9 +56,11 @@ export async function saveProduct(prevState, formData) {
 
   // Image URLs — one per line or comma-separated. Only set when provided so
   // add-product keeps working even before the `images` column is added.
+  // Split on newlines only — Cloudinary transform URLs contain commas
+  // (e.g. f_auto,q_auto,c_limit,w_1600), so splitting on commas would shatter them.
   const images = (formData.get("images") || "")
     .toString()
-    .split(/[\n,]+/)
+    .split(/\n+/)
     .map((s) => s.trim())
     .filter(Boolean);
   if (images.length) row.images = images;

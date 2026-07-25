@@ -17,7 +17,9 @@ export default function ProductForm({ product, locale = "en" }) {
   const [state, formAction, pending] = useActionState(saveProduct, null);
   const isEdit = Boolean(product);
   const [imagesText, setImagesText] = useState((product?.images || []).join("\n"));
-  const imageUrls = imagesText.split(/[\n,]+/).map((s) => s.trim()).filter(Boolean);
+  // Split on newlines only — Cloudinary transform URLs contain commas
+  // (e.g. f_auto,q_auto,c_limit,w_1600), so we must not split on commas.
+  const imageUrls = imagesText.split(/\n+/).map((s) => s.trim()).filter(Boolean);
   const fileInputRef = useRef(null);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState(null);
