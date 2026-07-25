@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useAnimation } from "motion/react";
 import SectionHeading from "@/components/home/SectionHeading";
+import Price from "@/components/Price";
 
 const charVariants = {
   initial: { y: "125%" },
@@ -64,7 +65,7 @@ function FeaturedCard({ product, side }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
         <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between">
           <p className="text-lg font-medium text-white">{product.name}</p>
-          <span className="font-mono text-sm text-white">${product.price}</span>
+          <span className="font-mono text-sm text-white"><Price amount={product.price} /></span>
         </div>
       </Link>
     </motion.div>

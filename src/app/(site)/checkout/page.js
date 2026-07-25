@@ -7,6 +7,7 @@ import { useCart } from "@/lib/CartContext";
 import { placeOrder } from "@/lib/actions/orders";
 import { validateDiscount } from "@/lib/actions/discounts";
 import { useAuth } from "@/lib/AuthContext";
+import { useCurrency } from "@/lib/CurrencyContext";
 
 const carriers = [
   { id: "inpost", label: "InPost Locker" },
@@ -49,6 +50,7 @@ function StepLabel({ n, children }) {
 export default function CheckoutPage() {
   const { items, subtotal, clearCart } = useCart();
   const { user, loading } = useAuth();
+  const { format } = useCurrency();
   const [carrier, setCarrier] = useState("inpost");
   const [payment, setPayment] = useState("card");
   const [email, setEmail] = useState("");
@@ -268,7 +270,7 @@ export default function CheckoutPage() {
               disabled={submitting}
               className="w-full rounded-full bg-accent px-6 py-3.5 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
             >
-              {submitting ? "Placing order…" : `Place order — $${total}`}
+              {submitting ? "Placing order…" : `Place order — ${format(total)}`}
             </button>
           </form>
 
@@ -287,7 +289,7 @@ export default function CheckoutPage() {
                       <p className="truncate text-sm">{item.name}</p>
                       {item.size && <p className="font-mono text-[10px] uppercase tracking-wide text-muted">Size {item.size}</p>}
                     </div>
-                    <span className="font-mono text-sm">${item.price}</span>
+                    <span className="font-mono text-sm">{format(item.price)}</span>
                   </li>
                 ))}
               </ul>
@@ -339,21 +341,21 @@ export default function CheckoutPage() {
               <div className="mt-4 space-y-2 border-t border-border pt-4 text-sm">
                 <div className="flex justify-between text-muted">
                   <span>Subtotal</span>
-                  <span className="font-mono">${subtotal}</span>
+                  <span className="font-mono">{format(subtotal)}</span>
                 </div>
                 {discountValue > 0 && (
                   <div className="flex justify-between text-accent">
                     <span>Discount{discount?.code ? ` (${discount.code})` : ""}</span>
-                    <span className="font-mono">−${discountValue}</span>
+                    <span className="font-mono">−{format(discountValue)}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-muted">
                   <span>Shipping</span>
-                  <span className="font-mono">{shipping === 0 ? "Free" : `$${shipping}`}</span>
+                  <span className="font-mono">{shipping === 0 ? "Free" : format(shipping)}</span>
                 </div>
                 <div className="flex justify-between border-t border-border pt-2 text-base font-medium">
                   <span>Total</span>
-                  <span className="font-mono">${total}</span>
+                  <span className="font-mono">{format(total)}</span>
                 </div>
               </div>
             </div>

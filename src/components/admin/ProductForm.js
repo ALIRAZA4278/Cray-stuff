@@ -54,7 +54,10 @@ export default function ProductForm({ product }) {
         const upRes = await fetch(`https://api.cloudinary.com/v1_1/${cloud}/image/upload`, { method: "POST", body: fd });
         const data = await upRes.json();
         if (!data.secure_url) throw new Error(data.error?.message || "upload failed");
-        setImagesText((prev) => (prev ? `${prev}\n${data.secure_url}` : data.secure_url));
+        // Deliver a browser-friendly format. f_auto converts HEIC (iPhone) and
+        // anything else to WebP/JPG on the fly; q_auto + c_limit keep it light.
+        const url = data.secure_url.replace("/upload/", "/upload/f_auto,q_auto,c_limit,w_1600/");
+        setImagesText((prev) => (prev ? `${prev}\n${url}` : url));
       }
     } catch (e) {
       setUploadError(e.message);

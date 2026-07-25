@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import FireListToggle from "@/components/product/FireListToggle";
+import Price from "@/components/Price";
 import { pieceNumber } from "@/lib/piece-number";
 
 export default function ProductCard({ product }) {
@@ -57,7 +58,9 @@ export default function ProductCard({ product }) {
             <p className="truncate font-mono text-xs uppercase tracking-wide text-accent">{product.brand}</p>
             <p className="mt-0.5 line-clamp-2 text-base font-medium">{product.name}</p>
           </div>
-          <p className="shrink-0 whitespace-nowrap font-mono text-sm font-medium sm:text-base">${product.price}</p>
+          <p className="shrink-0 whitespace-nowrap font-mono text-sm font-medium sm:text-base">
+            <Price amount={product.price} />
+          </p>
         </div>
         <p className="mt-0.5 truncate font-mono text-[11px] uppercase tracking-wide text-muted">
           {product.size} &middot; {product.condition}

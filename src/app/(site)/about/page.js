@@ -20,9 +20,7 @@ export default function AboutPage() {
             <h1 className="mt-4 text-5xl uppercase leading-none tracking-tight sm:text-7xl">
               Wear Something
               <br />
-              <span className="text-outline" style={{ WebkitTextStrokeColor: "currentColor" }}>
-                Different.
-              </span>
+              <span className="text-outline">Different.</span>
             </h1>
             <p className="mt-6 max-w-md text-sm leading-relaxed text-muted">
               A curated home for handpicked vintage, Y2K, skatewear, Japanese archive and selected high-end pieces — for

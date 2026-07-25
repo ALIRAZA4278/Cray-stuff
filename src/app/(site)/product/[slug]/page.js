@@ -6,6 +6,7 @@ import MakeOfferDialog from "@/components/product/MakeOfferDialog";
 import FireListButton from "@/components/product/FireListButton";
 import ProductQA from "@/components/product/ProductQA";
 import ProductCard from "@/components/product/ProductCard";
+import Price from "@/components/Price";
 import Reveal from "@/components/motion/Reveal";
 import { getProductBySlug, getAllProducts } from "@/lib/products";
 import { pieceNumber } from "@/lib/piece-number";
@@ -88,7 +89,7 @@ export default async function ProductPage({ params }) {
             </p>
 
             <div className="mt-5 flex flex-wrap items-center gap-4">
-              <p className="font-mono text-3xl font-medium">${product.price}</p>
+              <p className="font-mono text-3xl font-medium"><Price amount={product.price} /></p>
               {product.sold ? (
                 <span className="rounded-sm border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-muted">
                   Sold Out
@@ -142,7 +143,7 @@ export default async function ProductPage({ params }) {
               </div>
             </dl>
 
-            <p className="mt-6 text-sm leading-relaxed text-muted">{product.description}</p>
+            <p className="mt-6 whitespace-pre-line text-sm leading-relaxed text-muted">{product.description}</p>
 
             {product.flaws && (
               <div className="mt-5 rounded-lg border border-border bg-surface p-4">

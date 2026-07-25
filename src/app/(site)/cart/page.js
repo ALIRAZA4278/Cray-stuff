@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/lib/CartContext";
+import Price from "@/components/Price";
 
 function thumb(item) {
   return item.image || `https://picsum.photos/seed/${item.slug}/200/260`;
@@ -65,7 +66,7 @@ export default function CartPage() {
                   </p>
                 </div>
                 <div className="flex flex-col items-end gap-3">
-                  <p className="font-mono text-sm font-medium">${item.price}</p>
+                  <p className="font-mono text-sm font-medium"><Price amount={item.price} /></p>
                   <button
                     type="button"
                     onClick={() => removeItem(item.slug)}
@@ -88,7 +89,7 @@ export default function CartPage() {
               <div className="mt-4 space-y-2 text-sm">
                 <div className="flex justify-between text-muted">
                   <span>Subtotal</span>
-                  <span className="font-mono text-foreground">${subtotal}</span>
+                  <span className="font-mono text-foreground"><Price amount={subtotal} /></span>
                 </div>
                 <div className="flex justify-between text-muted">
                   <span>Shipping</span>
@@ -97,7 +98,7 @@ export default function CartPage() {
               </div>
               <div className="mt-4 flex justify-between border-t border-border pt-4 text-base font-medium">
                 <span>Total</span>
-                <span className="font-mono">${subtotal}</span>
+                <span className="font-mono"><Price amount={subtotal} /></span>
               </div>
               <Link
                 href="/checkout"
