@@ -188,3 +188,7 @@ alter table public.discount_codes enable row level security;
 alter table public.orders add column if not exists subtotal        numeric;
 alter table public.orders add column if not exists discount_code   text;
 alter table public.orders add column if not exists discount_amount numeric not null default 0;
+
+-- Per-product currency. The admin picks the currency when entering a price;
+-- that currency is shown everywhere for that product (no live conversion).
+alter table public.products add column if not exists currency text not null default 'USD';

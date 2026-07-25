@@ -7,7 +7,6 @@ import AnnouncementBar from "./AnnouncementBar";
 import HeaderNavLinks from "./HeaderNavLinks";
 import ShopDropdown from "./ShopDropdown";
 import ThemeToggle from "./ThemeToggle";
-import CurrencySelector from "./CurrencySelector";
 import HeaderSearch from "./HeaderSearch";
 import { useCart } from "@/lib/CartContext";
 import { useFireList } from "@/lib/FireListContext";
@@ -96,9 +95,6 @@ export default function Header() {
           </div>
           {/* Hidden on phones — it lives in the menu there. Two icons a side is
               all a narrow bar can hold without crowding the wordmark. */}
-          <div className="hidden sm:block">
-            <CurrencySelector />
-          </div>
           <div className="hidden sm:block">
             <ThemeToggle />
           </div>
@@ -218,10 +214,6 @@ export default function Header() {
                   </button>
                 ))}
               </div>
-            </div>
-            <div>
-              <p className="mb-2 font-mono text-[11px] uppercase tracking-widest text-muted">Currency</p>
-              <CurrencySelector />
             </div>
             <div>
               <p className="mb-2 font-mono text-[11px] uppercase tracking-widest text-muted">Theme</p>

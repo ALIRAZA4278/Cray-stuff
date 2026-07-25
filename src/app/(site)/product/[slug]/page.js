@@ -89,7 +89,7 @@ export default async function ProductPage({ params }) {
             </p>
 
             <div className="mt-5 flex flex-wrap items-center gap-4">
-              <p className="font-mono text-3xl font-medium"><Price amount={product.price} /></p>
+              <p className="font-mono text-3xl font-medium"><Price amount={product.price} currency={product.currency} /></p>
               {product.sold ? (
                 <span className="rounded-sm border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-muted">
                   Sold Out

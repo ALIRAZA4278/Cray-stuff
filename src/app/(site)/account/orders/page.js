@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import Reveal from "@/components/motion/Reveal";
 import StatusBadge from "@/components/admin/StatusBadge";
 import { getOrdersByEmail } from "@/lib/orders";
+import { formatPrice } from "@/lib/currency";
 
 export const metadata = {
   title: "Order History — CRAY STUFF",
@@ -105,7 +106,7 @@ export default async function AccountOrdersPage() {
                     {order.items.map((item, i) => (
                       <li key={`${item.slug || item.name}-${i}`} className="flex justify-between text-sm">
                         <span>{item.name}</span>
-                        <span className="font-mono text-muted">${item.price}</span>
+                        <span className="font-mono text-muted">{formatPrice(item.price, item.currency)}</span>
                       </li>
                     ))}
                   </ul>
@@ -115,7 +116,7 @@ export default async function AccountOrdersPage() {
                   <div className="mt-5 flex items-center justify-between border-t border-border pt-4 text-sm">
                     <span className="text-muted">{order.carrier ? `via ${order.carrier}` : "Awaiting dispatch"}</span>
                     <span>
-                      Total <span className="ml-1 font-mono font-medium">${order.total}</span>
+                      Total <span className="ml-1 font-mono font-medium">{formatPrice(order.total, order.items?.[0]?.currency)}</span>
                     </span>
                   </div>
                 </article>

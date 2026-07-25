@@ -10,6 +10,7 @@ function mapRow(row) {
     name: row.name,
     brand: row.brand,
     price: Number(row.price),
+    currency: row.currency || "USD",
     minOffer: row.min_offer != null ? Number(row.min_offer) : null,
     tags: row.tags || [],
     fireCount: row.fire_count || 0,

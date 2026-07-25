@@ -3,6 +3,7 @@ import Link from "next/link";
 import AdminHeader from "@/components/admin/AdminHeader";
 import StatusBadge from "@/components/admin/StatusBadge";
 import { getAllProducts } from "@/lib/products";
+import { formatPrice } from "@/lib/currency";
 
 export const metadata = { title: "Products — Admin" };
 
@@ -58,7 +59,7 @@ export default async function AdminProductsPage() {
                 </td>
                 <td className="px-4 py-3 text-muted">{product.size}</td>
                 <td className="px-4 py-3 text-muted">{product.condition}</td>
-                <td className="px-4 py-3 font-mono">${product.price}</td>
+                <td className="px-4 py-3 font-mono">{formatPrice(product.price, product.currency)}</td>
                 <td className="px-4 py-3 font-mono text-muted">{product.fireCount}</td>
                 <td className="px-4 py-3">
                   <StatusBadge status={product.sold ? "Sold Out" : "Live"} />

@@ -59,7 +59,7 @@ export default function ProductCard({ product }) {
             <p className="mt-0.5 line-clamp-2 text-base font-medium">{product.name}</p>
           </div>
           <p className="shrink-0 whitespace-nowrap font-mono text-sm font-medium sm:text-base">
-            <Price amount={product.price} />
+            <Price amount={product.price} currency={product.currency} />
           </p>
         </div>
         <p className="mt-0.5 truncate font-mono text-[11px] uppercase tracking-wide text-muted">

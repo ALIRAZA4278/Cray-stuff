@@ -36,6 +36,7 @@ export async function saveProduct(prevState, formData) {
     name,
     brand,
     price,
+    currency: formData.get("currency")?.toString() || "USD",
     min_offer: formData.get("minOffer") ? Number(formData.get("minOffer")) : null,
     size: formData.get("size")?.toString().trim() || null,
     condition: formData.get("condition")?.toString() || null,
@@ -63,13 +64,20 @@ export async function saveProduct(prevState, formData) {
   if (images.length) row.images = images;
 
   const supabase = createAdminClient();
-  let error;
 
-  if (id) {
-    ({ error } = await supabase.from("products").update(row).eq("id", id));
-  } else {
-    row.slug = slugify(name);
-    ({ error } = await supabase.from("products").insert(row));
+  const persist = (data) =>
+    id
+      ? supabase.from("products").update(data).eq("id", id)
+      : supabase.from("products").insert({ ...data, slug: slugify(name) });
+
+  let { error } = await persist(row);
+
+  // Graceful fallback: if the `currency` column hasn't been added yet, save
+  // without it so adding products keeps working before the migration is run.
+  if (error && /currency/i.test(error.message) && "currency" in row) {
+    const { currency, ...withoutCurrency } = row;
+    void currency;
+    ({ error } = await persist(withoutCurrency));
   }
 
   if (error) {

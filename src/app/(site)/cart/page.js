@@ -11,6 +11,9 @@ function thumb(item) {
 
 export default function CartPage() {
   const { items, removeItem, subtotal } = useCart();
+  // Every piece in the store shares one currency in practice, so the cart total
+  // follows the items' currency.
+  const cartCurrency = items[0]?.currency || "USD";
 
   if (items.length === 0) {
     return (
@@ -66,7 +69,7 @@ export default function CartPage() {
                   </p>
                 </div>
                 <div className="flex flex-col items-end gap-3">
-                  <p className="font-mono text-sm font-medium"><Price amount={item.price} /></p>
+                  <p className="font-mono text-sm font-medium"><Price amount={item.price} currency={item.currency} /></p>
                   <button
                     type="button"
                     onClick={() => removeItem(item.slug)}
@@ -89,7 +92,7 @@ export default function CartPage() {
               <div className="mt-4 space-y-2 text-sm">
                 <div className="flex justify-between text-muted">
                   <span>Subtotal</span>
-                  <span className="font-mono text-foreground"><Price amount={subtotal} /></span>
+                  <span className="font-mono text-foreground"><Price amount={subtotal} currency={cartCurrency} /></span>
                 </div>
                 <div className="flex justify-between text-muted">
                   <span>Shipping</span>
@@ -98,7 +101,7 @@ export default function CartPage() {
               </div>
               <div className="mt-4 flex justify-between border-t border-border pt-4 text-base font-medium">
                 <span>Total</span>
-                <span className="font-mono"><Price amount={subtotal} /></span>
+                <span className="font-mono"><Price amount={subtotal} currency={cartCurrency} /></span>
               </div>
               <Link
                 href="/checkout"

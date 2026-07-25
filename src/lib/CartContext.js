@@ -29,6 +29,7 @@ export function CartProvider({ children }) {
           name: product.name,
           brand: product.brand,
           price: product.price,
+          currency: product.currency ?? "USD",
           size: product.size ?? null,
           image: product.images?.[0] ?? null,
         },

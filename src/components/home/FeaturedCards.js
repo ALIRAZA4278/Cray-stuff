@@ -65,7 +65,7 @@ function FeaturedCard({ product, side }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
         <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between">
           <p className="text-lg font-medium text-white">{product.name}</p>
-          <span className="font-mono text-sm text-white"><Price amount={product.price} /></span>
+          <span className="font-mono text-sm text-white"><Price amount={product.price} currency={product.currency} /></span>
         </div>
       </Link>
     </motion.div>
