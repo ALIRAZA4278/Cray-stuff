@@ -1,4 +1,6 @@
 // Colour-coded status pill shared across admin tables.
+import { getStatusLabel } from "@/lib/admin-i18n";
+
 const tones = {
   green: "border-emerald-500/40 bg-emerald-500/10 text-emerald-300",
   amber: "border-amber-500/40 bg-amber-500/10 text-amber-300",
@@ -30,11 +32,11 @@ const statusTone = {
   "Sold Out": "grey",
 };
 
-export default function StatusBadge({ status, tone }) {
+export default function StatusBadge({ status, tone, locale }) {
   const resolved = tones[tone || statusTone[status] || "grey"];
   return (
     <span className={`inline-block rounded-full border px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-widest ${resolved}`}>
-      {status}
+      {getStatusLabel(locale, status)}
     </span>
   );
 }

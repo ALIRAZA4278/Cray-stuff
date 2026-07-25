@@ -2,8 +2,10 @@
 
 import { useTransition } from "react";
 import { decideOffer } from "@/lib/actions/offers";
+import { getAdminDict } from "@/lib/admin-i18n";
 
-export default function OfferActions({ id }) {
+export default function OfferActions({ id, locale = "en" }) {
+  const t = getAdminDict(locale);
   const [pending, startTransition] = useTransition();
 
   function decide(decision) {
@@ -20,7 +22,7 @@ export default function OfferActions({ id }) {
         onClick={() => decide("accept")}
         className="rounded-full border border-emerald-500/40 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-emerald-300 transition-colors hover:bg-emerald-500/10 disabled:opacity-50"
       >
-        Accept
+        {t.accept}
       </button>
       <button
         type="button"
@@ -28,7 +30,7 @@ export default function OfferActions({ id }) {
         onClick={() => decide("decline")}
         className="rounded-full border border-red-500/40 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-red-300 transition-colors hover:bg-red-500/10 disabled:opacity-50"
       >
-        Decline
+        {t.decline}
       </button>
     </div>
   );

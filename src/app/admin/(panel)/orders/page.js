@@ -2,30 +2,34 @@ import AdminHeader from "@/components/admin/AdminHeader";
 import StatCard from "@/components/admin/StatCard";
 import OrderStatusSelect from "@/components/admin/OrderStatusSelect";
 import { getAllOrders } from "@/lib/orders";
+import { cookies } from "next/headers";
+import { getAdminDict } from "@/lib/admin-i18n";
 
 export const metadata = { title: "Orders — Admin" };
 export const dynamic = "force-dynamic";
 
 export default async function AdminOrdersPage() {
+  const locale = (await cookies()).get("admin-locale")?.value || "en";
+  const t = getAdminDict(locale);
   const orders = await getAllOrders();
   const toShip = orders.filter((o) => o.status === "Paid" || o.status === "New").length;
   const revenue = orders.filter((o) => o.status !== "Cancelled").reduce((sum, o) => sum + o.total, 0);
 
   return (
     <div>
-      <AdminHeader eyebrow="Fulfilment" title="Orders" description="Manage orders and shipping." />
+      <AdminHeader eyebrow={t.fulfilment} title={t.orders} description={t.ordersDesc} />
 
       <div className="mb-8 grid gap-4 sm:grid-cols-3">
-        <StatCard label="Total orders" value={orders.length} />
-        <StatCard label="To ship" value={toShip} hint="Paid or new — awaiting dispatch" />
-        <StatCard label="Revenue" value={`$${revenue}`} hint="Excludes cancelled" />
+        <StatCard label={t.totalOrders} value={orders.length} />
+        <StatCard label={t.toShip} value={toShip} hint={t.toShipHint} />
+        <StatCard label={t.revenue} value={`$${revenue}`} hint={t.excludesCancelled} />
       </div>
 
       {orders.length === 0 ? (
         <div className="rounded-lg border border-dashed border-border bg-surface p-12 text-center">
-          <h2 className="text-xl font-semibold uppercase tracking-tight">No orders yet</h2>
+          <h2 className="text-xl font-semibold uppercase tracking-tight">{t.noOrdersTitle}</h2>
           <p className="mx-auto mt-2 max-w-sm text-sm text-muted">
-            When a customer checks out, their order shows up here.
+            {t.noOrdersBody}
           </p>
         </div>
       ) : (
@@ -33,13 +37,13 @@ export default async function AdminOrdersPage() {
         <table className="w-full min-w-[820px] text-left text-sm">
           <thead className="border-b border-border bg-surface font-mono text-[11px] uppercase tracking-widest text-muted">
             <tr>
-              <th className="px-4 py-3 font-normal">Order</th>
-              <th className="px-4 py-3 font-normal">Customer</th>
-              <th className="px-4 py-3 font-normal">Piece</th>
-              <th className="px-4 py-3 font-normal">Date</th>
-              <th className="px-4 py-3 font-normal">Total</th>
-              <th className="px-4 py-3 font-normal">Carrier</th>
-              <th className="px-4 py-3 font-normal">Status</th>
+              <th className="px-4 py-3 font-normal">{t.thOrder}</th>
+              <th className="px-4 py-3 font-normal">{t.customer}</th>
+              <th className="px-4 py-3 font-normal">{t.piece}</th>
+              <th className="px-4 py-3 font-normal">{t.thDate}</th>
+              <th className="px-4 py-3 font-normal">{t.thTotal}</th>
+              <th className="px-4 py-3 font-normal">{t.thCarrier}</th>
+              <th className="px-4 py-3 font-normal">{t.status}</th>
             </tr>
           </thead>
           <tbody>
@@ -55,7 +59,7 @@ export default async function AdminOrdersPage() {
                 <td className="px-4 py-3 font-mono">${order.total}</td>
                 <td className="px-4 py-3 text-muted">{order.carrier}</td>
                 <td className="px-4 py-3">
-                  <OrderStatusSelect id={order.id} status={order.status} />
+                  <OrderStatusSelect id={order.id} status={order.status} locale={locale} />
                 </td>
               </tr>
             ))}

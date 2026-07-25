@@ -1,46 +1,57 @@
+import { cookies } from "next/headers";
 import AdminHeader from "@/components/admin/AdminHeader";
 import DiscountForm from "@/components/admin/DiscountForm";
 import { getAllDiscounts } from "@/lib/discounts";
 import { deleteDiscount } from "@/lib/actions/discounts";
+import { getAdminDict } from "@/lib/admin-i18n";
 
 export const metadata = { title: "Discounts — Admin" };
 
 function statusOf(d) {
-  if (!d.active) return { label: "Inactive", cls: "text-muted" };
-  if (d.expiresAt && new Date(d.expiresAt) < new Date()) return { label: "Expired", cls: "text-red-300" };
-  if (d.maxUses != null && d.usedCount >= d.maxUses) return { label: "Used up", cls: "text-red-300" };
-  return { label: "Active", cls: "text-emerald-300" };
+  if (!d.active) return { key: "inactive", cls: "text-muted" };
+  if (d.expiresAt && new Date(d.expiresAt) < new Date()) return { key: "expired", cls: "text-red-300" };
+  if (d.maxUses != null && d.usedCount >= d.maxUses) return { key: "usedUp", cls: "text-red-300" };
+  return { key: "active", cls: "text-emerald-300" };
 }
 
 export default async function AdminDiscountsPage() {
+  const locale = (await cookies()).get("admin-locale")?.value || "en";
+  const t = getAdminDict(locale);
   const discounts = await getAllDiscounts();
+
+  const statusLabels = {
+    active: t.stActive,
+    inactive: t.stInactive,
+    expired: t.stExpired,
+    usedUp: t.stUsedUp,
+  };
 
   return (
     <div className="max-w-4xl">
       <AdminHeader
-        eyebrow="Marketing"
-        title="Discount codes"
-        description="Create codes customers type in at checkout. Great for launch promos and newsletter offers."
+        eyebrow={t.marketing}
+        title={t.discountCodes}
+        description={t.discountsDesc}
       />
 
-      <DiscountForm />
+      <DiscountForm locale={locale} />
 
       <div className="mt-8">
-        <h2 className="mb-3 text-sm font-medium uppercase tracking-wide text-muted">Your codes</h2>
+        <h2 className="mb-3 text-sm font-medium uppercase tracking-wide text-muted">{t.yourCodes}</h2>
         {discounts.length === 0 ? (
           <div className="rounded-lg border border-dashed border-border bg-surface p-8 text-center text-sm text-muted">
-            No codes yet. Create your first one above.
+            {t.noCodesYet}
           </div>
         ) : (
           <div className="overflow-x-auto rounded-lg border border-border">
             <table className="w-full min-w-[640px] text-left text-sm">
               <thead className="border-b border-border bg-surface font-mono text-[11px] uppercase tracking-widest text-muted">
                 <tr>
-                  <th className="px-4 py-3 font-normal">Code</th>
-                  <th className="px-4 py-3 font-normal">Discount</th>
-                  <th className="px-4 py-3 font-normal">Min items</th>
-                  <th className="px-4 py-3 font-normal">Used</th>
-                  <th className="px-4 py-3 font-normal">Status</th>
+                  <th className="px-4 py-3 font-normal">{t.code}</th>
+                  <th className="px-4 py-3 font-normal">{t.discountCol}</th>
+                  <th className="px-4 py-3 font-normal">{t.minItems}</th>
+                  <th className="px-4 py-3 font-normal">{t.usedCol}</th>
+                  <th className="px-4 py-3 font-normal">{t.status}</th>
                   <th className="px-4 py-3 font-normal"></th>
                 </tr>
               </thead>
@@ -57,7 +68,7 @@ export default async function AdminDiscountsPage() {
                         {d.maxUses != null ? ` / ${d.maxUses}` : ""}
                       </td>
                       <td className={`px-4 py-3 font-mono text-[11px] uppercase tracking-widest ${status.cls}`}>
-                        {status.label}
+                        {statusLabels[status.key]}
                       </td>
                       <td className="px-4 py-3 text-right">
                         <form action={deleteDiscount.bind(null, d.id)}>
@@ -65,7 +76,7 @@ export default async function AdminDiscountsPage() {
                             type="submit"
                             className="font-mono text-[11px] uppercase tracking-widest text-red-300 transition-opacity hover:opacity-70"
                           >
-                            Delete
+                            {t.del}
                           </button>
                         </form>
                       </td>

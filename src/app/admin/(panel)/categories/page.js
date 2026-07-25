@@ -3,8 +3,10 @@
 import { useState } from "react";
 import AdminHeader from "@/components/admin/AdminHeader";
 import { styleTags, categories as seedCategories } from "@/lib/mock-products";
+import { getAdminDict } from "@/lib/admin-i18n";
+import { useAdminLocale } from "@/lib/useAdminLocale";
 
-function TagManager({ title, hint, seed }) {
+function TagManager({ title, hint, seed, t = {} }) {
   const [tags, setTags] = useState(seed);
   const [value, setValue] = useState("");
 
@@ -45,14 +47,14 @@ function TagManager({ title, hint, seed }) {
         <input
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder="Add new…"
+          placeholder={t.addNew || "Add new…"}
           className="flex-1 rounded-lg border border-border bg-transparent px-4 py-2 text-sm outline-none placeholder:text-muted focus:border-accent"
         />
         <button
           type="submit"
           className="rounded-full border border-border px-5 py-2 text-sm text-muted transition-colors hover:border-accent hover:text-foreground"
         >
-          Add
+          {t.add || "Add"}
         </button>
       </form>
     </section>
@@ -60,17 +62,20 @@ function TagManager({ title, hint, seed }) {
 }
 
 export default function AdminCategoriesPage() {
+  const locale = useAdminLocale();
+  const t = getAdminDict(locale);
+
   return (
     <div>
-      <AdminHeader eyebrow="Taxonomy" title="Categories & tags" description="Manage the style tags and categories shoppers filter by." />
+      <AdminHeader eyebrow={t.taxonomy} title={t.categoriesTitle} description={t.categoriesDesc} />
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <TagManager title="Style tags" hint="Multi-select tags on every product (Vintage, Y2K, Skate…)." seed={styleTags} />
-        <TagManager title="Categories" hint="Top-level buckets used in Shop navigation." seed={seedCategories} />
+        <TagManager title={t.styleTags} hint={t.styleTagsHint} seed={styleTags} t={t} />
+        <TagManager title={t.categories} hint={t.categoriesHint} seed={seedCategories} t={t} />
       </div>
 
       <p className="mt-6 text-xs text-muted">
-        Changes here are live in the editor — persistence connects to Supabase once the taxonomy table is added.
+        {t.taxonomyNote}
       </p>
     </div>
   );

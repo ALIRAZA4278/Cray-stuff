@@ -3,6 +3,8 @@ import StatusBadge from "@/components/admin/StatusBadge";
 import AnswerQuestionForm from "@/components/admin/AnswerQuestionForm";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getAllQuestions } from "@/lib/qa";
+import { cookies } from "next/headers";
+import { getAdminDict } from "@/lib/admin-i18n";
 
 export const metadata = { title: "Messages — Admin" };
 export const dynamic = "force-dynamic";
@@ -23,16 +25,18 @@ export default async function AdminMessagesPage() {
   const messages = data || [];
   const tableMissing = Boolean(error);
   const questions = await getAllQuestions();
+  const locale = (await cookies()).get("admin-locale")?.value || "en";
+  const t = getAdminDict(locale);
 
   return (
     <div>
-      <AdminHeader eyebrow="Inbox" title="Messages" description="Product questions and contact-form messages." />
+      <AdminHeader eyebrow={t.inbox} title={t.messages} description={t.messagesDesc} />
 
       {/* Product Q&A */}
       <section className="mb-12">
-        <h2 className="mb-4 text-sm font-medium uppercase tracking-wide text-muted">Product questions</h2>
+        <h2 className="mb-4 text-sm font-medium uppercase tracking-wide text-muted">{t.productQuestions}</h2>
         {questions.length === 0 ? (
-          <p className="text-sm text-muted">No product questions yet.</p>
+          <p className="text-sm text-muted">{t.noQuestions}</p>
         ) : (
           <div className="space-y-4">
             {questions.map((q) => (
@@ -46,16 +50,16 @@ export default async function AdminMessagesPage() {
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <StatusBadge status={q.status} />
+                    <StatusBadge status={q.status} locale={locale} />
                     <span className="font-mono text-[11px] text-muted">{formatDate(q.created_at)}</span>
                   </div>
                 </div>
                 {q.answer ? (
                   <p className="mt-3 border-t border-border pt-3 text-sm text-muted">
-                    <span className="text-accent">Answer:</span> {q.answer}
+                    <span className="text-accent">{t.answerColon}</span> {q.answer}
                   </p>
                 ) : (
-                  <AnswerQuestionForm id={q.id} slug={q.product_slug} />
+                  <AnswerQuestionForm id={q.id} slug={q.product_slug} locale={locale} />
                 )}
               </article>
             ))}
@@ -65,17 +69,16 @@ export default async function AdminMessagesPage() {
 
       {/* Contact messages */}
       <section>
-        <h2 className="mb-4 text-sm font-medium uppercase tracking-wide text-muted">Contact messages</h2>
+        <h2 className="mb-4 text-sm font-medium uppercase tracking-wide text-muted">{t.contactMessagesTitle}</h2>
         {tableMissing ? (
           <div className="rounded-lg border border-dashed border-border bg-surface p-8 text-center">
-            <p className="font-mono text-xs uppercase tracking-widest text-accent">Setup needed</p>
+            <p className="font-mono text-xs uppercase tracking-widest text-accent">{t.setupNeeded}</p>
             <p className="mx-auto mt-2 max-w-md text-sm text-muted">
-              Run <code className="rounded bg-panel px-1.5 py-0.5 font-mono text-xs">docs/supabase-schema.sql</code> to
-              enable the contact inbox.
+              {t.setupRun} <code className="rounded bg-panel px-1.5 py-0.5 font-mono text-xs">docs/supabase-schema.sql</code> {t.setupToEnable}
             </p>
           </div>
         ) : messages.length === 0 ? (
-          <p className="text-sm text-muted">No contact messages yet.</p>
+          <p className="text-sm text-muted">{t.noContactMessages}</p>
         ) : (
           <div className="space-y-4">
             {messages.map((message) => (
@@ -86,7 +89,7 @@ export default async function AdminMessagesPage() {
                     <p className="font-mono text-[11px] text-muted">{message.email}</p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <StatusBadge status={message.status || "new"} />
+                    <StatusBadge status={message.status || "new"} locale={locale} />
                     <span className="font-mono text-[11px] text-muted">{formatDate(message.created_at)}</span>
                   </div>
                 </div>
@@ -97,7 +100,7 @@ export default async function AdminMessagesPage() {
                     href={`mailto:${message.email}`}
                     className="rounded-full border border-border px-4 py-1.5 font-mono text-[10px] uppercase tracking-widest text-muted transition-colors hover:border-accent hover:text-foreground"
                   >
-                    Reply by email
+                    {t.replyByEmail}
                   </a>
                 </div>
               </article>

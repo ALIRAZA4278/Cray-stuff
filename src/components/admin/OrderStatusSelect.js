@@ -2,12 +2,13 @@
 
 import { useState, useTransition } from "react";
 import { updateOrderStatus } from "@/lib/actions/orders";
+import { getStatusLabel } from "@/lib/admin-i18n";
 
 const STATUSES = ["New", "Paid", "Shipped", "Delivered", "Cancelled"];
 
 // Inline status dropdown for the admin Orders table. Saves on change and
 // revalidates so the customer's tracker updates too.
-export default function OrderStatusSelect({ id, status }) {
+export default function OrderStatusSelect({ id, status, locale }) {
   const [value, setValue] = useState(status);
   const [pending, startTransition] = useTransition();
 
@@ -30,7 +31,7 @@ export default function OrderStatusSelect({ id, status }) {
     >
       {STATUSES.map((s) => (
         <option key={s} value={s}>
-          {s}
+          {getStatusLabel(locale, s)}
         </option>
       ))}
     </select>

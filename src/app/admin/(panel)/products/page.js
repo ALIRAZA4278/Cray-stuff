@@ -4,24 +4,28 @@ import AdminHeader from "@/components/admin/AdminHeader";
 import StatusBadge from "@/components/admin/StatusBadge";
 import { getAllProducts } from "@/lib/products";
 import { formatPrice } from "@/lib/currency";
+import { cookies } from "next/headers";
+import { getAdminDict } from "@/lib/admin-i18n";
 
 export const metadata = { title: "Products — Admin" };
 
 export default async function AdminProductsPage() {
   const products = await getAllProducts();
+  const locale = (await cookies()).get("admin-locale")?.value || "en";
+  const t = getAdminDict(locale);
 
   return (
     <div>
       <AdminHeader
-        eyebrow="Catalog"
-        title="Products"
-        description={`${products.length} pieces in the catalog`}
+        eyebrow={t.catalog}
+        title={t.products}
+        description={`${products.length} ${t.piecesInCatalog}`}
         action={
           <Link
             href="/admin/products/new"
             className="rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
           >
-            + Add product
+            {t.addProductBtn}
           </Link>
         }
       />
@@ -30,12 +34,12 @@ export default async function AdminProductsPage() {
         <table className="w-full min-w-[720px] text-left text-sm">
           <thead className="border-b border-border bg-surface font-mono text-[11px] uppercase tracking-widest text-muted">
             <tr>
-              <th className="px-4 py-3 font-normal">Piece</th>
-              <th className="px-4 py-3 font-normal">Fit</th>
-              <th className="px-4 py-3 font-normal">Condition</th>
-              <th className="px-4 py-3 font-normal">Price</th>
-              <th className="px-4 py-3 font-normal">Fires</th>
-              <th className="px-4 py-3 font-normal">Status</th>
+              <th className="px-4 py-3 font-normal">{t.piece}</th>
+              <th className="px-4 py-3 font-normal">{t.fit}</th>
+              <th className="px-4 py-3 font-normal">{t.condition}</th>
+              <th className="px-4 py-3 font-normal">{t.price}</th>
+              <th className="px-4 py-3 font-normal">{t.fires}</th>
+              <th className="px-4 py-3 font-normal">{t.status}</th>
               <th className="px-4 py-3 font-normal"></th>
             </tr>
           </thead>
@@ -62,11 +66,11 @@ export default async function AdminProductsPage() {
                 <td className="px-4 py-3 font-mono">{formatPrice(product.price, product.currency)}</td>
                 <td className="px-4 py-3 font-mono text-muted">{product.fireCount}</td>
                 <td className="px-4 py-3">
-                  <StatusBadge status={product.sold ? "Sold Out" : "Live"} />
+                  <StatusBadge status={product.sold ? "Sold Out" : "Live"} locale={locale} />
                 </td>
                 <td className="px-4 py-3 text-right">
                   <Link href={`/admin/products/${product.id}`} className="text-accent transition-opacity hover:opacity-80">
-                    Edit
+                    {t.edit}
                   </Link>
                 </td>
               </tr>

@@ -2,8 +2,10 @@
 
 import { useState, useTransition } from "react";
 import { answerQuestion } from "@/lib/actions/qa";
+import { getAdminDict } from "@/lib/admin-i18n";
 
-export default function AnswerQuestionForm({ id, slug }) {
+export default function AnswerQuestionForm({ id, slug, locale = "en" }) {
+  const t = getAdminDict(locale);
   const [answer, setAnswer] = useState("");
   const [error, setError] = useState(null);
   const [pending, startTransition] = useTransition();
@@ -24,7 +26,7 @@ export default function AnswerQuestionForm({ id, slug }) {
       <input
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
-        placeholder="Write an answer…"
+        placeholder={t.writeAnswer}
         className="w-full rounded-lg border border-border bg-transparent px-4 py-2 text-sm outline-none placeholder:text-muted focus:border-accent"
       />
       <button
@@ -32,7 +34,7 @@ export default function AnswerQuestionForm({ id, slug }) {
         disabled={pending}
         className="shrink-0 rounded-full bg-accent px-5 py-2 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
       >
-        {pending ? "Posting…" : "Reply"}
+        {pending ? t.posting : t.reply}
       </button>
       {error && <p className="text-sm text-red-400">{error}</p>}
     </form>
