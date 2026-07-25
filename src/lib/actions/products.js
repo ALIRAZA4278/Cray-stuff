@@ -43,11 +43,15 @@ export async function saveProduct(prevState, formData) {
     measurements: formData.get("measurements")?.toString().trim() || null,
     description: formData.get("description")?.toString().trim() || null,
     flaws: formData.get("flaws")?.toString().trim() || null,
-    material: formData.get("material")?.toString().trim() || null,
-    country: formData.get("country")?.toString().trim() || null,
     tags: formData.getAll("tags").map(String),
     sold: formData.get("sold") === "on",
   };
+
+  // Material & country were removed from the form (they live in the description
+  // now). Only touch these columns if a form actually submits them, so editing a
+  // product that still has them doesn't wipe the values.
+  if (formData.has("material")) row.material = formData.get("material")?.toString().trim() || null;
+  if (formData.has("country")) row.country = formData.get("country")?.toString().trim() || null;
 
   // Image URLs — one per line or comma-separated. Only set when provided so
   // add-product keeps working even before the `images` column is added.

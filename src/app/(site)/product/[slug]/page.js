@@ -118,7 +118,7 @@ export default async function ProductPage({ params }) {
 
             <dl className="mt-6 grid grid-cols-2 gap-4 border-y border-border py-6 text-sm">
               <div>
-                <dt className="font-mono text-[11px] uppercase tracking-widest text-muted">Size</dt>
+                <dt className="font-mono text-[11px] uppercase tracking-widest text-muted">Fit</dt>
                 <dd className="mt-1 font-medium">{product.size}</dd>
               </div>
               <div>

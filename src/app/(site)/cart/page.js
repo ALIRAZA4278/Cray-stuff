@@ -62,7 +62,7 @@ export default function CartPage() {
                     {item.name}
                   </Link>
                   <p className="mt-0.5 font-mono text-[11px] uppercase tracking-wide text-muted">
-                    {item.size ? `Size ${item.size} · ` : ""}One of one
+                    {item.size ? `Fit ${item.size} · ` : ""}One of one
                   </p>
                 </div>
                 <div className="flex flex-col items-end gap-3">

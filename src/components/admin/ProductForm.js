@@ -151,8 +151,10 @@ export default function ProductForm({ product }) {
           <input name="brand" required defaultValue={product?.brand} placeholder="Levi's" className={inputClass} />
         </div>
         <div>
-          <label className={labelClass}>Size</label>
-          <input name="size" defaultValue={product?.size} placeholder="L" className={inputClass} />
+          <label className={labelClass}>
+            Fit <span className="normal-case text-muted/70">— how it actually fits, e.g. M/L</span>
+          </label>
+          <input name="size" defaultValue={product?.size} placeholder="M/L" className={inputClass} />
         </div>
         <div>
           <label className={labelClass}>Price ($)</label>
@@ -187,14 +189,6 @@ export default function ProductForm({ product }) {
         <div className="sm:col-span-2">
           <label className={labelClass}>Measurements</label>
           <input name="measurements" defaultValue={product?.measurements} placeholder="Chest 22in · Length 27in · Sleeve 25in" className={inputClass} />
-        </div>
-        <div>
-          <label className={labelClass}>Material</label>
-          <input name="material" defaultValue={product?.material} placeholder="100% cotton" className={inputClass} />
-        </div>
-        <div>
-          <label className={labelClass}>Country of manufacture</label>
-          <input name="country" defaultValue={product?.country} placeholder="Made in Japan" className={inputClass} />
         </div>
         <div className="sm:col-span-2">
           <label className={labelClass}>

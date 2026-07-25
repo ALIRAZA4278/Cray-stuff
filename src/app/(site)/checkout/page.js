@@ -287,7 +287,7 @@ export default function CheckoutPage() {
                     <div className="min-w-0 flex-1">
                       <p className="font-mono text-[10px] uppercase tracking-wide text-accent">{item.brand}</p>
                       <p className="truncate text-sm">{item.name}</p>
-                      {item.size && <p className="font-mono text-[10px] uppercase tracking-wide text-muted">Size {item.size}</p>}
+                      {item.size && <p className="font-mono text-[10px] uppercase tracking-wide text-muted">Fit {item.size}</p>}
                     </div>
                     <span className="font-mono text-sm">{format(item.price)}</span>
                   </li>

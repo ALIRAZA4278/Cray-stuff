@@ -30,7 +30,7 @@ export default async function AdminProductsPage() {
           <thead className="border-b border-border bg-surface font-mono text-[11px] uppercase tracking-widest text-muted">
             <tr>
               <th className="px-4 py-3 font-normal">Piece</th>
-              <th className="px-4 py-3 font-normal">Size</th>
+              <th className="px-4 py-3 font-normal">Fit</th>
               <th className="px-4 py-3 font-normal">Condition</th>
               <th className="px-4 py-3 font-normal">Price</th>
               <th className="px-4 py-3 font-normal">Fires</th>

@@ -31,7 +31,7 @@ function Chip({ href, label }) {
 export default function ActiveFilters({ basePath, params, active, q }) {
   const chips = [];
   active.categories.forEach((c) => chips.push({ key: `c-${c}`, href: toggleHref(basePath, params, "category", c), label: categoryLabels[c] || c }));
-  active.sizes.forEach((s) => chips.push({ key: `s-${s}`, href: toggleHref(basePath, params, "size", s), label: `Size ${s}` }));
+  active.sizes.forEach((s) => chips.push({ key: `s-${s}`, href: toggleHref(basePath, params, "size", s), label: `Fit ${s}` }));
   active.brands.forEach((b) => chips.push({ key: `b-${b}`, href: toggleHref(basePath, params, "brand", b), label: b }));
   active.conditions.forEach((c) => chips.push({ key: `cn-${c}`, href: toggleHref(basePath, params, "condition", c), label: c }));
   active.prices.forEach((p) => chips.push({ key: `p-${p}`, href: toggleHref(basePath, params, "price", p), label: priceRangeLabel(p) }));

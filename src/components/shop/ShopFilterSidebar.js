@@ -74,7 +74,7 @@ export default function ShopFilterSidebar({ basePath, params, active, facets, cu
       </Group>
 
       {facets.sizes.length > 0 && (
-        <Group label="Size">
+        <Group label="Fit">
           {facets.sizes.map((s) => (
             <FilterPill key={s} href={href("size", s)} active={active.sizes.includes(s)}>
               {s}

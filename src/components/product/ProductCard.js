@@ -46,7 +46,7 @@ export default function ProductCard({ product }) {
           N&deg; {pieceNumber(product.id)}/1
         </div>
         <div className="absolute bottom-3 left-3 rounded-sm border border-border bg-background/80 px-2 py-1 font-mono text-[10px] uppercase tracking-wide text-foreground backdrop-blur">
-          Size {product.size}
+          Fit {product.size}
         </div>
         <FireListToggle product={product} />
       </div>
