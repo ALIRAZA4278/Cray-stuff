@@ -5,13 +5,15 @@ import Link from "next/link";
 import { saveProduct, deleteProduct } from "@/lib/actions/products";
 import { styleTags, categories } from "@/lib/mock-products";
 import { clothingTypes, conditions } from "@/lib/shop-filters";
+import { getAdminDict } from "@/lib/admin-i18n";
 
 const inputClass =
   "w-full rounded-lg border border-border bg-transparent px-4 py-2.5 text-sm outline-none placeholder:text-muted focus:border-accent";
 const labelClass = "mb-1.5 block text-xs font-medium uppercase tracking-wide text-muted";
 
 // Shared create/edit form. Pass `product` to prefill for editing.
-export default function ProductForm({ product }) {
+export default function ProductForm({ product, locale = "en" }) {
+  const t = getAdminDict(locale);
   const [state, formAction, pending] = useActionState(saveProduct, null);
   const isEdit = Boolean(product);
   const [imagesText, setImagesText] = useState((product?.images || []).join("\n"));
@@ -74,7 +76,7 @@ export default function ProductForm({ product }) {
       {/* Images */}
       <section>
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 className="text-sm font-medium uppercase tracking-wide text-muted">Photos</h2>
+          <h2 className="text-sm font-medium uppercase tracking-wide text-muted">{t.photos}</h2>
           <div>
             <input
               ref={fileInputRef}
@@ -94,13 +96,11 @@ export default function ProductForm({ product }) {
                 <path d="M12 16V4m0 0L8 8m4-4l4 4" strokeLinecap="round" strokeLinejoin="round" />
                 <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              {uploading ? "Uploading…" : "Upload photos"}
+              {uploading ? t.uploading : t.uploadPhotos}
             </button>
           </div>
         </div>
-        <p className="mt-1 text-xs text-muted">
-          Upload from your device, or paste image links below — one per line. The first is the main photo.
-        </p>
+        <p className="mt-1 text-xs text-muted">{t.photosHint}</p>
         <textarea
           name="images"
           rows={4}
@@ -117,7 +117,7 @@ export default function ProductForm({ product }) {
                 <img src={url} alt="" className="h-full w-full object-cover" />
                 {i === 0 && (
                   <span className="absolute left-1.5 top-1.5 rounded bg-black/70 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wide text-white">
-                    Main
+                    {t.mainBadge}
                   </span>
                 )}
                 <button
@@ -134,30 +134,28 @@ export default function ProductForm({ product }) {
             ))}
           </div>
         )}
-        <p className="mt-2 text-xs text-muted">
-          Uploads are stored on Cloudinary and served fast, auto-optimised worldwide.
-        </p>
-        {uploadError && <p className="mt-1 text-xs text-red-400">Upload failed: {uploadError}</p>}
+        <p className="mt-2 text-xs text-muted">{t.uploadsNote}</p>
+        {uploadError && <p className="mt-1 text-xs text-red-400">{t.uploadFailedPrefix}: {uploadError}</p>}
       </section>
 
       {/* Core details */}
       <section className="grid gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <label className={labelClass}>Product name</label>
+          <label className={labelClass}>{t.productName}</label>
           <input name="name" required defaultValue={product?.name} placeholder="Vintage Denim Jacket" className={inputClass} />
         </div>
         <div>
-          <label className={labelClass}>Brand</label>
+          <label className={labelClass}>{t.brand}</label>
           <input name="brand" required defaultValue={product?.brand} placeholder="Levi's" className={inputClass} />
         </div>
         <div>
           <label className={labelClass}>
-            Fit <span className="normal-case text-muted/70">— how it actually fits, e.g. M/L</span>
+            {t.fit} <span className="normal-case text-muted/70">— {t.fitHint}</span>
           </label>
           <input name="size" defaultValue={product?.size} placeholder="M/L" className={inputClass} />
         </div>
         <div>
-          <label className={labelClass}>Currency</label>
+          <label className={labelClass}>{t.currency}</label>
           <select name="currency" defaultValue={product?.currency || "PLN"} className={inputClass}>
             <option value="PLN">PLN (zł)</option>
             <option value="USD">USD ($)</option>
@@ -165,17 +163,17 @@ export default function ProductForm({ product }) {
           </select>
         </div>
         <div>
-          <label className={labelClass}>Price</label>
+          <label className={labelClass}>{t.price}</label>
           <input name="price" type="number" required defaultValue={product?.price} placeholder="149" className={inputClass} />
         </div>
         <div>
           <label className={labelClass}>
-            Min. offer <span className="normal-case text-muted/70">— hidden from customers</span>
+            {t.minOffer} <span className="normal-case text-muted/70">— {t.minOfferHint}</span>
           </label>
           <input name="minOffer" type="number" defaultValue={product?.minOffer} placeholder="125" className={inputClass} />
         </div>
         <div>
-          <label className={labelClass}>Condition</label>
+          <label className={labelClass}>{t.condition}</label>
           <select name="condition" defaultValue={product?.condition || "Very Good"} className={inputClass}>
             {conditions.map((c) => (
               <option key={c} value={c}>
@@ -185,7 +183,7 @@ export default function ProductForm({ product }) {
           </select>
         </div>
         <div>
-          <label className={labelClass}>Category</label>
+          <label className={labelClass}>{t.category}</label>
           <select name="category" defaultValue={product?.category || "mens"} className={inputClass}>
             {categories.map((c) => (
               <option key={c} value={c}>
@@ -195,12 +193,12 @@ export default function ProductForm({ product }) {
           </select>
         </div>
         <div className="sm:col-span-2">
-          <label className={labelClass}>Measurements</label>
+          <label className={labelClass}>{t.measurements}</label>
           <input name="measurements" defaultValue={product?.measurements} placeholder="Chest 22in · Length 27in · Sleeve 25in" className={inputClass} />
         </div>
         <div className="sm:col-span-2">
           <label className={labelClass}>
-            Flaws <span className="normal-case text-muted/70">— be honest, it builds trust</span>
+            {t.flaws} <span className="normal-case text-muted/70">— {t.flawsHint}</span>
           </label>
           <textarea
             name="flaws"
@@ -211,15 +209,15 @@ export default function ProductForm({ product }) {
           />
         </div>
         <div className="sm:col-span-2">
-          <label className={labelClass}>Description</label>
+          <label className={labelClass}>{t.description}</label>
           <textarea name="description" rows={4} defaultValue={product?.description} placeholder="Honest condition notes, fit, and story…" className={`${inputClass} resize-none`} />
         </div>
       </section>
 
       {/* Clothing type — what the piece IS (stored alongside style tags) */}
       <section>
-        <h2 className="text-sm font-medium uppercase tracking-wide text-muted">Type</h2>
-        <p className="mt-1 text-xs text-muted">What the piece is — powers the Shorts / Hoodies / T-Shirts sections.</p>
+        <h2 className="text-sm font-medium uppercase tracking-wide text-muted">{t.type}</h2>
+        <p className="mt-1 text-xs text-muted">{t.typeHint}</p>
         <div className="mt-3 flex flex-wrap gap-2">
           {clothingTypes.map((type) => (
             <label key={type} className="cursor-pointer">
@@ -240,7 +238,7 @@ export default function ProductForm({ product }) {
 
       {/* Style tags */}
       <section>
-        <h2 className="text-sm font-medium uppercase tracking-wide text-muted">Style tags</h2>
+        <h2 className="text-sm font-medium uppercase tracking-wide text-muted">{t.styleTags}</h2>
         <div className="mt-3 flex flex-wrap gap-2">
           {styleTags.map((tag) => (
             <label key={tag} className="cursor-pointer">
@@ -269,8 +267,8 @@ export default function ProductForm({ product }) {
           className="h-4 w-4 accent-[var(--accent)]"
         />
         <label htmlFor="sold" className="text-sm">
-          Mark as <span className="font-medium">Sold Out</span>
-          <span className="ml-2 text-xs text-muted">stays visible, removed from Buy Now / offers</span>
+          {t.markAs} <span className="font-medium">{t.soldOut}</span>
+          <span className="ml-2 text-xs text-muted">{t.soldHint}</span>
         </label>
       </section>
 
@@ -287,10 +285,10 @@ export default function ProductForm({ product }) {
           disabled={pending}
           className="rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
         >
-          {pending ? "Saving…" : isEdit ? "Save changes" : "Create product"}
+          {pending ? t.saving : isEdit ? t.saveChanges : t.createProduct}
         </button>
         <Link href="/admin/products" className="text-sm text-muted transition-colors hover:text-foreground">
-          Cancel
+          {t.cancel}
         </Link>
         {isEdit && (
           <form action={deleteProduct.bind(null, product.id)} className="ml-auto">
@@ -298,7 +296,7 @@ export default function ProductForm({ product }) {
               type="submit"
               className="rounded-full border border-red-500/40 px-5 py-2 font-mono text-[11px] uppercase tracking-widest text-red-300 transition-colors hover:bg-red-500/10"
             >
-              Delete
+              {t.del}
             </button>
           </form>
         )}

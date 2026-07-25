@@ -3,16 +3,18 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { adminLogout } from "@/lib/actions/admin-auth";
+import { getAdminDict } from "@/lib/admin-i18n";
+import AdminLangToggle from "./AdminLangToggle";
 
 const links = [
-  { href: "/admin", label: "Dashboard" },
-  { href: "/admin/products", label: "Products" },
-  { href: "/admin/orders", label: "Orders" },
-  { href: "/admin/offers", label: "Offers" },
-  { href: "/admin/discounts", label: "Discounts" },
-  { href: "/admin/messages", label: "Messages" },
-  { href: "/admin/categories", label: "Categories" },
-  { href: "/admin/help", label: "Guide" },
+  { href: "/admin", key: "dashboard" },
+  { href: "/admin/products", key: "products" },
+  { href: "/admin/orders", key: "orders" },
+  { href: "/admin/offers", key: "offers" },
+  { href: "/admin/discounts", key: "discounts" },
+  { href: "/admin/messages", key: "messages" },
+  { href: "/admin/categories", key: "categories" },
+  { href: "/admin/help", key: "guide" },
 ];
 
 function isActive(pathname, href) {
@@ -20,8 +22,9 @@ function isActive(pathname, href) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ locale = "en" }) {
   const pathname = usePathname();
+  const t = getAdminDict(locale);
 
   return (
     <nav className="flex w-full shrink-0 flex-col border-b border-border p-4 md:h-screen md:w-60 md:border-b-0 md:border-r md:p-6">
@@ -45,27 +48,35 @@ export default function AdminSidebar() {
                   : "text-muted hover:bg-surface hover:text-foreground"
               }`}
             >
-              {link.label}
+              {t[link.key]}
             </Link>
           );
         })}
       </div>
 
-      <div className="mt-6 hidden space-y-1 border-t border-border pt-4 md:block">
-        <Link
-          href="/"
-          className="block rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:text-foreground"
-        >
-          &larr; Back to store
-        </Link>
-        <form action={adminLogout}>
-          <button
-            type="submit"
-            className="w-full rounded-lg px-3 py-2 text-left text-sm text-muted transition-colors hover:text-foreground"
+      <div className="mt-6 hidden space-y-3 border-t border-border pt-4 md:block">
+        <div>
+          <p className="mb-1.5 px-3 font-mono text-[10px] uppercase tracking-widest text-muted">{t.language}</p>
+          <div className="px-3">
+            <AdminLangToggle locale={locale} />
+          </div>
+        </div>
+        <div className="space-y-1">
+          <Link
+            href="/"
+            className="block rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:text-foreground"
           >
-            Sign out
-          </button>
-        </form>
+            {t.backToStore}
+          </Link>
+          <form action={adminLogout}>
+            <button
+              type="submit"
+              className="w-full rounded-lg px-3 py-2 text-left text-sm text-muted transition-colors hover:text-foreground"
+            >
+              {t.signOut}
+            </button>
+          </form>
+        </div>
       </div>
     </nav>
   );
