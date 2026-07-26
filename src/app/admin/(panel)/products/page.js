@@ -63,7 +63,7 @@ export default async function AdminProductsPage() {
                 </td>
                 <td className="px-4 py-3 text-muted">{product.size}</td>
                 <td className="px-4 py-3 text-muted">{product.condition}</td>
-                <td className="px-4 py-3 font-mono">{formatPrice(product.price, product.currency)}</td>
+                <td className="px-4 py-3 font-mono">{formatPrice(product.price, "PLN")}</td>
                 <td className="px-4 py-3 font-mono text-muted">{product.fireCount}</td>
                 <td className="px-4 py-3">
                   <StatusBadge status={product.sold ? "Sold Out" : "Live"} locale={locale} />

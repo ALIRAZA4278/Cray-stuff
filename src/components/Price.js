@@ -1,7 +1,11 @@
-import { formatPrice } from "@/lib/currency";
+"use client";
 
-// Renders a price in the product's own currency (set in the admin when the
-// price is entered). Falls back to the base currency if none is set.
-export default function Price({ amount, currency }) {
-  return <>{formatPrice(amount, currency)}</>;
+import { useCurrency } from "@/lib/CurrencyContext";
+
+// Renders a price (stored in PLN) in the visitor's chosen currency. Any extra
+// props like `currency` are ignored — the display currency comes from the
+// header switcher, not the product.
+export default function Price({ amount }) {
+  const { format } = useCurrency();
+  return <>{format(amount)}</>;
 }

@@ -157,15 +157,9 @@ export default function ProductForm({ product, locale = "en" }) {
           <input name="size" defaultValue={product?.size} placeholder="M/L" className={inputClass} />
         </div>
         <div>
-          <label className={labelClass}>{t.currency}</label>
-          <select name="currency" defaultValue={product?.currency || "PLN"} className={inputClass}>
-            <option value="PLN">PLN (zł)</option>
-            <option value="USD">USD ($)</option>
-            <option value="EUR">EUR (€)</option>
-          </select>
-        </div>
-        <div>
-          <label className={labelClass}>{t.price}</label>
+          <label className={labelClass}>
+            {t.price} <span className="normal-case text-muted/70">(zł)</span>
+          </label>
           <input name="price" type="number" required defaultValue={product?.price} placeholder="149" className={inputClass} />
         </div>
         <div>
@@ -293,14 +287,15 @@ export default function ProductForm({ product, locale = "en" }) {
           {t.cancel}
         </Link>
         {isEdit && (
-          <form action={deleteProduct.bind(null, product.id)} className="ml-auto">
-            <button
-              type="submit"
-              className="rounded-full border border-red-500/40 px-5 py-2 font-mono text-[11px] uppercase tracking-widest text-red-300 transition-colors hover:bg-red-500/10"
-            >
-              {t.del}
-            </button>
-          </form>
+          // Its own formAction so it deletes instead of submitting the save form.
+          // (A nested <form> here is invalid HTML and silently triggered Save.)
+          <button
+            type="submit"
+            formAction={deleteProduct.bind(null, product.id)}
+            className="ml-auto rounded-full border border-red-500/40 px-5 py-2 font-mono text-[11px] uppercase tracking-widest text-red-300 transition-colors hover:bg-red-500/10"
+          >
+            {t.del}
+          </button>
         )}
       </div>
     </form>

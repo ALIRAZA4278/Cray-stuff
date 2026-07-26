@@ -21,7 +21,7 @@ export default function ProductCard({ product }) {
           fill
           sizes="(max-width: 640px) 60vw, 300px"
           className={`object-cover transition-opacity duration-500 group-hover:opacity-0 ${
-            product.sold ? "grayscale" : "grayscale-[40%]"
+            "grayscale-[40%]"
           }`}
         />
         <Image
@@ -30,16 +30,14 @@ export default function ProductCard({ product }) {
           fill
           sizes="(max-width: 640px) 60vw, 300px"
           className={`object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100 ${
-            product.sold ? "grayscale" : "grayscale-[40%]"
+            "grayscale-[40%]"
           }`}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/5 to-black/20" />
         {product.sold && (
-          <div className="absolute inset-0 flex items-center justify-center bg-background/50">
-            <span className="rounded-sm border border-border bg-background/90 px-3 py-1 font-mono text-xs uppercase tracking-widest">
-              Sold Out
-            </span>
-          </div>
+          <span className="absolute left-1/2 top-3 z-10 -translate-x-1/2 rounded-sm bg-red-600/90 px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-white shadow">
+            Sold Out
+          </span>
         )}
         <div className="absolute left-3 top-3 flex origin-top-left items-center gap-1 rounded-sm border border-border bg-background/80 px-2 py-1 font-mono text-[10px] text-muted backdrop-blur transition-transform duration-300 group-hover:-rotate-3">
           <span className="h-1.5 w-1.5 rounded-full border border-muted" />

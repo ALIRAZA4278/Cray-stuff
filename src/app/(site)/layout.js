@@ -6,10 +6,12 @@ import SmoothScroll from "@/components/motion/SmoothScroll";
 import { CartProvider } from "@/lib/CartContext";
 import { FireListProvider } from "@/lib/FireListContext";
 import { AuthProvider } from "@/lib/AuthContext";
+import { CurrencyProvider } from "@/lib/CurrencyContext";
 
 export default function SiteLayout({ children }) {
   return (
     <AuthProvider>
+      <CurrencyProvider>
       <FireListProvider>
         <CartProvider>
           <SmoothScroll />
@@ -20,6 +22,7 @@ export default function SiteLayout({ children }) {
           <DiscountPopup />
         </CartProvider>
       </FireListProvider>
+      </CurrencyProvider>
     </AuthProvider>
   );
 }

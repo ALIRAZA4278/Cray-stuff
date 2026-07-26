@@ -36,7 +36,6 @@ export async function saveProduct(prevState, formData) {
     name,
     brand,
     price,
-    currency: formData.get("currency")?.toString() || "USD",
     min_offer: formData.get("minOffer") ? Number(formData.get("minOffer")) : null,
     size: formData.get("size")?.toString().trim() || null,
     condition: formData.get("condition")?.toString() || null,
