@@ -29,6 +29,8 @@ const en = {
   soldHint: "stays visible, removed from Buy Now / offers",
   createProduct: "Create product", saveChanges: "Save changes", saving: "Saving…", cancel: "Cancel", del: "Delete",
   accept: "Accept", decline: "Decline", writeAnswer: "Write an answer…", posting: "Posting…", reply: "Reply",
+  dragToReorder: "Drag photos to reorder — the first one is the main image.",
+  deleteConfirm: "Delete this product? This can't be undone.",
 
   // ── dashboard ──
   overview: "Overview", dashboardDesc: "Everything happening across CRAY STUFF at a glance.",
@@ -100,6 +102,8 @@ const pl = {
   soldHint: "pozostaje widoczne, usunięte z Kup teraz / ofert",
   createProduct: "Dodaj produkt", saveChanges: "Zapisz zmiany", saving: "Zapisywanie…", cancel: "Anuluj", del: "Usuń",
   accept: "Akceptuj", decline: "Odrzuć", writeAnswer: "Napisz odpowiedź…", posting: "Wysyłanie…", reply: "Odpowiedz",
+  dragToReorder: "Przeciągnij zdjęcia, aby zmienić kolejność — pierwsze jest głównym.",
+  deleteConfirm: "Usunąć ten produkt? Tej operacji nie można cofnąć.",
 
   overview: "Przegląd", dashboardDesc: "Wszystko, co dzieje się w CRAY STUFF, w jednym miejscu.",
   livePieces: "Aktywne produkty", ordersToShip: "Zamówienia do wysyłki", offersToReview: "Oferty do sprawdzenia", revenue: "Przychód",

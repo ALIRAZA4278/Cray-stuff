@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import AdminHeader from "@/components/admin/AdminHeader";
-import StatusBadge from "@/components/admin/StatusBadge";
+import DeleteProductButton from "@/components/admin/DeleteProductButton";
 import { getAllProducts } from "@/lib/products";
 import { formatPrice } from "@/lib/currency";
 import { cookies } from "next/headers";
-import { getAdminDict } from "@/lib/admin-i18n";
+import { getAdminDict, getStatusLabel } from "@/lib/admin-i18n";
 
 export const metadata = { title: "Products — Admin" };
 
@@ -30,53 +30,49 @@ export default async function AdminProductsPage() {
         }
       />
 
-      <div className="overflow-x-auto rounded-lg border border-border">
-        <table className="w-full min-w-[720px] text-left text-sm">
-          <thead className="border-b border-border bg-surface font-mono text-[11px] uppercase tracking-widest text-muted">
-            <tr>
-              <th className="px-4 py-3 font-normal">{t.piece}</th>
-              <th className="px-4 py-3 font-normal">{t.fit}</th>
-              <th className="px-4 py-3 font-normal">{t.condition}</th>
-              <th className="px-4 py-3 font-normal">{t.price}</th>
-              <th className="px-4 py-3 font-normal">{t.fires}</th>
-              <th className="px-4 py-3 font-normal">{t.status}</th>
-              <th className="px-4 py-3 font-normal"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((product) => (
-              <tr key={product.id} className="border-b border-border last:border-0 hover:bg-surface/50">
-                <td className="px-4 py-3">
-                  <div className="flex items-center gap-3">
-                    <Image
-                      src={`https://picsum.photos/seed/${product.slug}/80/100`}
-                      alt=""
-                      width={36}
-                      height={45}
-                      className="h-11 w-9 rounded object-cover grayscale-[40%]"
-                    />
-                    <div>
-                      <p className="font-medium">{product.name}</p>
-                      <p className="font-mono text-[11px] uppercase tracking-wide text-muted">{product.brand}</p>
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        {products.map((product) => {
+          const img = product.images && product.images.length ? product.images[0] : null;
+          return (
+            <div key={product.id} className="flex flex-col overflow-hidden rounded-lg border border-border bg-surface">
+              <Link href={`/admin/products/${product.id}`} className="block">
+                <div className="relative aspect-[3/4] bg-background">
+                  {img ? (
+                    <Image src={img} alt={product.name} fill sizes="(max-width: 640px) 50vw, 240px" className="object-cover grayscale-[20%]" />
+                  ) : (
+                    <div className="flex h-full items-center justify-center px-3 text-center font-mono text-[10px] uppercase tracking-widest text-muted">
+                      No photo
                     </div>
-                  </div>
-                </td>
-                <td className="px-4 py-3 text-muted">{product.size}</td>
-                <td className="px-4 py-3 text-muted">{product.condition}</td>
-                <td className="px-4 py-3 font-mono">{formatPrice(product.price, "PLN")}</td>
-                <td className="px-4 py-3 font-mono text-muted">{product.fireCount}</td>
-                <td className="px-4 py-3">
-                  <StatusBadge status={product.sold ? "Sold Out" : "Live"} locale={locale} />
-                </td>
-                <td className="px-4 py-3 text-right">
-                  <Link href={`/admin/products/${product.id}`} className="text-accent transition-opacity hover:opacity-80">
-                    {t.edit}
-                  </Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                  )}
+                  {product.sold && (
+                    <span className="absolute left-1/2 top-2 -translate-x-1/2 rounded-sm bg-red-600/90 px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-white">
+                      {getStatusLabel(locale, "Sold Out")}
+                    </span>
+                  )}
+                </div>
+                <div className="p-3">
+                  <p className="truncate font-mono text-[10px] uppercase tracking-wide text-accent">{product.brand}</p>
+                  <p className="mt-0.5 line-clamp-2 text-sm font-medium leading-snug">{product.name}</p>
+                  <p className="mt-1 font-mono text-sm">{formatPrice(product.price, "PLN")}</p>
+                  <p className="mt-0.5 truncate font-mono text-[10px] uppercase tracking-wide text-muted">
+                    {product.size} &middot; {product.condition}
+                  </p>
+                </div>
+              </Link>
+              <div className="mt-auto flex border-t border-border text-center font-mono text-[11px] uppercase tracking-widest">
+                <Link href={`/admin/products/${product.id}`} className="flex-1 py-2 text-accent transition-colors hover:bg-surface">
+                  {t.edit}
+                </Link>
+                <DeleteProductButton
+                  id={product.id}
+                  label={t.del}
+                  confirmText={t.deleteConfirm}
+                  className="flex-1 border-l border-border"
+                />
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
