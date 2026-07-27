@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import FireListToggle from "@/components/product/FireListToggle";
 import Price from "@/components/Price";
-import { pieceNumber } from "@/lib/piece-number";
 
 export default function ProductCard({ product }) {
   const imgs = product.images && product.images.length ? product.images : null;
@@ -35,14 +34,10 @@ export default function ProductCard({ product }) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/5 to-black/20" />
         {product.sold && (
-          <span className="absolute left-1/2 top-3 z-10 -translate-x-1/2 rounded-sm bg-red-600/90 px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-white shadow">
+          <span className="absolute left-3 top-3 z-10 rounded-sm border border-white/40 bg-background/50 px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-foreground backdrop-blur">
             Sold Out
           </span>
         )}
-        <div className="absolute left-3 top-3 flex origin-top-left items-center gap-1 rounded-sm border border-border bg-background/80 px-2 py-1 font-mono text-[10px] text-muted backdrop-blur transition-transform duration-300 group-hover:-rotate-3">
-          <span className="h-1.5 w-1.5 rounded-full border border-muted" />
-          N&deg; {pieceNumber(product.id)}/1
-        </div>
         <div className="absolute bottom-3 left-3 rounded-sm border border-border bg-background/80 px-2 py-1 font-mono text-[10px] uppercase tracking-wide text-foreground backdrop-blur">
           Fit {product.size}
         </div>

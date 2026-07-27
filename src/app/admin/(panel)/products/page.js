@@ -45,7 +45,7 @@ export default async function AdminProductsPage() {
                     </div>
                   )}
                   {product.sold && (
-                    <span className="absolute left-1/2 top-2 -translate-x-1/2 rounded-sm bg-red-600/90 px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-white">
+                    <span className="absolute left-2 top-2 rounded-sm border border-white/40 bg-background/50 px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-foreground backdrop-blur">
                       {getStatusLabel(locale, "Sold Out")}
                     </span>
                   )}
