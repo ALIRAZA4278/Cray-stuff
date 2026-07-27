@@ -2,13 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
+import { useRef, useEffect } from "react";
 import { styleImages } from "@/lib/style-images";
-
-gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const items = [
   { n: "01", label: "Vintage", href: "/shop/vintage", image: styleImages.vintage },
@@ -24,13 +19,22 @@ export default function HorizontalGallery() {
   const root = useRef(null);
   const track = useRef(null);
 
-  useGSAP(
-    () => {
+  // GSAP is loaded lazily (this section is below the fold) so it stays out of
+  // the initial JS bundle and doesn't delay the page becoming visible.
+  useEffect(() => {
+    let cancelled = false;
+    let cleanup = () => {};
+
+    (async () => {
+      const [{ gsap }, { ScrollTrigger }] = await Promise.all([import("gsap"), import("gsap/ScrollTrigger")]);
+      if (cancelled || !track.current || !root.current) return;
+      gsap.registerPlugin(ScrollTrigger);
+
       const el = track.current;
       // Measure against the section, not the window — window.innerWidth counts
       // the scrollbar and leaves the last card short.
       const distance = () => Math.max(0, el.scrollWidth - root.current.clientWidth);
-      gsap.to(el, {
+      const tween = gsap.to(el, {
         x: () => -distance(),
         ease: "none",
         scrollTrigger: {
@@ -44,8 +48,7 @@ export default function HorizontalGallery() {
       });
 
       // The track keeps growing after the first measurement as images and fonts
-      // land. Without re-measuring, the pin length stays stuck on the old width
-      // and the run stops before the last card is fully in view.
+      // land. Re-measure so the pin length isn't stuck on the old width.
       let lastWidth = el.scrollWidth;
       const observer = new ResizeObserver(() => {
         if (el.scrollWidth === lastWidth) return;
@@ -53,10 +56,19 @@ export default function HorizontalGallery() {
         ScrollTrigger.refresh();
       });
       observer.observe(el);
-      return () => observer.disconnect();
-    },
-    { scope: root }
-  );
+
+      cleanup = () => {
+        observer.disconnect();
+        tween.scrollTrigger?.kill();
+        tween.kill();
+      };
+    })();
+
+    return () => {
+      cancelled = true;
+      cleanup();
+    };
+  }, []);
 
   return (
     <section ref={root} className="relative h-[100svh] overflow-hidden border-y border-border">
