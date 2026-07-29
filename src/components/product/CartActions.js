@@ -3,28 +3,23 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useCart } from "@/lib/CartContext";
-import { useRequireLogin } from "@/lib/AuthContext";
 
 export default function CartActions({ product }) {
   const { addItem, items } = useCart();
   const router = useRouter();
-  const run = useRequireLogin();
   const [added, setAdded] = useState(false);
 
   const inCart = items.some((item) => item.slug === product.slug);
 
+  // Adding to the bag needs no login — sign-in is only required at checkout.
   function handleBuyNow() {
-    run(() => {
-      addItem(product);
-      router.push("/checkout");
-    });
+    addItem(product);
+    router.push("/checkout");
   }
 
   function handleAddToCart() {
-    run(() => {
-      addItem(product);
-      setAdded(true);
-    });
+    addItem(product);
+    setAdded(true);
   }
 
   return (
