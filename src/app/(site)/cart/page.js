@@ -2,7 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { useCart } from "@/lib/CartContext";
+import { getMyAcceptedOffers } from "@/lib/actions/offers";
 import Price from "@/components/Price";
 
 function thumb(item) {
@@ -10,10 +12,20 @@ function thumb(item) {
 }
 
 export default function CartPage() {
-  const { items, removeItem, subtotal } = useCart();
-  // Every piece in the store shares one currency in practice, so the cart total
-  // follows the items' currency.
-  const cartCurrency = items[0]?.currency || "USD";
+  const { items, removeItem } = useCart();
+  // This customer's honoured (accepted) offer prices, keyed by product slug.
+  const [offers, setOffers] = useState({});
+  useEffect(() => {
+    let active = true;
+    getMyAcceptedOffers().then((m) => {
+      if (active) setOffers(m || {});
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+  const priceOf = (item) => offers[item.slug] ?? item.price;
+  const subtotal = items.reduce((sum, it) => sum + priceOf(it), 0);
 
   if (items.length === 0) {
     return (
@@ -69,7 +81,12 @@ export default function CartPage() {
                   </p>
                 </div>
                 <div className="flex flex-col items-end gap-3">
-                  <p className="font-mono text-sm font-medium"><Price amount={item.price} currency={item.currency} /></p>
+                  <p className="font-mono text-sm font-medium">
+                    {offers[item.slug] != null && (
+                      <span className="mr-1 text-muted line-through"><Price amount={item.price} /></span>
+                    )}
+                    <Price amount={priceOf(item)} />
+                  </p>
                   <button
                     type="button"
                     onClick={() => removeItem(item.slug)}
@@ -92,7 +109,7 @@ export default function CartPage() {
               <div className="mt-4 space-y-2 text-sm">
                 <div className="flex justify-between text-muted">
                   <span>Subtotal</span>
-                  <span className="font-mono text-foreground"><Price amount={subtotal} currency={cartCurrency} /></span>
+                  <span className="font-mono text-foreground"><Price amount={subtotal} /></span>
                 </div>
                 <div className="flex justify-between text-muted">
                   <span>Shipping</span>
@@ -101,7 +118,7 @@ export default function CartPage() {
               </div>
               <div className="mt-4 flex justify-between border-t border-border pt-4 text-base font-medium">
                 <span>Total</span>
-                <span className="font-mono"><Price amount={subtotal} currency={cartCurrency} /></span>
+                <span className="font-mono"><Price amount={subtotal} /></span>
               </div>
               <Link
                 href="/checkout"

@@ -2,8 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/supabase/server";
 import { isAdmin } from "@/lib/admin-auth";
-import { incrementDiscountUse } from "@/lib/actions/discounts";
+import { incrementDiscountUse, validateDiscount } from "@/lib/actions/discounts";
+import { honoredOffersForEmail } from "@/lib/offers";
 
 const ORDER_STATUSES = ["New", "Paid", "Shipped", "Delivered", "Cancelled"];
 
@@ -26,8 +28,8 @@ export async function updateOrderStatus(id, status) {
 // Places an order at checkout. No payment is taken yet — that's Stripe's job
 // later. This records the order so it shows up in the admin Orders inbox.
 export async function placeOrder(payload) {
-  const { items, total, carrier, payment, name, email, address, city, postal, country } = payload || {};
-  const { subtotal, discountCode, discountAmount } = payload || {};
+  const { items, carrier, payment, name, email, address, city, postal, country } = payload || {};
+  const { discountCode } = payload || {};
 
   if (!name || !email || !address) {
     return { error: "Please fill in your name, email and address." };
@@ -35,6 +37,43 @@ export async function placeOrder(payload) {
   if (!items || items.length === 0) {
     return { error: "Your cart is empty." };
   }
+
+  // Price the order on the server — never trust client-sent totals. Apply this
+  // customer's honoured (accepted) offer prices, then shipping, then discount.
+  let honored = {};
+  let accountEmail = null;
+  try {
+    const authClient = await createClient();
+    const { data } = await authClient.auth.getUser();
+    accountEmail = data?.user?.email || null;
+    honored = await honoredOffersForEmail(accountEmail);
+  } catch {
+    honored = {};
+  }
+
+  const pricedItems = items.map((it) => {
+    const offerPrice = honored[it.slug];
+    return offerPrice != null ? { ...it, price: offerPrice, listPrice: it.price } : it;
+  });
+  const subtotal = pricedItems.reduce((sum, it) => sum + Number(it.price || 0), 0);
+  const shipping = pricedItems.length >= 3 ? 0 : 6;
+
+  let discountAmount = 0;
+  let appliedCode = null;
+  if (discountCode) {
+    const res = await validateDiscount({
+      code: discountCode,
+      subtotal,
+      itemCount: pricedItems.length,
+      prices: pricedItems.map((it) => Number(it.price) || 0),
+      email: accountEmail,
+    });
+    if (res.valid) {
+      appliedCode = res.code;
+      discountAmount = res.amount;
+    }
+  }
+  const total = Math.max(0, subtotal + shipping - discountAmount);
 
   const id = "CRAY-" + Date.now().toString().slice(-6);
 
@@ -48,17 +87,17 @@ export async function placeOrder(payload) {
     country,
     carrier,
     payment_method: payment,
-    items,
+    items: pricedItems,
     total,
     status: "New",
   };
 
   // Only reference the discount columns when a code was actually used, so
   // normal orders keep working even before the schema migration is re-run.
-  if (discountCode) {
+  if (appliedCode) {
     record.subtotal = subtotal;
-    record.discount_code = discountCode;
-    record.discount_amount = discountAmount || 0;
+    record.discount_code = appliedCode;
+    record.discount_amount = discountAmount;
   }
 
   const supabase = createAdminClient();
@@ -72,7 +111,7 @@ export async function placeOrder(payload) {
     };
   }
 
-  if (discountCode) await incrementDiscountUse(discountCode);
+  if (appliedCode) await incrementDiscountUse(appliedCode);
 
   revalidatePath("/admin/orders");
   revalidatePath("/admin");

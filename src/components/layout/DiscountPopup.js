@@ -51,7 +51,13 @@ export default function DiscountPopup() {
           Sign up for early access to new drops and 10% off your first order.
         </p>
         {submitted ? (
-          <p className="mt-6 text-sm text-accent">You&apos;re in — check your inbox.</p>
+          <div className="mt-6">
+            <p className="text-sm text-muted">Here&apos;s your code for 10% off your first order:</p>
+            <p className="mt-2 rounded-md border border-accent/40 bg-accent/5 px-4 py-2 font-mono text-lg font-semibold tracking-widest text-accent">
+              WELCOME10
+            </p>
+            <p className="mt-2 text-xs text-muted">Enter it at checkout.</p>
+          </div>
         ) : (
           <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-2">
             <input

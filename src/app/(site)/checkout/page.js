@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useCart } from "@/lib/CartContext";
 import { placeOrder } from "@/lib/actions/orders";
 import { validateDiscount } from "@/lib/actions/discounts";
+import { getMyAcceptedOffers } from "@/lib/actions/offers";
 import { useAuth } from "@/lib/AuthContext";
 import { useCurrency } from "@/lib/CurrencyContext";
 
@@ -48,9 +49,13 @@ function StepLabel({ n, children }) {
 }
 
 export default function CheckoutPage() {
-  const { items, subtotal, clearCart } = useCart();
+  const { items, clearCart } = useCart();
   const { user, loading } = useAuth();
   const { format } = useCurrency();
+  // This customer's honoured (accepted) offer prices, keyed by product slug.
+  const [offers, setOffers] = useState({});
+  const priceOf = (item) => offers[item.slug] ?? item.price;
+  const subtotal = items.reduce((sum, it) => sum + priceOf(it), 0);
   const [carrier, setCarrier] = useState("inpost");
   const [payment, setPayment] = useState("card");
   const [email, setEmail] = useState("");
@@ -75,7 +80,13 @@ export default function CheckoutPage() {
     if (!codeInput.trim() || applying) return;
     setApplying(true);
     setDiscountError(null);
-    const res = await validateDiscount({ code: codeInput, subtotal, itemCount: items.length });
+    const res = await validateDiscount({
+      code: codeInput,
+      subtotal,
+      itemCount: items.length,
+      prices: items.map(priceOf),
+      email: user?.email,
+    });
     setApplying(false);
     if (res.valid) {
       setDiscount({ code: res.code, amount: res.amount, label: res.label });
@@ -98,6 +109,17 @@ export default function CheckoutPage() {
     if (user?.email) setEmail((current) => current || user.email);
   }, [user]);
 
+  // Pull the customer's negotiated prices so the summary shows the deal.
+  useEffect(() => {
+    let active = true;
+    getMyAcceptedOffers().then((map) => {
+      if (active) setOffers(map || {});
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
   async function handleSubmit(event) {
     event.preventDefault();
     setError(null);
@@ -108,7 +130,13 @@ export default function CheckoutPage() {
     let appliedCode = null;
     let appliedAmount = 0;
     if (discount?.code) {
-      const check = await validateDiscount({ code: discount.code, subtotal, itemCount: items.length });
+      const check = await validateDiscount({
+        code: discount.code,
+        subtotal,
+        itemCount: items.length,
+        prices: items.map(priceOf),
+        email: user?.email,
+      });
       if (check.valid) {
         appliedCode = check.code;
         appliedAmount = check.amount;
@@ -289,7 +317,12 @@ export default function CheckoutPage() {
                       <p className="truncate text-sm">{item.name}</p>
                       {item.size && <p className="font-mono text-[10px] uppercase tracking-wide text-muted">Fit {item.size}</p>}
                     </div>
-                    <span className="font-mono text-sm">{format(item.price)}</span>
+                    <span className="font-mono text-sm">
+                      {offers[item.slug] != null && (
+                        <span className="mr-1 text-muted line-through">{format(item.price)}</span>
+                      )}
+                      {format(priceOf(item))}
+                    </span>
                   </li>
                 ))}
               </ul>

@@ -192,3 +192,9 @@ alter table public.orders add column if not exists discount_amount numeric not n
 -- Per-product currency. The admin picks the currency when entering a price;
 -- that currency is shown everywhere for that product (no live conversion).
 alter table public.products add column if not exists currency text not null default 'USD';
+
+-- Advanced discount rules: first-order-only and once-per-customer. Enforced
+-- server-side against the customer's order history (by account email).
+alter table public.discount_codes add column if not exists first_order_only  boolean not null default false;
+alter table public.discount_codes add column if not exists once_per_customer boolean not null default false;
+-- `type` already exists; it now also accepts 'bogo' (buy one, % off the next).

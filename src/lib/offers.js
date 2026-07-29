@@ -17,6 +17,29 @@ function mapRow(row) {
   };
 }
 
+// A customer's honoured (accepted) offer prices, keyed by product slug. Used to
+// charge the negotiated price for that customer only. Server-side source of
+// truth — the client price is never trusted.
+export async function honoredOffersForEmail(email) {
+  if (!email) return {};
+  try {
+    const supabase = createAdminClient();
+    const { data } = await supabase
+      .from("offers")
+      .select("product_slug,offer_price,counter_price,status")
+      .eq("email", email)
+      .in("status", ["Auto-accepted", "Accepted"]);
+    const map = {};
+    for (const o of data || []) {
+      const price = o.counter_price != null ? Number(o.counter_price) : Number(o.offer_price);
+      if (map[o.product_slug] == null || price < map[o.product_slug]) map[o.product_slug] = price;
+    }
+    return map;
+  } catch {
+    return {};
+  }
+}
+
 // Real offers from Supabase; falls back to sample data only if the table is
 // missing (keeps admin populated pre-setup).
 export async function getAllOffers() {

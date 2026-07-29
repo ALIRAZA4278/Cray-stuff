@@ -13,6 +13,8 @@ function mapRow(row) {
     maxUses: row.max_uses ?? null,
     usedCount: row.used_count ?? 0,
     expiresAt: row.expires_at ?? null,
+    firstOrderOnly: row.first_order_only ?? false,
+    oncePerCustomer: row.once_per_customer ?? false,
     createdAt: row.created_at,
   };
 }
@@ -33,10 +35,16 @@ export async function getAllDiscounts() {
   }
 }
 
-// Pure calc: how much a code takes off a given subtotal. Percentages round to
-// the nearest whole unit; fixed amounts never exceed the subtotal.
-export function discountAmount({ type, value }, subtotal) {
+// Pure calc: how much a code takes off. Percentages round to the nearest whole
+// unit; nothing ever exceeds the subtotal. `prices` (the per-item prices) is
+// only needed for the 'bogo' type, which discounts the cheapest item.
+export function discountAmount({ type, value }, subtotal, prices = []) {
   if (!value || subtotal <= 0) return 0;
+  if (type === "bogo") {
+    if (!prices || prices.length < 2) return 0; // needs a 2nd item
+    const cheapest = Math.min(...prices.map((p) => Number(p) || 0));
+    return Math.min(Math.round((cheapest * value) / 100), subtotal);
+  }
   if (type === "fixed") return Math.min(Math.round(value), subtotal);
   return Math.min(Math.round((subtotal * value) / 100), subtotal);
 }

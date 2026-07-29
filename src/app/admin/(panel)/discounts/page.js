@@ -61,7 +61,9 @@ export default async function AdminDiscountsPage() {
                   return (
                     <tr key={d.id} className="border-b border-border last:border-0 hover:bg-surface/50">
                       <td className="px-4 py-3 font-mono font-medium">{d.code}</td>
-                      <td className="px-4 py-3">{d.type === "fixed" ? `$${d.value} off` : `${d.value}% off`}</td>
+                      <td className="px-4 py-3">
+                        {d.type === "fixed" ? `$${d.value} off` : d.type === "bogo" ? `${d.value}% off 2nd item` : `${d.value}% off`}
+                      </td>
                       <td className="px-4 py-3 text-muted">{d.minItems}</td>
                       <td className="px-4 py-3 text-muted">
                         {d.usedCount}

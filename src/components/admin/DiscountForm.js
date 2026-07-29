@@ -33,6 +33,7 @@ export default function DiscountForm({ locale = "en" }) {
           <select name="type" value={type} onChange={(e) => setType(e.target.value)} className={inputClass}>
             <option value="percent">{t.percentOff}</option>
             <option value="fixed">{t.fixedOff}</option>
+            <option value="bogo">{t.bogoOff}</option>
           </select>
         </div>
         <div>
@@ -59,10 +60,20 @@ export default function DiscountForm({ locale = "en" }) {
         </div>
       </div>
 
-      <label className="mt-4 flex items-center gap-2 text-sm">
-        <input type="checkbox" name="active" defaultChecked className="h-4 w-4 accent-[var(--accent)]" />
-        {t.activeLine}
-      </label>
+      <div className="mt-4 space-y-2">
+        <label className="flex items-center gap-2 text-sm">
+          <input type="checkbox" name="active" defaultChecked className="h-4 w-4 accent-[var(--accent)]" />
+          {t.activeLine}
+        </label>
+        <label className="flex items-center gap-2 text-sm">
+          <input type="checkbox" name="firstOrderOnly" className="h-4 w-4 accent-[var(--accent)]" />
+          {t.firstOrderOnly}
+        </label>
+        <label className="flex items-center gap-2 text-sm">
+          <input type="checkbox" name="oncePerCustomer" className="h-4 w-4 accent-[var(--accent)]" />
+          {t.oncePerCustomer}
+        </label>
+      </div>
 
       {state?.error && <p className="mt-4 text-sm text-red-400">{state.error}</p>}
       {state?.success && <p className="mt-4 text-sm text-emerald-300">Created code “{state.code}”.</p>}

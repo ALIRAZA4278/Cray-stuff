@@ -2,16 +2,32 @@
 
 import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/supabase/server";
+import { honoredOffersForEmail } from "@/lib/offers";
 import { isAdmin } from "@/lib/admin-auth";
+
+// The email an accepted price is tied to = the signed-in account, never a typed
+// field. Prevents anyone from buying at someone else's negotiated price.
+async function currentEmail() {
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase.auth.getUser();
+    return data?.user?.email || null;
+  } catch {
+    return null;
+  }
+}
 
 // Customer submits an offer. Auto-accept at/above the hidden min price,
 // auto-counter below it, or leave Pending if the piece has no min set.
 export async function submitOffer(payload) {
-  const { slug, productName, listPrice, minOffer, offer, name, email } = payload || {};
+  const { slug, productName, listPrice, minOffer, offer } = payload || {};
   const amount = Number(offer);
 
   if (!amount || amount <= 0) return { error: "Enter a valid offer amount." };
-  if (!email) return { error: "Enter your email so we can reach you." };
+
+  const email = await currentEmail();
+  if (!email) return { error: "Please sign in to make an offer." };
 
   let status = "Pending";
   let counter = null;
@@ -34,7 +50,6 @@ export async function submitOffer(payload) {
     id,
     product_slug: slug,
     product_name: productName,
-    customer_name: name || null,
     email,
     offer_price: amount,
     list_price: listPrice,
@@ -53,7 +68,29 @@ export async function submitOffer(payload) {
 
   revalidatePath("/admin/offers");
   revalidatePath("/admin");
-  return { success: true, outcome, counter };
+  // `price` is what this customer will now pay for the piece.
+  return { success: true, outcome, counter, id, price: outcome === "accepted" ? amount : counter };
+}
+
+// Customer accepts a counteroffer — honours it at the counter price for them.
+export async function acceptCounter(id) {
+  const email = await currentEmail();
+  if (!email) return { error: "Please sign in first." };
+  const supabase = createAdminClient();
+  // Only the offer's owner can accept it.
+  const { data } = await supabase.from("offers").select("email,counter_price").eq("id", id).maybeSingle();
+  if (!data || data.email !== email) return { error: "Offer not found." };
+  const { error } = await supabase.from("offers").update({ status: "Accepted" }).eq("id", id);
+  if (error) return { error: error.message };
+  revalidatePath("/admin/offers");
+  return { success: true, price: data.counter_price != null ? Number(data.counter_price) : null };
+}
+
+// The signed-in customer's honoured offer prices, as { slug: price }. Used at
+// cart/checkout to show and charge the negotiated price for that customer only.
+export async function getMyAcceptedOffers() {
+  const email = await currentEmail();
+  return honoredOffersForEmail(email);
 }
 
 // Admin manual decision for offers without a min price (or as override).
