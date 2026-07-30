@@ -25,6 +25,11 @@ export default function HorizontalGallery() {
   // GSAP is loaded lazily (this section is below the fold) so it stays out of
   // the initial JS bundle and doesn't delay the page becoming visible.
   useEffect(() => {
+    // Mobile gets a plain native horizontal swipe — no GSAP, no pin, no scrub.
+    // The pinned/scrubbed effect fights touch scrolling (that's the lag and
+    // flicker), and skipping the import keeps GSAP off the mobile bundle entirely.
+    if (!window.matchMedia("(min-width: 768px)").matches) return;
+
     let cancelled = false;
     let cleanup = () => {};
 
@@ -74,18 +79,21 @@ export default function HorizontalGallery() {
   }, []);
 
   return (
-    <section ref={root} className="relative h-[100svh] overflow-hidden border-y border-border">
-      <div className="pointer-events-none absolute left-6 top-8 z-20 sm:left-10">
+    <section ref={root} className="relative border-y border-border md:h-[100svh] md:overflow-hidden">
+      <div className="pointer-events-none z-20 px-6 pt-8 sm:px-10 md:absolute md:left-10 md:top-8 md:px-0 md:pt-0">
         <p className="font-mono text-xs uppercase tracking-widest text-accent">{t.hmCuratedEdits}</p>
         <h2 className="mt-1 font-display text-2xl font-semibold uppercase tracking-tight sm:text-3xl">{t.hmShopByStyle}</h2>
       </div>
 
-      <div ref={track} className="flex h-full w-max items-center gap-5 px-6 will-change-transform sm:gap-6 sm:px-10">
+      <div
+        ref={track}
+        className="flex w-max snap-x snap-mandatory items-center gap-5 overflow-x-auto px-6 pb-8 pt-4 [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-6 sm:px-10 md:h-full md:overflow-visible md:pb-0 md:pt-0 md:will-change-transform"
+      >
         {items.map((item) => (
           <Link
             key={item.label}
             href={item.href}
-            className="group relative h-[64vh] w-[82vw] shrink-0 overflow-hidden rounded-2xl border border-border sm:w-[40vw]"
+            className="group relative h-[62vh] w-[82vw] shrink-0 snap-start overflow-hidden rounded-2xl border border-border sm:w-[40vw]"
           >
             <Image
               src={item.image}
@@ -110,7 +118,7 @@ export default function HorizontalGallery() {
         ))}
       </div>
 
-      <p className="pointer-events-none absolute bottom-6 right-6 z-20 font-mono text-[11px] uppercase tracking-widest text-muted sm:right-10">
+      <p className="pointer-events-none absolute bottom-6 right-6 z-20 hidden font-mono text-[11px] uppercase tracking-widest text-muted sm:right-10 md:block">
         {t.hmScroll} &rarr;
       </p>
     </section>

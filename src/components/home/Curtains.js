@@ -6,6 +6,7 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { reviewsCount } from "@/lib/reviews";
 import { useLocale } from "@/lib/useLocale";
 import { getDict } from "@/lib/i18n";
+import { useLiteMotion } from "@/lib/useLiteMotion";
 
 const noise =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
@@ -22,6 +23,7 @@ const rise = {
 
 function Panel({ panel, isLast, total }) {
   const ref = useRef(null);
+  const lite = useLiteMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const scale = useTransform(scrollYProgress, [0, 1], [1, isLast ? 1 : 0.92]);
   // Cheap opacity dim for depth instead of an expensive scroll-linked filter.
@@ -32,13 +34,18 @@ function Panel({ panel, isLast, total }) {
       ref={ref}
       className="sticky top-0 flex h-[100svh] items-center overflow-hidden rounded-t-[2.75rem] border-t border-white/10 px-6 shadow-[0_-30px_60px_rgba(0,0,0,0.55)]"
     >
-      <motion.div style={{ scale }} className={`absolute inset-0 transform-gpu bg-gradient-to-br ${panel.base}`}>
+      {/* On touch the scroll-linked scale/dim are dropped — a full-screen
+          gradient repainting each frame is the flicker; the sticky stack stays. */}
+      <motion.div
+        style={lite ? undefined : { scale }}
+        className={`absolute inset-0 transform-gpu bg-gradient-to-br ${panel.base}`}
+      >
         {/* Fine grain */}
         <div aria-hidden className="absolute inset-0 opacity-[0.05] mix-blend-overlay" style={{ backgroundImage: noise }} />
         {/* Vignette */}
         <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(0,0,0,0.5))]" />
-        {/* Depth dim — scroll-linked opacity (GPU-cheap) */}
-        <motion.div aria-hidden style={{ opacity: dim }} className="absolute inset-0 bg-black" />
+        {/* Depth dim — scroll-linked opacity (GPU-cheap), static on touch */}
+        {!lite && <motion.div aria-hidden style={{ opacity: dim }} className="absolute inset-0 bg-black" />}
       </motion.div>
 
       {/* Giant ghost index number */}

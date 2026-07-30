@@ -10,6 +10,10 @@ export default function SmoothScroll() {
   useEffect(() => {
     // Respect users who ask for reduced motion — leave native scroll alone.
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Touch devices scroll better natively. Lenis' RAF loop fights the browser's
+    // own momentum on phones — that's what makes it lag and flicker — so we skip
+    // it entirely on coarse pointers and let native scrolling do its thing.
+    if (window.matchMedia("(pointer: coarse)").matches) return;
 
     let lenis;
     let ticker;
