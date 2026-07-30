@@ -21,6 +21,11 @@ export const revalidate = 60;
 export default async function HomePage() {
   const products = await getAllProducts();
   const mostPopular = [...products].sort((a, b) => b.fireCount - a.fireCount);
+  // The homepage rails only tease the catalog — capping them keeps the initial
+  // DOM + hydration light (the full set lives behind "View all"). Rendering all
+  // 37 twice was ~74 client cards fighting to hydrate before the hero could paint.
+  const latest = products.slice(0, 12);
+  const popular = mostPopular.slice(0, 12);
   const dropTarget = Date.now() + 1000 * 60 * 60 * 24 * 7;
   const t = getDict((await cookies()).get("site-locale")?.value || "en");
 
@@ -34,14 +39,14 @@ export default async function HomePage() {
         title={t.hmLatestDrop}
         viewAllHref="/shop"
         viewAllLabel={t.hmShopNewArrivals}
-        products={products}
+        products={latest}
       />
       <ProductGrid
         eyebrow={t.hmCommunityFavorites}
         title={t.hmMostPopular}
         viewAllHref="/shop?sort=popular"
         viewAllLabel={t.hmShopMostPopular}
-        products={mostPopular}
+        products={popular}
       />
       <BrandTicker />
       <ChooseYourStyle />
