@@ -65,8 +65,9 @@ export default function ProductForm({ product, locale = "en" }) {
     const upRes = await fetch(`https://api.cloudinary.com/v1_1/${cloud}/image/upload`, { method: "POST", body: fd });
     const data = await upRes.json();
     if (!data.secure_url) throw new Error(data.error?.message || "upload failed");
-    // f_auto converts HEIC (iPhone) and anything else to WebP/JPG on the fly.
-    return data.secure_url.replace("/upload/", "/upload/f_auto,q_auto,c_limit,w_1600/");
+    // f_jpg converts HEIC (iPhone) to JPG on the fly — f_auto can hand Next's
+    // image optimizer an undecodable HEIC, so the photo fails to render.
+    return data.secure_url.replace("/upload/", "/upload/f_jpg,q_auto,c_limit,w_1600/");
   }
 
   // Upload every picked file in parallel (much faster for 20-25 photos than one

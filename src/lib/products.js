@@ -2,6 +2,19 @@ import "server-only";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { mockProducts } from "@/lib/mock-products";
 
+// f_auto lets Cloudinary pick the format from the request's Accept header. Next's
+// image optimizer fetches server-side and can end up with a raw HEIC it can't
+// decode, so the photo silently fails to render. Pin delivery to JPG instead —
+// Next still re-encodes to webp/avif for the browser, so nothing is lost.
+function webImageUrl(url) {
+  if (typeof url !== "string" || !url.includes("res.cloudinary.com")) return url;
+  if (url.includes("f_auto")) return url.replace(/f_auto/g, "f_jpg");
+  if (url.includes("/upload/") && !/\/upload\/[a-z]{1,3}_[^/]+\//.test(url)) {
+    return url.replace("/upload/", "/upload/f_jpg,q_auto,c_limit,w_1600/");
+  }
+  return url;
+}
+
 // Maps a Supabase products row (snake_case) to the shape the UI expects.
 function mapRow(row) {
   return {
@@ -23,7 +36,7 @@ function mapRow(row) {
     material: row.material || null,
     country: row.country || null,
     sold: row.sold || false,
-    images: row.images || [],
+    images: (row.images || []).map(webImageUrl),
   };
 }
 
