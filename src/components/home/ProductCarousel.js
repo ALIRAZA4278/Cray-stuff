@@ -3,8 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import UnveilReveal from "@/components/motion/UnveilReveal";
 import ProductCard from "@/components/product/ProductCard";
+import { useLocale } from "@/lib/useLocale";
+import { getDict } from "@/lib/i18n";
 
 export default function ProductCarousel({ products }) {
+  const t = getDict(useLocale());
   const scrollerRef = useRef(null);
   const [progress, setProgress] = useState(0);
 
@@ -52,7 +55,7 @@ export default function ProductCarousel({ products }) {
         <div className="flex gap-2">
           <button
             type="button"
-            aria-label="Scroll left"
+            aria-label={t.hmScrollLeft}
             onClick={() => scrollByAmount(-1)}
             className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted transition-colors hover:text-foreground"
           >
@@ -60,7 +63,7 @@ export default function ProductCarousel({ products }) {
           </button>
           <button
             type="button"
-            aria-label="Scroll right"
+            aria-label={t.hmScrollRight}
             onClick={() => scrollByAmount(1)}
             className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted transition-colors hover:text-foreground"
           >

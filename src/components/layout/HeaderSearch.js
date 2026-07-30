@@ -5,8 +5,11 @@ import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { styleTags } from "@/lib/mock-products";
 import { slugify } from "@/lib/shop-filters";
+import { useLocale } from "@/lib/useLocale";
+import { getDict } from "@/lib/i18n";
 
 export default function HeaderSearch() {
+  const t = getDict(useLocale());
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
   const router = useRouter();
@@ -43,7 +46,7 @@ export default function HeaderSearch() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        aria-label="Search"
+        aria-label={t.searchAria}
         className="flex h-10 w-10 items-center justify-center text-muted transition-colors hover:text-foreground"
       >
         <SearchIcon />
@@ -68,11 +71,11 @@ export default function HeaderSearch() {
               className="mx-auto mt-[12vh] w-[92%] max-w-2xl rounded-2xl border border-border bg-background p-5 shadow-[0_30px_80px_rgba(0,0,0,0.55)] sm:p-7"
             >
               <div className="flex items-center justify-between">
-                <p className="font-mono text-[11px] uppercase tracking-widest text-accent">Search the archive</p>
+                <p className="font-mono text-[11px] uppercase tracking-widest text-accent">{t.searchTitle}</p>
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
-                  aria-label="Close search"
+                  aria-label={t.searchCloseAria}
                   className="flex h-8 w-8 items-center justify-center rounded-full text-muted transition-colors hover:text-foreground"
                 >
                   <CloseIcon />
@@ -87,18 +90,18 @@ export default function HeaderSearch() {
                   autoFocus
                   value={q}
                   onChange={(e) => setQ(e.target.value)}
-                  placeholder="Brand, piece, style…"
+                  placeholder={t.searchPlaceholder}
                   className="w-full bg-transparent text-lg outline-none placeholder:text-muted sm:text-2xl"
                 />
                 <button
                   type="submit"
                   className="shrink-0 rounded-full bg-accent px-5 py-2 text-sm font-medium uppercase tracking-wide text-accent-foreground transition-opacity hover:opacity-90"
                 >
-                  Search
+                  {t.searchButton}
                 </button>
               </form>
 
-              <p className="mt-6 font-mono text-[11px] uppercase tracking-widest text-muted">Jump to a style</p>
+              <p className="mt-6 font-mono text-[11px] uppercase tracking-widest text-muted">{t.searchJumpTo}</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {styleTags.map((tag) => (
                   <button
@@ -114,13 +117,13 @@ export default function HeaderSearch() {
 
               <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 border-t border-border pt-4 font-mono text-[11px] uppercase tracking-widest text-muted">
                 <button type="button" onClick={() => go("/shop")} className="transition-colors hover:text-accent">
-                  All pieces &rarr;
+                  {t.searchAllPieces}
                 </button>
                 <button type="button" onClick={() => go("/shop?sort=new")} className="transition-colors hover:text-accent">
-                  New drop &rarr;
+                  {t.searchNewDrop}
                 </button>
                 <button type="button" onClick={() => go("/sold")} className="transition-colors hover:text-accent">
-                  Recently sold &rarr;
+                  {t.searchRecentlySold}
                 </button>
               </div>
             </motion.div>

@@ -1,4 +1,6 @@
+import { cookies } from "next/headers";
 import FilterPill from "@/components/shop/FilterPill";
+import { getDict } from "@/lib/i18n";
 import { styleTags } from "@/lib/mock-products";
 import {
   browseCategories,
@@ -6,15 +8,11 @@ import {
   clothingTypes,
   conditions,
   priceRanges,
+  priceRangeLabel,
   slugify,
   toggleParam,
   setParam,
 } from "@/lib/shop-filters";
-
-const availabilityOptions = [
-  { value: "available", label: "Available" },
-  { value: "sold", label: "Sold" },
-];
 
 function Group({ label, children }) {
   return (
@@ -26,13 +24,41 @@ function Group({ label, children }) {
 }
 
 // Server-rendered filter sidebar shared by /shop and /shop/[style].
-export default function ShopFilterSidebar({ basePath, params, active, facets, currentStyle = null }) {
+export default async function ShopFilterSidebar({ basePath, params, active, facets, currentStyle = null }) {
+  const t = getDict((await cookies()).get("site-locale")?.value || "en");
   const href = (key, value) => `${basePath}?${toggleParam(params, key, value).toString()}`;
   const singleHref = (key, value) => `${basePath}?${setParam(params, key, value).toString()}`;
 
+  const availabilityOptions = [
+    { value: "available", label: t.shAvailable },
+    { value: "sold", label: t.shSold },
+  ];
+  const catLabel = { mens: t.shCatMens, womens: t.shCatWomens, unisex: t.shCatUnisex };
+  const typeLabel = {
+    Outerwear: t.shTypeOuterwear,
+    Hoodies: t.shTypeHoodies,
+    "T-Shirts": t.shTypeTShirts,
+    "Long Sleeves": t.shTypeLongSleeves,
+    Pants: t.shTypePants,
+    Shorts: t.shTypeShorts,
+    Accessories: t.shTypeAccessories,
+  };
+  const condLabel = {
+    Excellent: t.shCondExcellent,
+    "Very Good": t.shCondVeryGood,
+    Good: t.shCondGood,
+    "Like New": t.shCondLikeNew,
+  };
+  const priceLabel = {
+    "0-50": t.shPrice0_50,
+    "50-100": t.shPrice50_100,
+    "100-150": t.shPrice100_150,
+    "150-": t.shPrice150,
+  };
+
   return (
     <aside className="space-y-6">
-      <Group label="Availability">
+      <Group label={t.shAvailability}>
         {availabilityOptions.map((o) => (
           <FilterPill key={o.value} href={singleHref("availability", o.value)} active={active.availability === o.value}>
             {o.label}
@@ -40,28 +66,28 @@ export default function ShopFilterSidebar({ basePath, params, active, facets, cu
         ))}
       </Group>
 
-      <Group label="Category">
+      <Group label={t.shCategory}>
         {browseCategories.map((c) => (
           <FilterPill key={c} href={href("category", c)} active={active.categories.includes(c)}>
-            {categoryLabels[c]}
+            {catLabel[c] || categoryLabels[c]}
           </FilterPill>
         ))}
       </Group>
 
-      <Group label="Type">
-        {clothingTypes.map((t) => {
-          const slug = slugify(t);
+      <Group label={t.shType}>
+        {clothingTypes.map((type) => {
+          const slug = slugify(type);
           return (
-            <FilterPill key={t} href={`/shop/${slug}`} active={currentStyle === slug}>
-              {t}
+            <FilterPill key={type} href={`/shop/${slug}`} active={currentStyle === slug}>
+              {typeLabel[type] || type}
             </FilterPill>
           );
         })}
       </Group>
 
-      <Group label="Style">
+      <Group label={t.shStyle}>
         <FilterPill href="/shop" active={!currentStyle}>
-          All
+          {t.shAll}
         </FilterPill>
         {styleTags.map((s) => {
           const slug = slugify(s);
@@ -74,7 +100,7 @@ export default function ShopFilterSidebar({ basePath, params, active, facets, cu
       </Group>
 
       {facets.sizes.length > 0 && (
-        <Group label="Fit">
+        <Group label={t.shFit}>
           {facets.sizes.map((s) => (
             <FilterPill key={s} href={href("size", s)} active={active.sizes.includes(s)}>
               {s}
@@ -84,7 +110,7 @@ export default function ShopFilterSidebar({ basePath, params, active, facets, cu
       )}
 
       {facets.brands.length > 0 && (
-        <Group label="Brand">
+        <Group label={t.shBrand}>
           {facets.brands.map((b) => (
             <FilterPill key={b} href={href("brand", b)} active={active.brands.includes(b)}>
               {b}
@@ -93,18 +119,18 @@ export default function ShopFilterSidebar({ basePath, params, active, facets, cu
         </Group>
       )}
 
-      <Group label="Condition">
+      <Group label={t.shCondition}>
         {conditions.map((c) => (
           <FilterPill key={c} href={href("condition", c)} active={active.conditions.includes(c)}>
-            {c}
+            {condLabel[c] || c}
           </FilterPill>
         ))}
       </Group>
 
-      <Group label="Price">
+      <Group label={t.shPrice}>
         {priceRanges.map((r) => (
           <FilterPill key={r.id} href={href("price", r.id)} active={active.prices.includes(r.id)}>
-            {r.label}
+            {priceLabel[r.id] || priceRangeLabel(r.id)}
           </FilterPill>
         ))}
       </Group>

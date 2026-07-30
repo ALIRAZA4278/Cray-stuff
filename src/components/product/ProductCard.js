@@ -1,9 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import FireListToggle from "@/components/product/FireListToggle";
 import Price from "@/components/Price";
+import { useLocale } from "@/lib/useLocale";
+import { getDict } from "@/lib/i18n";
 
 export default function ProductCard({ product }) {
+  const t = getDict(useLocale());
   const imgs = product.images && product.images.length ? product.images : null;
   const primaryImg = imgs ? imgs[0] : `https://picsum.photos/seed/${product.slug}/600/800`;
   const hoverImg = imgs ? imgs[1] || imgs[0] : `https://picsum.photos/seed/${product.slug}-2/600/800`;
@@ -35,11 +40,11 @@ export default function ProductCard({ product }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/5 to-black/20" />
         {product.sold && (
           <span className="absolute left-3 top-3 z-10 rounded-sm border border-white/40 bg-background/50 px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-foreground backdrop-blur">
-            Sold Out
+            {t.prSoldOut}
           </span>
         )}
         <div className="absolute bottom-3 left-3 rounded-sm border border-border bg-background/80 px-2 py-1 font-mono text-[10px] uppercase tracking-wide text-foreground backdrop-blur">
-          Fit {product.size}
+          {t.prFitBadge.replace("{size}", product.size)}
         </div>
         <FireListToggle product={product} />
       </div>

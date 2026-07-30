@@ -4,20 +4,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRef, useEffect } from "react";
 import { styleImages } from "@/lib/style-images";
-
-const items = [
-  { n: "01", label: "Vintage", href: "/shop/vintage", image: styleImages.vintage },
-  { n: "02", label: "Y2K", href: "/shop/y2k", image: styleImages.y2k },
-  { n: "03", label: "Skate", href: "/shop/skate", image: styleImages.skate },
-  { n: "04", label: "Archive", href: "/shop/archive", image: styleImages.archive },
-  { n: "05", label: "Just Swag", href: "/shop/just-swag", image: styleImages["just-swag"] },
-];
+import { useLocale } from "@/lib/useLocale";
+import { getDict } from "@/lib/i18n";
 
 // GSAP ScrollTrigger horizontal scroll: the section pins while a vertical scroll
 // drives the track sideways — a signature effect motion doesn't do natively.
 export default function HorizontalGallery() {
+  const t = getDict(useLocale());
   const root = useRef(null);
   const track = useRef(null);
+
+  const items = [
+    { n: "01", label: "Vintage", href: "/shop/vintage", image: styleImages.vintage },
+    { n: "02", label: "Y2K", href: "/shop/y2k", image: styleImages.y2k },
+    { n: "03", label: "Skate", href: "/shop/skate", image: styleImages.skate },
+    { n: "04", label: t.hmArchive, href: "/shop/archive", image: styleImages.archive },
+    { n: "05", label: "Just Swag", href: "/shop/just-swag", image: styleImages["just-swag"] },
+  ];
 
   // GSAP is loaded lazily (this section is below the fold) so it stays out of
   // the initial JS bundle and doesn't delay the page becoming visible.
@@ -73,8 +76,8 @@ export default function HorizontalGallery() {
   return (
     <section ref={root} className="relative h-[100svh] overflow-hidden border-y border-border">
       <div className="pointer-events-none absolute left-6 top-8 z-20 sm:left-10">
-        <p className="font-mono text-xs uppercase tracking-widest text-accent">Curated edits</p>
-        <h2 className="mt-1 font-display text-2xl font-semibold uppercase tracking-tight sm:text-3xl">Shop by style</h2>
+        <p className="font-mono text-xs uppercase tracking-widest text-accent">{t.hmCuratedEdits}</p>
+        <h2 className="mt-1 font-display text-2xl font-semibold uppercase tracking-tight sm:text-3xl">{t.hmShopByStyle}</h2>
       </div>
 
       <div ref={track} className="flex h-full w-max items-center gap-5 px-6 will-change-transform sm:gap-6 sm:px-10">
@@ -100,7 +103,7 @@ export default function HorizontalGallery() {
                 </p>
               </div>
               <span className="font-mono text-xs uppercase tracking-widest text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                Shop &rarr;
+                {t.hmShop} &rarr;
               </span>
             </div>
           </Link>
@@ -108,7 +111,7 @@ export default function HorizontalGallery() {
       </div>
 
       <p className="pointer-events-none absolute bottom-6 right-6 z-20 font-mono text-[11px] uppercase tracking-widest text-muted sm:right-10">
-        Scroll &rarr;
+        {t.hmScroll} &rarr;
       </p>
     </section>
   );

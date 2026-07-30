@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useLocale } from "@/lib/useLocale";
+import { getDict } from "@/lib/i18n";
 
 function getTimeLeft(target) {
   const diff = Math.max(target - Date.now(), 0);
@@ -14,6 +16,7 @@ function getTimeLeft(target) {
 }
 
 export default function DropCountdown({ target }) {
+  const t = getDict(useLocale());
   const [timeLeft, setTimeLeft] = useState(null);
 
   useEffect(() => {
@@ -24,10 +27,10 @@ export default function DropCountdown({ target }) {
   }, [target]);
 
   const units = [
-    { label: "Days", value: timeLeft?.days ?? 0 },
-    { label: "Hrs", value: timeLeft?.hours ?? 0 },
-    { label: "Min", value: timeLeft?.minutes ?? 0 },
-    { label: "Sec", value: timeLeft?.seconds ?? 0 },
+    { label: t.hmDropDays, value: timeLeft?.days ?? 0 },
+    { label: t.hmDropHrs, value: timeLeft?.hours ?? 0 },
+    { label: t.hmDropMin, value: timeLeft?.minutes ?? 0 },
+    { label: t.hmDropSec, value: timeLeft?.seconds ?? 0 },
   ];
 
   return (
@@ -41,7 +44,7 @@ export default function DropCountdown({ target }) {
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/25" />
       <div className="relative z-10">
-        <p className="font-mono text-xs uppercase tracking-widest text-accent">Next drop</p>
+        <p className="font-mono text-xs uppercase tracking-widest text-accent">{t.hmDropNext}</p>
         <div className="mt-4 flex items-center gap-5">
           {units.map((unit) => (
             <div key={unit.label} className="w-12">
@@ -55,7 +58,7 @@ export default function DropCountdown({ target }) {
           className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 px-5 py-2.5 text-sm font-medium text-white backdrop-blur transition-colors hover:border-accent hover:bg-accent hover:text-accent-foreground"
         >
           <BellIcon />
-          Get notified
+          {t.hmDropNotify}
         </button>
       </div>
     </div>

@@ -1,33 +1,37 @@
 import Image from "next/image";
 import Link from "next/link";
+import { cookies } from "next/headers";
 import Reveal from "@/components/motion/Reveal";
-
-// Wiktor's own shots, one per tile. Swapping one is a single-line change — drop
-// the new Cloudinary URL in and nothing else moves.
-const tiles = [
-  {
-    label: "New Drop",
-    cta: "Shop new drop",
-    href: "/shop?sort=new",
-    image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/new-drop-jeans.jpg",
-  },
-  {
-    label: "Under $100",
-    cta: "Shop under $100",
-    href: "/shop?price=0-50,50-100",
-    image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/true-religion-jeans.jpg",
-  },
-  {
-    label: "The Archive",
-    cta: "Shop archive",
-    href: "/shop/archive",
-    image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/dg-belt.jpg",
-  },
-];
+import { getDict } from "@/lib/i18n";
 
 const tileVariants = ["left", "up", "right"];
 
-export default function BrowseByCategory() {
+export default async function BrowseByCategory() {
+  const t = getDict((await cookies()).get("site-locale")?.value || "en");
+
+  // Wiktor's own shots, one per tile. Swapping one is a single-line change — drop
+  // the new Cloudinary URL in and nothing else moves.
+  const tiles = [
+    {
+      label: t.hmCatNewDrop,
+      cta: t.hmCatNewDropCta,
+      href: "/shop?sort=new",
+      image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/new-drop-jeans.jpg",
+    },
+    {
+      label: t.hmCatUnder100,
+      cta: t.hmCatUnder100Cta,
+      href: "/shop?price=0-50,50-100",
+      image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/true-religion-jeans.jpg",
+    },
+    {
+      label: t.hmCatArchive,
+      cta: t.hmCatArchiveCta,
+      href: "/shop/archive",
+      image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/dg-belt.jpg",
+    },
+  ];
+
   return (
     <section className="border-b border-border">
       <div className="grid grid-cols-1 sm:grid-cols-3">

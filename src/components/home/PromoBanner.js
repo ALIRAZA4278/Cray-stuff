@@ -1,8 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
+import { cookies } from "next/headers";
 import Reveal from "@/components/motion/Reveal";
+import { getDict } from "@/lib/i18n";
 
-export default function PromoBanner() {
+export default async function PromoBanner() {
+  const t = getDict((await cookies()).get("site-locale")?.value || "en");
+
   return (
     <section className="relative flex h-[380px] items-center overflow-hidden border-b border-border px-6 sm:h-[460px]">
       <Image
@@ -17,19 +21,18 @@ export default function PromoBanner() {
       <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
       <Reveal className="relative z-10 mx-auto w-full max-w-7xl">
         <div className="max-w-lg">
-          <p className="font-mono text-xs uppercase tracking-widest text-accent">No bidding. No waiting.</p>
+          <p className="font-mono text-xs uppercase tracking-widest text-accent">{t.hmPromoEyebrow}</p>
           <h2 className="mt-3 text-4xl font-semibold uppercase leading-none tracking-tight text-white drop-shadow-sm sm:text-6xl">
-            Name your price.
+            {t.hmPromoTitle}
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-white/75">
-            Make an offer on any piece. Meet our price and it&apos;s an instant match — shipped today. Otherwise we&apos;ll
-            counter automatically. No auctions, no countdowns.
+            {t.hmPromoDesc}
           </p>
           <Link
             href="/faq"
             className="mt-7 inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
           >
-            See how it works &rarr;
+            {t.hmPromoCta} &rarr;
           </Link>
         </div>
       </Reveal>

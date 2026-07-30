@@ -1,16 +1,21 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
 import Reveal from "@/components/motion/Reveal";
 import RevealText from "@/components/motion/RevealText";
 import ProductCarousel from "@/components/home/ProductCarousel";
+import { getDict } from "@/lib/i18n";
 
-export default function ProductGrid({
+export default async function ProductGrid({
   eyebrow,
   title,
   viewAllHref,
-  viewAllLabel = "View all",
+  viewAllLabel,
   products,
   plain = false,
 }) {
+  const t = getDict((await cookies()).get("site-locale")?.value || "en");
+  const label = viewAllLabel ?? t.hmViewAll;
+
   return (
     <section className="relative overflow-hidden border-b border-border px-6 py-16">
       <div className="relative mx-auto max-w-7xl">
@@ -30,7 +35,7 @@ export default function ProductGrid({
               href={viewAllHref}
               className="mt-3 inline-block text-sm uppercase tracking-wide text-muted transition-colors hover:text-accent"
             >
-              {viewAllLabel} &rarr;
+              {label} &rarr;
             </Link>
           </Reveal>
         )}

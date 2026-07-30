@@ -3,18 +3,21 @@
 import { motion, AnimatePresence } from "motion/react";
 import { useFireList } from "@/lib/FireListContext";
 import { useRequireLogin } from "@/lib/AuthContext";
+import { useLocale } from "@/lib/useLocale";
+import { getDict } from "@/lib/i18n";
 
 export default function FireListButton({ product }) {
   const { isSaved, toggle } = useFireList();
   const saved = isSaved(product.slug);
   const run = useRequireLogin();
+  const t = getDict(useLocale());
 
   return (
     <motion.button
       type="button"
       onClick={() => run(() => toggle(product))}
       aria-pressed={saved}
-      aria-label={saved ? "Remove from Fire List" : "Add to Fire List"}
+      aria-label={saved ? t.prRemoveFromFireList : t.prAddToFireList}
       whileTap={{ scale: 0.85 }}
       className={`relative flex h-12 w-12 items-center justify-center rounded-full border transition-colors duration-300 ${
         saved

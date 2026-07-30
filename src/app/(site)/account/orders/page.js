@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import Reveal from "@/components/motion/Reveal";
 import StatusBadge from "@/components/admin/StatusBadge";
 import { getOrdersByEmail } from "@/lib/orders";
 import Price from "@/components/Price";
+import { getDict } from "@/lib/i18n";
 
 export const metadata = {
   title: "Order History — CRAY STUFF",
@@ -14,15 +16,25 @@ export const dynamic = "force-dynamic";
 
 const STEPS = ["New", "Paid", "Shipped", "Delivered"];
 
-function formatDate(value) {
+function formatDate(value, locale) {
   if (!value) return "";
-  return new Date(value).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+  return new Date(value).toLocaleDateString(locale === "pl" ? "pl-PL" : "en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 }
 
-function OrderTracker({ status }) {
+function OrderTracker({ status, t }) {
+  const stepLabels = {
+    New: t.pgOrderStepNew,
+    Paid: t.pgOrderStepPaid,
+    Shipped: t.pgOrderStepShipped,
+    Delivered: t.pgOrderStepDelivered,
+  };
   if (status === "Cancelled") {
     return (
-      <p className="mt-5 font-mono text-[11px] uppercase tracking-widest text-red-300">Order cancelled</p>
+      <p className="mt-5 font-mono text-[11px] uppercase tracking-widest text-red-300">{t.pgOrderCancelled}</p>
     );
   }
   const current = Math.max(0, STEPS.indexOf(status));
@@ -41,7 +53,7 @@ function OrderTracker({ status }) {
               i <= current ? "text-foreground" : "text-muted"
             }`}
           >
-            {step}
+            {stepLabels[step]}
           </span>
         ))}
       </div>
@@ -57,6 +69,9 @@ export default async function AccountOrdersPage() {
 
   if (!user) redirect("/login");
 
+  const locale = (await cookies()).get("site-locale")?.value || "en";
+  const t = getDict(locale);
+
   const orders = await getOrdersByEmail(user.email);
 
   return (
@@ -64,25 +79,25 @@ export default async function AccountOrdersPage() {
       <div className="mx-auto max-w-3xl">
         <Reveal>
           <Link href="/account" className="font-mono text-xs uppercase tracking-widest text-muted hover:text-accent">
-            &larr; Account
+            {t.pgOrdersBack}
           </Link>
-          <h1 className="mt-3 text-3xl font-semibold uppercase tracking-tight sm:text-4xl">Order History</h1>
-          <p className="mt-2 text-sm text-muted">Track shipments and revisit everything you&apos;ve collected.</p>
+          <h1 className="mt-3 text-3xl font-semibold uppercase tracking-tight sm:text-4xl">{t.pgOrdersTitle}</h1>
+          <p className="mt-2 text-sm text-muted">{t.pgOrdersIntro}</p>
         </Reveal>
 
         {orders.length === 0 ? (
           <Reveal delay={0.05}>
             <div className="mt-10 rounded-lg border border-dashed border-border bg-surface p-12 text-center">
-              <p className="font-mono text-xs uppercase tracking-widest text-accent">No orders yet</p>
-              <h2 className="mt-3 text-2xl font-semibold uppercase tracking-tight">Nothing collected — yet</h2>
+              <p className="font-mono text-xs uppercase tracking-widest text-accent">{t.pgOrdersEmptyEyebrow}</p>
+              <h2 className="mt-3 text-2xl font-semibold uppercase tracking-tight">{t.pgOrdersEmptyTitle}</h2>
               <p className="mx-auto mt-2 max-w-sm text-sm text-muted">
-                Every piece is one-of-one. When you find one, your order and tracking will live here.
+                {t.pgOrdersEmptyDesc}
               </p>
               <Link
                 href="/shop"
                 className="mt-6 inline-block rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
               >
-                Browse the drop
+                {t.pgOrdersBrowse}
               </Link>
             </div>
           </Reveal>
@@ -93,12 +108,12 @@ export default async function AccountOrdersPage() {
                 <article className="rounded-lg border border-border bg-surface p-6">
                   <div className="flex flex-wrap items-start justify-between gap-3 border-b border-border pb-4">
                     <div>
-                      <p className="font-mono text-[11px] uppercase tracking-widest text-muted">Order</p>
+                      <p className="font-mono text-[11px] uppercase tracking-widest text-muted">{t.pgOrderLabelOrder}</p>
                       <p className="mt-1 font-mono text-sm">{order.id}</p>
                     </div>
                     <div className="text-right">
                       <StatusBadge status={order.status} />
-                      <p className="mt-2 font-mono text-[11px] text-muted">{formatDate(order.date)}</p>
+                      <p className="mt-2 font-mono text-[11px] text-muted">{formatDate(order.date, locale)}</p>
                     </div>
                   </div>
 
@@ -111,12 +126,12 @@ export default async function AccountOrdersPage() {
                     ))}
                   </ul>
 
-                  <OrderTracker status={order.status} />
+                  <OrderTracker status={order.status} t={t} />
 
                   <div className="mt-5 flex items-center justify-between border-t border-border pt-4 text-sm">
-                    <span className="text-muted">{order.carrier ? `via ${order.carrier}` : "Awaiting dispatch"}</span>
+                    <span className="text-muted">{order.carrier ? t.pgOrderVia.replace("{carrier}", order.carrier) : t.pgOrderAwaiting}</span>
                     <span>
-                      Total <span className="ml-1 font-mono font-medium"><Price amount={order.total} /></span>
+                      {t.pgOrderTotal} <span className="ml-1 font-mono font-medium"><Price amount={order.total} /></span>
                     </span>
                   </div>
                 </article>

@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
 import Reveal from "@/components/motion/Reveal";
 import SectionHeading from "@/components/home/SectionHeading";
+import { getDict } from "@/lib/i18n";
 
 function FlameIcon() {
   return (
@@ -66,21 +68,23 @@ function Rail({ label, brands, fire = false, icon = null, delay = 0 }) {
 // saved pieces, so trending labels surface without manual work. Pass `bare`
 // to drop it inside an existing container (e.g. the shop page) without the
 // full-width section chrome.
-export default function BrandDiscovery({ groups, bare = false }) {
+export default async function BrandDiscovery({ groups, bare = false }) {
   const { fire = [], hot = [], designer = [] } = groups || {};
   if (!fire.length && !hot.length && !designer.length) return null;
+
+  const t = getDict((await cookies()).get("site-locale")?.value || "en");
 
   const inner = (
     <>
       <SectionHeading
-        eyebrow="Choose your style"
-        title="Shop by brand & style"
-        link={bare ? null : { href: "/shop", label: "All pieces" }}
+        eyebrow={t.hmChooseYourStyle}
+        title={t.hmShopByBrandStyle}
+        link={bare ? null : { href: "/shop", label: t.hmAllPieces }}
       />
       <div className="space-y-8">
-        <Rail label="Designer" brands={designer} icon={<DiamondIcon />} delay={0} />
-        <Rail label="Hot right now" brands={hot} icon={<TrendIcon />} delay={0.05} />
-        <Rail label="On fire" brands={fire} fire icon={<FlameIcon />} delay={0.1} />
+        <Rail label={t.hmRailDesigner} brands={designer} icon={<DiamondIcon />} delay={0} />
+        <Rail label={t.hmRailHot} brands={hot} icon={<TrendIcon />} delay={0.05} />
+        <Rail label={t.hmRailFire} brands={fire} fire icon={<FlameIcon />} delay={0.1} />
       </div>
     </>
   );

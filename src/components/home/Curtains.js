@@ -4,44 +4,8 @@ import Link from "next/link";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { reviewsCount } from "@/lib/reviews";
-
-// Free rebuild of Motion+'s useCurtains: full-height panels pinned with sticky,
-// each sliding up over the last with a rounded "curtain" lip. The covered panel
-// scales down and dims for depth (scroll-linked via useScroll/useMotionTemplate).
-// Backgrounds are designed dark panels (gradient only) that sit on the brand
-// theme rather than stock photos.
-const panels = [
-  {
-    index: "01",
-    eyebrow: "The archive",
-    title: "One of one",
-    copy: "Every piece is the only one that will ever exist. No restocks, no duplicates — hand-picked, authenticated, and yours alone. Once it's gone, it's gone for good.",
-    meta: ["Vintage", "Y2K", "Skate", "Archive"],
-    cta: "Shop the drop",
-    href: "/shop",
-    base: "from-[#241f33] via-[#191622] to-[#0d0b12]",
-  },
-  {
-    index: "02",
-    eyebrow: "Never restocked",
-    title: "Wear it first",
-    copy: "Fresh finds land every week and they don't wait around. Catch the drop before someone else does — packed and shipped within 24 hours, Poland to worldwide.",
-    meta: ["New weekly", "Ships in 24h", "Poland → Worldwide"],
-    cta: "New arrivals",
-    href: "/shop?sort=new",
-    base: "from-[#20202a] via-[#161620] to-[#0b0b10]",
-  },
-  {
-    index: "03",
-    eyebrow: "Our philosophy",
-    title: "Second life. First choice.",
-    copy: `Vintage with history and character — clothing that deserves a second life, not a landfill. Sourced by hand, checked by hand, and loved by ${reviewsCount}+ buyers across the EU.`,
-    meta: ["Est. 2021", "Hand-checked", `${reviewsCount}+ reviews`],
-    cta: "Our story",
-    href: "/about",
-    base: "from-[#26202f] via-[#181521] to-[#0c0a11]",
-  },
-];
+import { useLocale } from "@/lib/useLocale";
+import { getDict } from "@/lib/i18n";
 
 const noise =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
@@ -139,6 +103,44 @@ function Panel({ panel, isLast, total }) {
 }
 
 export default function Curtains() {
+  const t = getDict(useLocale());
+
+  // Free rebuild of Motion+'s useCurtains: full-height panels pinned with sticky,
+  // each sliding up over the last with a rounded "curtain" lip. Backgrounds are
+  // designed dark panels (gradient only) that sit on the brand theme.
+  const panels = [
+    {
+      index: "01",
+      eyebrow: t.hmCurtain1Eyebrow,
+      title: t.hmCurtain1Title,
+      copy: t.hmCurtain1Copy,
+      meta: ["Vintage", "Y2K", "Skate", t.hmArchive],
+      cta: t.hmCurtain1Cta,
+      href: "/shop",
+      base: "from-[#241f33] via-[#191622] to-[#0d0b12]",
+    },
+    {
+      index: "02",
+      eyebrow: t.hmCurtain2Eyebrow,
+      title: t.hmCurtain2Title,
+      copy: t.hmCurtain2Copy,
+      meta: [t.hmCurtain2MetaNew, t.hmShipsIn24h, t.hmHeroPolandWorldwide],
+      cta: t.hmCurtain2Cta,
+      href: "/shop?sort=new",
+      base: "from-[#20202a] via-[#161620] to-[#0b0b10]",
+    },
+    {
+      index: "03",
+      eyebrow: t.hmOurPhilosophy,
+      title: t.hmSecondLifeFirstChoice,
+      copy: t.hmCurtain3Copy.replace("{n}", reviewsCount),
+      meta: ["Est. 2021", t.hmCurtain3MetaHand, t.hmCurtain3Reviews.replace("{n}", reviewsCount)],
+      cta: t.hmCurtain3Cta,
+      href: "/about",
+      base: "from-[#26202f] via-[#181521] to-[#0c0a11]",
+    },
+  ];
+
   return (
     <div className="relative">
       {panels.map((panel, i) => (

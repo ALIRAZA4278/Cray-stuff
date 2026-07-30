@@ -11,6 +11,8 @@ import Reviews from "@/components/home/Reviews";
 import Community from "@/components/home/Community";
 import PhilosophyAndDrop from "@/components/home/PhilosophyAndDrop";
 import { getAllProducts } from "@/lib/products";
+import { cookies } from "next/headers";
+import { getDict } from "@/lib/i18n";
 
 // Storefront reads the live catalog; refresh at most every 60s (plus instant
 // on-demand refresh when admin saves via revalidatePath).
@@ -20,6 +22,7 @@ export default async function HomePage() {
   const products = await getAllProducts();
   const mostPopular = [...products].sort((a, b) => b.fireCount - a.fireCount);
   const dropTarget = Date.now() + 1000 * 60 * 60 * 24 * 7;
+  const t = getDict((await cookies()).get("site-locale")?.value || "en");
 
   return (
     <>
@@ -27,17 +30,17 @@ export default async function HomePage() {
       <TrustBar />
       <BrowseByCategory />
       <ProductGrid
-        eyebrow="New this week"
-        title="Latest Drop"
+        eyebrow={t.hmNewThisWeek}
+        title={t.hmLatestDrop}
         viewAllHref="/shop"
-        viewAllLabel="Shop new arrivals"
+        viewAllLabel={t.hmShopNewArrivals}
         products={products}
       />
       <ProductGrid
-        eyebrow="Community favorites"
-        title="Most Popular"
+        eyebrow={t.hmCommunityFavorites}
+        title={t.hmMostPopular}
         viewAllHref="/shop?sort=popular"
-        viewAllLabel="Shop most popular"
+        viewAllLabel={t.hmShopMostPopular}
         products={mostPopular}
       />
       <BrandTicker />

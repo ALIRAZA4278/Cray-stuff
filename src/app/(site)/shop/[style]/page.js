@@ -1,4 +1,6 @@
 import { notFound } from "next/navigation";
+import { cookies } from "next/headers";
+import { getDict } from "@/lib/i18n";
 import Reveal from "@/components/motion/Reveal";
 import SortSelect from "@/components/shop/SortSelect";
 import ShopResults from "@/components/shop/ShopResults";
@@ -19,6 +21,7 @@ export function generateStaticParams() {
 }
 
 export default async function StyleShopPage({ params, searchParams }) {
+  const t = getDict((await cookies()).get("site-locale")?.value || "en");
   const { style } = await params;
   const styleLabel = browsableTags.find((tag) => slugify(tag) === style);
 
@@ -44,15 +47,30 @@ export default async function StyleShopPage({ params, searchParams }) {
   const products = sortProducts(filtered, sort);
   const baseParams = new URLSearchParams(search);
 
+  const localizedCopy = {
+    vintage: t.shCopyVintage,
+    y2k: t.shCopyY2k,
+    skate: t.shCopySkate,
+    archive: t.shCopyArchive,
+    "just-swag": t.shCopyJustSwag,
+    outerwear: t.shCopyOuterwear,
+    hoodies: t.shCopyHoodies,
+    "t-shirts": t.shCopyTShirts,
+    "long-sleeves": t.shCopyLongSleeves,
+    pants: t.shCopyPants,
+    shorts: t.shCopyShorts,
+    accessories: t.shCopyAccessories,
+  };
+
   return (
     <div className="px-6 py-16">
       <div className="mx-auto max-w-7xl">
         <Reveal className="mb-10">
-          <p className="font-mono text-xs uppercase tracking-widest text-accent">Curated edit</p>
+          <p className="font-mono text-xs uppercase tracking-widest text-accent">{t.shCuratedEdit}</p>
           <h1 className="mt-2 text-3xl font-semibold uppercase tracking-tight sm:text-4xl">{styleLabel}</h1>
-          <p className="mt-2 max-w-xl text-sm text-muted">{styleCopy[style]}</p>
+          <p className="mt-2 max-w-xl text-sm text-muted">{localizedCopy[style] || styleCopy[style]}</p>
           <p className="mt-2 font-mono text-[11px] uppercase tracking-widest text-muted">
-            {products.length} {products.length === 1 ? "piece" : "pieces"} — every one a one-of-one
+            {products.length} {products.length === 1 ? t.shPiece : t.shPieces} {t.shStyleCountTail}
           </p>
         </Reveal>
 
@@ -68,7 +86,7 @@ export default async function StyleShopPage({ params, searchParams }) {
               </div>
               <div className="flex shrink-0 items-center gap-4">
                 <span className="hidden font-mono text-[11px] uppercase tracking-widest text-muted sm:inline">
-                  {products.length} results
+                  {products.length} {t.shResults}
                 </span>
                 <SortSelect value={sort} />
               </div>

@@ -6,6 +6,8 @@ import { submitOffer, acceptCounter } from "@/lib/actions/offers";
 import { useRequireLogin } from "@/lib/AuthContext";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { useCart } from "@/lib/CartContext";
+import { useLocale } from "@/lib/useLocale";
+import { getDict } from "@/lib/i18n";
 
 const inputClass =
   "w-full rounded-full border border-border bg-transparent px-4 py-2.5 text-sm outline-none placeholder:text-muted focus:border-accent";
@@ -14,6 +16,7 @@ export default function MakeOfferDialog({ product }) {
   const { slug, name: productName, price, minOffer } = product;
   const { format } = useCurrency();
   const { addItem } = useCart();
+  const t = getDict(useLocale());
   const router = useRouter();
   const run = useRequireLogin();
   const [open, setOpen] = useState(false);
@@ -72,7 +75,7 @@ export default function MakeOfferDialog({ product }) {
         onClick={() => run(() => setOpen(true))}
         className="rounded-full border border-border px-6 py-3 text-sm font-medium transition-colors hover:border-accent"
       >
-        Make an offer
+        {t.prMakeOffer}
       </button>
 
       {open && (
@@ -81,7 +84,7 @@ export default function MakeOfferDialog({ product }) {
             <button
               type="button"
               onClick={close}
-              aria-label="Close"
+              aria-label={t.prClose}
               className="absolute right-4 top-4 text-muted transition-colors hover:text-foreground"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
@@ -91,12 +94,12 @@ export default function MakeOfferDialog({ product }) {
 
             {result?.outcome === "accepted" && (
               <div className="text-center">
-                <p className="font-mono text-xs uppercase tracking-widest text-accent">Offer accepted</p>
+                <p className="font-mono text-xs uppercase tracking-widest text-accent">{t.prOfferAccepted}</p>
                 <h3 className="mt-3 text-lg font-semibold uppercase tracking-tight">
-                  You&apos;re in at {format(result.price)}
+                  {t.prYoureInAt.replace("{price}", format(result.price))}
                 </h3>
                 <p className="mt-2 text-sm text-muted">
-                  Shipping can be dispatched within 24 hours. This price is saved just for you.
+                  {t.prAcceptedNote}
                 </p>
                 <div className="mt-6 flex flex-col gap-2">
                   <button
@@ -104,10 +107,10 @@ export default function MakeOfferDialog({ product }) {
                     onClick={() => takeDeal("checkout")}
                     className="rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
                   >
-                    Go to checkout
+                    {t.prGoToCheckout}
                   </button>
                   <button type="button" onClick={() => takeDeal("shop")} className="text-sm text-muted hover:text-foreground">
-                    Keep shopping
+                    {t.prKeepShopping}
                   </button>
                 </div>
               </div>
@@ -115,11 +118,10 @@ export default function MakeOfferDialog({ product }) {
 
             {result?.outcome === "countered" && (
               <div className="text-center">
-                <p className="font-mono text-xs uppercase tracking-widest text-accent">Counteroffer</p>
-                <h3 className="mt-3 text-lg font-semibold uppercase tracking-tight">We can do {format(result.counter)}</h3>
+                <p className="font-mono text-xs uppercase tracking-widest text-accent">{t.prCounteroffer}</p>
+                <h3 className="mt-3 text-lg font-semibold uppercase tracking-tight">{t.prWeCanDo.replace("{price}", format(result.counter))}</h3>
                 <p className="mt-2 text-sm text-muted">
-                  {format(Number(offer))} is below what we can accept on this piece — here&apos;s our best price. Shipping
-                  can be dispatched within 24 hours. What do you think?
+                  {t.prCounterNote.replace("{offer}", format(Number(offer)))}
                 </p>
                 {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
                 <div className="mt-6 flex flex-col gap-2">
@@ -129,10 +131,10 @@ export default function MakeOfferDialog({ product }) {
                     disabled={pending}
                     className="rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
                   >
-                    {pending ? "…" : `Accept ${format(result.counter)}`}
+                    {pending ? "…" : t.prAcceptPrice.replace("{price}", format(result.counter))}
                   </button>
                   <button type="button" onClick={close} className="text-sm text-muted hover:text-foreground">
-                    No thanks
+                    {t.prNoThanks}
                   </button>
                 </div>
               </div>
@@ -140,23 +142,23 @@ export default function MakeOfferDialog({ product }) {
 
             {result?.outcome === "pending" && (
               <div className="text-center">
-                <p className="font-mono text-xs uppercase tracking-widest text-accent">Offer sent</p>
-                <h3 className="mt-3 text-lg font-semibold uppercase tracking-tight">We&apos;ll be in touch</h3>
+                <p className="font-mono text-xs uppercase tracking-widest text-accent">{t.prOfferSent}</p>
+                <h3 className="mt-3 text-lg font-semibold uppercase tracking-tight">{t.prWellBeInTouch}</h3>
                 <p className="mt-2 text-sm text-muted">
-                  Thanks — we&apos;ve got your {format(Number(offer))} offer and will reply by email shortly.
+                  {t.prPendingNote.replace("{offer}", format(Number(offer)))}
                 </p>
                 <button type="button" onClick={close} className="mt-6 text-sm text-muted hover:text-foreground">
-                  Close
+                  {t.prClose}
                 </button>
               </div>
             )}
 
             {!result && (
               <>
-                <p className="font-mono text-xs uppercase tracking-widest text-accent">Make an offer</p>
-                <h3 className="mt-3 text-lg font-semibold uppercase tracking-tight">Name your price</h3>
+                <p className="font-mono text-xs uppercase tracking-widest text-accent">{t.prMakeOffer}</p>
+                <h3 className="mt-3 text-lg font-semibold uppercase tracking-tight">{t.prNameYourPrice}</h3>
                 <p className="mt-2 text-sm text-muted">
-                  Listed at {format(price)}. Meet our price and it&apos;s an instant match — otherwise we&apos;ll counter.
+                  {t.prListedAt.replace("{price}", format(price))}
                 </p>
                 <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-3">
                   <input
@@ -165,7 +167,7 @@ export default function MakeOfferDialog({ product }) {
                     required
                     value={offer}
                     onChange={(e) => setOffer(e.target.value)}
-                    placeholder={`Your offer — e.g. ${format(Math.round(price * 0.85))}`}
+                    placeholder={t.prOfferPlaceholder.replace("{price}", format(Math.round(price * 0.85)))}
                     className={inputClass}
                   />
                   {error && <p className="text-sm text-red-400">{error}</p>}
@@ -174,7 +176,7 @@ export default function MakeOfferDialog({ product }) {
                     disabled={pending}
                     className="rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
                   >
-                    {pending ? "Submitting…" : "Submit offer"}
+                    {pending ? t.prSubmitting : t.prSubmitOffer}
                   </button>
                 </form>
               </>

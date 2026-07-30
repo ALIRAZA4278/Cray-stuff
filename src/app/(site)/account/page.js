@@ -1,34 +1,18 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import Reveal from "@/components/motion/Reveal";
 import { signOut } from "@/lib/actions/auth";
+import { getDict } from "@/lib/i18n";
 
 export const metadata = {
   title: "Account — CRAY STUFF",
 };
 
-const dashboardLinks = [
-  {
-    href: "/account/orders",
-    title: "Order History",
-    desc: "Track shipments and review past orders.",
-  },
-  {
-    href: "/fire-list",
-    title: "Fire List",
-    desc: "The pieces you've saved to revisit.",
-  },
-  {
-    href: "/shop",
-    title: "Keep browsing",
-    desc: "New one-of-one pieces land every week.",
-  },
-];
-
-function formatDate(value) {
+function formatDate(value, locale) {
   if (!value) return "—";
-  return new Date(value).toLocaleDateString("en-GB", {
+  return new Date(value).toLocaleDateString(locale === "pl" ? "pl-PL" : "en-GB", {
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -43,23 +27,44 @@ export default async function AccountPage() {
 
   if (!user) redirect("/login");
 
+  const locale = (await cookies()).get("site-locale")?.value || "en";
+  const t = getDict(locale);
+
+  const dashboardLinks = [
+    {
+      href: "/account/orders",
+      title: t.pgAccountOrdersTitle,
+      desc: t.pgAccountOrdersDesc,
+    },
+    {
+      href: "/fire-list",
+      title: t.pgAccountFireTitle,
+      desc: t.pgAccountFireDesc,
+    },
+    {
+      href: "/shop",
+      title: t.pgAccountKeepTitle,
+      desc: t.pgAccountKeepDesc,
+    },
+  ];
+
   const name = user.user_metadata?.name || user.email?.split("@")[0];
 
   return (
     <div className="px-6 py-16">
       <div className="mx-auto max-w-5xl">
         <Reveal>
-          <p className="font-mono text-xs uppercase tracking-widest text-accent">Account</p>
+          <p className="font-mono text-xs uppercase tracking-widest text-accent">{t.pgAccountEyebrow}</p>
           <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
             <h1 className="text-3xl font-semibold uppercase tracking-tight sm:text-4xl">
-              Hey, {name}
+              {t.pgAccountHey}, {name}
             </h1>
             <form action={signOut}>
               <button
                 type="submit"
                 className="rounded-full border border-border px-5 py-2 font-mono text-xs uppercase tracking-widest text-muted transition-colors hover:border-accent hover:text-foreground"
               >
-                Sign out
+                {t.pgAccountSignOut}
               </button>
             </form>
           </div>
@@ -69,19 +74,19 @@ export default async function AccountPage() {
           {/* Profile summary */}
           <Reveal>
             <div className="rounded-lg border border-border bg-surface p-6">
-              <h2 className="text-sm font-medium uppercase tracking-wide text-muted">Profile</h2>
+              <h2 className="text-sm font-medium uppercase tracking-wide text-muted">{t.pgAccountProfile}</h2>
               <dl className="mt-5 space-y-4 text-sm">
                 <div>
-                  <dt className="text-xs uppercase tracking-wide text-muted">Name</dt>
+                  <dt className="text-xs uppercase tracking-wide text-muted">{t.pgAccountName}</dt>
                   <dd className="mt-1">{name}</dd>
                 </div>
                 <div>
-                  <dt className="text-xs uppercase tracking-wide text-muted">Email</dt>
+                  <dt className="text-xs uppercase tracking-wide text-muted">{t.pgAccountEmail}</dt>
                   <dd className="mt-1 break-all">{user.email}</dd>
                 </div>
                 <div>
-                  <dt className="text-xs uppercase tracking-wide text-muted">Member since</dt>
-                  <dd className="mt-1">{formatDate(user.created_at)}</dd>
+                  <dt className="text-xs uppercase tracking-wide text-muted">{t.pgAccountMemberSince}</dt>
+                  <dd className="mt-1">{formatDate(user.created_at, locale)}</dd>
                 </div>
               </dl>
             </div>
@@ -101,7 +106,7 @@ export default async function AccountPage() {
                     <p className="mt-2 text-sm text-muted">{item.desc}</p>
                   </div>
                   <span className="mt-6 font-mono text-xs uppercase tracking-widest text-accent">
-                    Open &rarr;
+                    {t.pgAccountOpen}
                   </span>
                 </Link>
               ))}

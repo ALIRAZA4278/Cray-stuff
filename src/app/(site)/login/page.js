@@ -1,7 +1,9 @@
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import AuthLayout from "@/components/auth/AuthLayout";
 import LoginForm from "./LoginForm";
+import { getDict } from "@/lib/i18n";
 
 export const metadata = {
   title: "Sign in — CRAY STUFF",
@@ -16,12 +18,14 @@ export default async function LoginPage({ searchParams }) {
 
   if (user) redirect("/account");
 
+  const t = getDict((await cookies()).get("site-locale")?.value || "en");
+
   return (
     <AuthLayout
-      eyebrow="Members"
-      title="Welcome back"
-      subtitle="Sign in to your Fire List, offers and order history."
-      alt={{ label: "New here?", href: "/register", cta: "Create an account" }}
+      eyebrow={t.pgLoginEyebrow}
+      title={t.pgLoginTitle}
+      subtitle={t.pgLoginSubtitle}
+      alt={{ label: t.pgLoginAltLabel, href: "/register", cta: t.pgLoginAltCta }}
     >
       <LoginForm initialError={params?.error} />
     </AuthLayout>

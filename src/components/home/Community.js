@@ -1,7 +1,9 @@
 import Image from "next/image";
+import { cookies } from "next/headers";
 import Reveal from "@/components/motion/Reveal";
 import SectionHeading from "@/components/home/SectionHeading";
 import { socialLinks } from "@/lib/site";
+import { getDict } from "@/lib/i18n";
 
 // Real shots from Wiktor's world, not stock placeholders — product flatlays
 // mixed with worn/street shots.
@@ -14,13 +16,15 @@ const tiles = [
   "/PRODOCT/NEW/nike-max-shorts.jpg",
 ];
 
-export default function Community() {
+export default async function Community() {
+  const t = getDict((await cookies()).get("site-locale")?.value || "en");
+
   return (
     <section className="border-b border-border px-6 py-16">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
-          eyebrow="Worn by the community"
-          title="From our world"
+          eyebrow={t.hmCommunityEyebrow}
+          title={t.hmCommunityTitle}
           link={{ href: socialLinks.instagram, label: "@craybze" }}
         />
         <div className="grid grid-cols-3 gap-2 sm:grid-cols-6 sm:gap-3">
@@ -34,7 +38,7 @@ export default function Community() {
               >
                 <Image
                   src={image}
-                  alt="Community post"
+                  alt={t.hmCommunityAlt}
                   fill
                   sizes="(max-width: 640px) 33vw, 16vw"
                   className="object-cover grayscale-[30%] transition-transform duration-500 group-hover:scale-110"

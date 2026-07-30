@@ -2,27 +2,30 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-const shopLinks = [
-  { href: "/shop", label: "All Products" },
-  { href: "/shop/vintage", label: "Vintage" },
-  { href: "/shop/y2k", label: "Y2K" },
-  { href: "/shop/skate", label: "Skate" },
-  { href: "/shop/archive", label: "Archive" },
-  { href: "/shop/just-swag", label: "Just Swag" },
-  { href: "/sold", label: "Recently Sold" },
-];
+import { useLocale } from "@/lib/useLocale";
+import { getDict } from "@/lib/i18n";
 
 // Desktop "Shop" nav item with a hover/focus dropdown of the style edits, so the
 // top nav can lead with the main pages instead of a long list of styles.
 export default function ShopDropdown({ itemClassName, activeClassName }) {
+  const t = getDict(useLocale());
   const pathname = usePathname();
   const active = pathname === "/shop" || pathname.startsWith("/shop/");
+
+  const shopLinks = [
+    { href: "/shop", label: t.ddAllProducts },
+    { href: "/shop/vintage", label: t.navVintage },
+    { href: "/shop/y2k", label: t.navY2K },
+    { href: "/shop/skate", label: t.navSkate },
+    { href: "/shop/archive", label: t.navArchive },
+    { href: "/shop/just-swag", label: t.navJustSwag },
+    { href: "/sold", label: t.ddRecentlySold },
+  ];
 
   return (
     <div className="group relative">
       <Link href="/shop" className={`${active ? activeClassName : itemClassName} inline-flex items-center gap-1`}>
-        Shop
+        {t.ddShop}
         <svg
           viewBox="0 0 24 24"
           fill="none"

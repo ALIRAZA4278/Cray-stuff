@@ -1,57 +1,62 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
 import NewsletterForm from "@/components/layout/NewsletterForm";
 import { socialLinks } from "@/lib/site";
-
-const columns = [
-  {
-    title: "Shop",
-    links: [
-      { href: "/shop", label: "All Products" },
-      { href: "/sold", label: "Recently Sold" },
-      { href: "/shop/vintage", label: "Vintage" },
-      { href: "/shop/y2k", label: "Y2K" },
-      { href: "/shop/skate", label: "Skate" },
-      { href: "/shop/archive", label: "Archive" },
-      { href: "/shop/just-swag", label: "Just Swag" },
-    ],
-  },
-  {
-    title: "Customer Care",
-    links: [
-      { href: "/contact", label: "Contact" },
-      { href: "/faq", label: "FAQ" },
-      { href: "/reviews", label: "Reviews" },
-      { href: "/account/orders", label: "Track Order" },
-      { href: "/fire-list", label: "Fire List" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { href: "/about", label: "About Us" },
-      { href: "/shop?sort=new", label: "New Arrivals" },
-    ],
-  },
-  {
-    title: "Legal",
-    links: [
-      { href: "/faq", label: "Privacy Policy" },
-      { href: "/faq", label: "Terms & Conditions" },
-    ],
-  },
-];
+import { getDict } from "@/lib/i18n";
 
 const socials = [
   { label: "Instagram", href: socialLinks.instagram },
   { label: "TikTok", href: socialLinks.tiktok },
 ];
 
-export default function Footer() {
+export default async function Footer() {
+  const locale = (await cookies()).get("site-locale")?.value || "en";
+  const t = getDict(locale);
+
+  const columns = [
+    {
+      title: t.footColShop,
+      links: [
+        { href: "/shop", label: t.footAllProducts },
+        { href: "/sold", label: t.navRecentlySold },
+        { href: "/shop/vintage", label: t.navVintage },
+        { href: "/shop/y2k", label: t.navY2K },
+        { href: "/shop/skate", label: t.navSkate },
+        { href: "/shop/archive", label: t.navArchive },
+        { href: "/shop/just-swag", label: t.navJustSwag },
+      ],
+    },
+    {
+      title: t.footColCare,
+      links: [
+        { href: "/contact", label: t.navContact },
+        { href: "/faq", label: t.navFaq },
+        { href: "/reviews", label: t.navReviews },
+        { href: "/account/orders", label: t.footTrackOrder },
+        { href: "/fire-list", label: t.navFireList },
+      ],
+    },
+    {
+      title: t.footColCompany,
+      links: [
+        { href: "/about", label: t.navAbout },
+        { href: "/shop?sort=new", label: t.footNewArrivals },
+      ],
+    },
+    {
+      title: t.footColLegal,
+      links: [
+        { href: "/faq", label: t.footPrivacy },
+        { href: "/faq", label: t.footTerms },
+      ],
+    },
+  ];
+
   return (
     <footer className="border-t border-border">
       <div className="flex flex-col items-center gap-4 border-b border-border px-6 py-12 text-center">
-        <h2 className="text-lg font-semibold uppercase tracking-tight">Join the Cray Stuff club</h2>
-        <p className="text-sm text-muted">Be the first to know about new drops and exclusive offers.</p>
+        <h2 className="text-lg font-semibold uppercase tracking-tight">{t.footJoinClub}</h2>
+        <p className="text-sm text-muted">{t.footJoinDesc}</p>
         <NewsletterForm />
       </div>
 
@@ -60,7 +65,7 @@ export default function Footer() {
           <p className="wordmark wordmark--worn text-xl uppercase">
             Cray<span className="text-accent"> Stuff</span>
           </p>
-          <p className="mt-2 text-sm text-muted">Wear Something Different.</p>
+          <p className="mt-2 text-sm text-muted">{t.footTagline}</p>
           <div className="mt-4 flex gap-3">
             {socials.map((social) => (
               <a
@@ -82,7 +87,7 @@ export default function Footer() {
             className="mt-4 inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:border-accent hover:text-accent"
           >
             <SocialIcon name="Vinted" />
-            Shop our Vinted
+            {t.footShopVinted}
             <span aria-hidden>&rarr;</span>
           </a>
         </div>
@@ -103,7 +108,7 @@ export default function Footer() {
       </div>
 
       <div className="flex flex-col items-center gap-4 border-t border-border px-6 py-6 sm:flex-row sm:justify-between">
-        <p className="text-xs text-muted">© {new Date().getFullYear()} Cray Stuff. All rights reserved.</p>
+        <p className="text-xs text-muted">© {new Date().getFullYear()} Cray Stuff. {t.footRights}</p>
         <div className="flex flex-wrap items-center justify-center gap-2">
           {["Visa", "Mastercard", "BLIK", "Apple Pay", "Google Pay"].map((method) => (
             <span

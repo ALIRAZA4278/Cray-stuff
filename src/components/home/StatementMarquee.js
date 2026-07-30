@@ -1,12 +1,15 @@
 "use client";
 
 import { motion } from "motion/react";
+import { useLocale } from "@/lib/useLocale";
+import { getDict } from "@/lib/i18n";
 
 // Giant Ochi-style scrolling statement. A huge line of text loops horizontally
 // on an accent panel with a rounded top edge, so the section below feels like
 // it slides up over the one above.
-export default function StatementMarquee({ text = "Wear Something Different" }) {
-  const phrase = `${text} — `;
+export default function StatementMarquee({ text }) {
+  const t = getDict(useLocale());
+  const phrase = `${text ?? t.hmWearDifferent} — `;
 
   return (
     <section className="-mt-6 overflow-hidden rounded-t-[2rem] bg-accent py-10 md:py-16">

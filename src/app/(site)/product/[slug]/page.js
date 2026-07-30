@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { cookies } from "next/headers";
 import Link from "next/link";
 import ProductGallery from "@/components/product/ProductGallery";
 import CartActions from "@/components/product/CartActions";
@@ -12,13 +13,7 @@ import { getProductBySlug, getAllProducts } from "@/lib/products";
 import { pieceNumber } from "@/lib/piece-number";
 import { slugify } from "@/lib/shop-filters";
 import { getQuestionsForProduct } from "@/lib/qa";
-
-const assurances = [
-  { icon: TruckIcon, title: "Ships in 24h", note: "InPost · Orlen · GLS · DPD" },
-  { icon: GemIcon, title: "One of one", note: "Never restocked" },
-  { icon: CheckIcon, title: "Hand-checked", note: "Sourced & graded by us" },
-  { icon: LockIcon, title: "Secure checkout", note: "BLIK · Card · Apple/Google Pay" },
-];
+import { getDict } from "@/lib/i18n";
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -38,6 +33,15 @@ export default async function ProductPage({ params }) {
     notFound();
   }
 
+  const t = getDict((await cookies()).get("site-locale")?.value || "en");
+
+  const assurances = [
+    { icon: TruckIcon, title: t.prAssureShipTitle, note: t.prAssureShipNote },
+    { icon: GemIcon, title: t.prAssureOneTitle, note: t.prAssureOneNote },
+    { icon: CheckIcon, title: t.prAssureCheckTitle, note: t.prAssureCheckNote },
+    { icon: LockIcon, title: t.prAssureSecureTitle, note: t.prAssureSecureNote },
+  ];
+
   const [questions, all] = await Promise.all([
     getQuestionsForProduct(product.slug),
     getAllProducts(),
@@ -55,7 +59,7 @@ export default async function ProductPage({ params }) {
       <div className="mx-auto max-w-6xl">
         <nav className="mb-6 font-mono text-xs uppercase tracking-widest text-muted">
           <Link href="/shop" className="transition-colors hover:text-foreground">
-            Shop
+            {t.prShop}
           </Link>
           <span className="mx-2">/</span>
           {product.tags[0] && (
@@ -85,20 +89,20 @@ export default async function ProductPage({ params }) {
               {product.name}
             </h1>
             <p className="mt-1 font-mono text-[11px] uppercase tracking-widest text-muted">
-              One of one — once it&apos;s gone, it&apos;s gone
+              {t.prOneOfOneTag}
             </p>
 
             <div className="mt-5 flex flex-wrap items-center gap-4">
               <p className="font-mono text-3xl font-medium"><Price amount={product.price} currency={product.currency} /></p>
               {product.sold ? (
                 <span className="rounded-sm border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-muted">
-                  Sold Out
+                  {t.prSoldOut}
                 </span>
               ) : (
                 product.fireCount > 0 && (
                   <span className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-widest text-muted">
                     <HeartIcon />
-                    {product.fireCount} on Fire Lists
+                    {t.prOnFireLists.replace("{n}", product.fireCount)}
                   </span>
                 )
               )}
@@ -118,27 +122,27 @@ export default async function ProductPage({ params }) {
 
             <dl className="mt-6 grid grid-cols-2 gap-4 border-y border-border py-6 text-sm">
               <div>
-                <dt className="font-mono text-[11px] uppercase tracking-widest text-muted">Fit</dt>
+                <dt className="font-mono text-[11px] uppercase tracking-widest text-muted">{t.prFit}</dt>
                 <dd className="mt-1 font-medium">{product.size}</dd>
               </div>
               <div>
-                <dt className="font-mono text-[11px] uppercase tracking-widest text-muted">Condition</dt>
+                <dt className="font-mono text-[11px] uppercase tracking-widest text-muted">{t.prCondition}</dt>
                 <dd className="mt-1 font-medium">{product.condition}</dd>
               </div>
               {product.material && (
                 <div>
-                  <dt className="font-mono text-[11px] uppercase tracking-widest text-muted">Material</dt>
+                  <dt className="font-mono text-[11px] uppercase tracking-widest text-muted">{t.prMaterial}</dt>
                   <dd className="mt-1 font-medium">{product.material}</dd>
                 </div>
               )}
               {product.country && (
                 <div>
-                  <dt className="font-mono text-[11px] uppercase tracking-widest text-muted">Made in</dt>
+                  <dt className="font-mono text-[11px] uppercase tracking-widest text-muted">{t.prMadeIn}</dt>
                   <dd className="mt-1 font-medium">{product.country}</dd>
                 </div>
               )}
               <div className="col-span-2">
-                <dt className="font-mono text-[11px] uppercase tracking-widest text-muted">Measurements</dt>
+                <dt className="font-mono text-[11px] uppercase tracking-widest text-muted">{t.prMeasurements}</dt>
                 <dd className="mt-1 font-medium">{product.measurements}</dd>
               </div>
             </dl>
@@ -152,7 +156,7 @@ export default async function ProductPage({ params }) {
                     <circle cx="12" cy="12" r="9" />
                     <path d="M12 8v5M12 16.5v.01" strokeLinecap="round" />
                   </svg>
-                  Flaws — told straight
+                  {t.prFlaws}
                 </p>
                 <p className="mt-2 text-sm leading-relaxed text-muted">{product.flaws}</p>
               </div>
@@ -161,7 +165,7 @@ export default async function ProductPage({ params }) {
             <div className="mt-8 flex flex-wrap items-center gap-3">
               {product.sold ? (
                 <span className="cursor-not-allowed rounded-full border border-border px-6 py-3 text-sm font-medium text-muted">
-                  Sold Out
+                  {t.prSoldOut}
                 </span>
               ) : (
                 <>
@@ -187,17 +191,14 @@ export default async function ProductPage({ params }) {
 
             {/* Shipping / returns / authenticity */}
             <div className="mt-8 divide-y divide-border border-y border-border">
-              <InfoRow title="Shipping">
-                Packed and shipped within 24 hours via InPost, Orlen Paczka, GLS or DPD. Free shipping on orders of 3
-                items or more. International options shown at checkout.
+              <InfoRow title={t.prShipping}>
+                {t.prShippingBody}
               </InfoRow>
-              <InfoRow title="Returns">
-                Every piece is one-of-one and described in detail. If it arrives not as described, message us within 48
-                hours of delivery and we&apos;ll make it right.
+              <InfoRow title={t.prReturns}>
+                {t.prReturnsBody}
               </InfoRow>
-              <InfoRow title="Authenticity & condition">
-                Hand-sourced and checked by us, graded <span className="text-foreground">{product.condition}</span>.
-                Vintage means character — every mark is described honestly above.
+              <InfoRow title={t.prAuthenticity}>
+                {t.prAuthBodyBefore}<span className="text-foreground">{product.condition}</span>{t.prAuthBodyAfter}
               </InfoRow>
             </div>
           </div>
@@ -208,11 +209,11 @@ export default async function ProductPage({ params }) {
           <section className="mt-20 border-t border-border pt-12">
             <div className="mb-8 flex items-end justify-between">
               <div>
-                <p className="font-mono text-xs uppercase tracking-widest text-accent">Keep looking</p>
-                <h2 className="mt-1 text-2xl font-semibold uppercase tracking-tight">You might also like</h2>
+                <p className="font-mono text-xs uppercase tracking-widest text-accent">{t.prKeepLooking}</p>
+                <h2 className="mt-1 text-2xl font-semibold uppercase tracking-tight">{t.prYouMightAlsoLike}</h2>
               </div>
               <Link href="/shop" className="font-mono text-xs uppercase tracking-widest text-muted hover:text-accent">
-                View all &rarr;
+                {t.prViewAll} &rarr;
               </Link>
             </div>
             <div className="grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">

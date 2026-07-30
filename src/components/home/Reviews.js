@@ -1,17 +1,20 @@
+import { cookies } from "next/headers";
 import Reveal from "@/components/motion/Reveal";
 import CountUp from "@/components/motion/CountUp";
 import SectionHeading from "@/components/home/SectionHeading";
 import ReviewCard from "@/components/reviews/ReviewCard";
 import { reviews, reviewsCount } from "@/lib/reviews";
 import { socialLinks } from "@/lib/site";
+import { getDict } from "@/lib/i18n";
 
-export default function Reviews() {
+export default async function Reviews() {
+  const t = getDict((await cookies()).get("site-locale")?.value || "en");
   const featured = reviews.slice(0, 3);
 
   return (
     <section className="relative overflow-hidden border-b border-border px-6 py-16">
       <div className="relative mx-auto max-w-7xl">
-        <SectionHeading eyebrow="Verified on Vinted" title="What buyers say" link={{ href: "/reviews", label: "All reviews" }} />
+        <SectionHeading eyebrow={t.hmReviewsEyebrow} title={t.hmReviewsTitle} link={{ href: "/reviews", label: t.hmReviewsAll }} />
 
         {/* Counter reads straight off the Vinted profile, and the link next to it
             lets anyone check the number themselves. */}
@@ -27,9 +30,9 @@ export default function Reviews() {
               <span className="font-display text-4xl font-semibold text-accent sm:text-5xl">+</span>
             </span>
             <span className="text-left">
-              <span className="block text-sm font-medium">ratings on our Vinted profile</span>
+              <span className="block text-sm font-medium">{t.hmReviewsRatings}</span>
               <span className="mt-0.5 block font-mono text-[11px] uppercase tracking-widest text-muted transition-colors group-hover:text-accent">
-                Check it yourself &rarr;
+                {t.hmReviewsCheck} &rarr;
               </span>
             </span>
           </a>
@@ -45,7 +48,7 @@ export default function Reviews() {
 
         <Reveal delay={0.1}>
           <p className="mt-6 text-center text-sm text-muted">
-            Every quote here was written by a real buyer — we leave out Vinted&apos;s automatic ones.
+            {t.hmReviewsDisclaimer}
           </p>
         </Reveal>
       </div>

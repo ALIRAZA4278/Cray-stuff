@@ -1,16 +1,20 @@
+import { cookies } from "next/headers";
 import CountUp from "@/components/motion/CountUp";
 import { reviewsCount } from "@/lib/reviews";
+import { getDict } from "@/lib/i18n";
 
-// Review count comes from one place so the site never claims more than is real.
-// "Ratings" not "five-star reviews" — we can't verify every one of them is a 5.
-const items = [
-  { count: reviewsCount, suffix: "+ Vinted ratings" },
-  { text: "Worldwide shipping" },
-  { text: "Secure payments" },
-  { text: "One-of-one pieces" },
-];
+export default async function TrustBar() {
+  const t = getDict((await cookies()).get("site-locale")?.value || "en");
 
-export default function TrustBar() {
+  // Review count comes from one place so the site never claims more than is real.
+  // "Ratings" not "five-star reviews" — we can't verify every one of them is a 5.
+  const items = [
+    { count: reviewsCount, suffix: t.hmTrustRatings },
+    { text: t.hmTrustWorldwide },
+    { text: t.hmTrustSecure },
+    { text: t.hmTrustOneOfOne },
+  ];
+
   return (
     <section className="border-b border-border">
       <div className="mx-auto grid max-w-6xl grid-cols-2 divide-x divide-border sm:grid-cols-4">

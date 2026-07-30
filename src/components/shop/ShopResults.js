@@ -1,14 +1,17 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
+import { getDict } from "@/lib/i18n";
 import Reveal from "@/components/motion/Reveal";
 import ProductCard from "@/components/product/ProductCard";
 
-export default function ShopResults({ products, clearHref }) {
+export default async function ShopResults({ products, clearHref }) {
+  const t = getDict((await cookies()).get("site-locale")?.value || "en");
   if (products.length === 0) {
     return (
       <div className="py-24 text-center text-muted">
-        <p>No pieces match those filters right now.</p>
+        <p>{t.shNoMatch}</p>
         <Link href={clearHref} className="mt-3 inline-block text-sm text-accent hover:opacity-80">
-          Clear filters
+          {t.shClearFilters}
         </Link>
       </div>
     );

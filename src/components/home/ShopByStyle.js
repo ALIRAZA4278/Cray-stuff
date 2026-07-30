@@ -1,16 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
+import { cookies } from "next/headers";
 import Reveal from "@/components/motion/Reveal";
 import SectionHeading from "@/components/home/SectionHeading";
 import { styleTags } from "@/lib/mock-products";
 import { slugify } from "@/lib/shop-filters";
 import { styleImages } from "@/lib/style-images";
+import { getDict } from "@/lib/i18n";
 
-export default function ShopByStyle() {
+export default async function ShopByStyle() {
+  const t = getDict((await cookies()).get("site-locale")?.value || "en");
+
   return (
     <section className="border-b border-border px-6 py-16">
       <div className="mx-auto max-w-7xl">
-        <SectionHeading eyebrow="Curated edits" title="Shop by style" link={{ href: "/shop", label: "All styles" }} />
+        <SectionHeading eyebrow={t.hmCuratedEdits} title={t.hmShopByStyle} link={{ href: "/shop", label: t.hmAllStyles }} />
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6">
           {styleTags.map((style, index) => (
             <Reveal key={style} delay={index * 0.05}>

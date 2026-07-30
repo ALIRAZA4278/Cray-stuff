@@ -1,15 +1,13 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
 import Reveal from "@/components/motion/Reveal";
-
-const trustPoints = [
-  "One-of-one archive — never restocked",
-  "Ships within 24 hours",
-  "Curated by hand, not an algorithm",
-];
+import { getDict } from "@/lib/i18n";
 
 // Editorial split layout shared by Login and Register. Left: concrete-grey
 // brand panel (hidden on small screens). Right: the form.
-export default function AuthLayout({ eyebrow, title, subtitle, children, alt }) {
+export default async function AuthLayout({ eyebrow, title, subtitle, children, alt }) {
+  const t = getDict((await cookies()).get("site-locale")?.value || "en");
+  const trustPoints = [t.pgAuthTrust1, t.pgAuthTrust2, t.pgAuthTrust3];
   return (
     <div className="grid min-h-[calc(100vh-8rem)] lg:grid-cols-2">
       {/* Brand panel */}
@@ -24,10 +22,10 @@ export default function AuthLayout({ eyebrow, title, subtitle, children, alt }) 
         </Link>
 
         <div className="relative">
-          <p className="font-mono text-xs uppercase tracking-widest text-accent">Members</p>
+          <p className="font-mono text-xs uppercase tracking-widest text-accent">{t.pgAuthMembers}</p>
           <h2 className="mt-4 font-display text-6xl uppercase leading-[0.95] tracking-tight xl:text-7xl">
-            Trends follow us.
-            <span className="block text-outline">You follow the drop.</span>
+            {t.pgAuthHeadline1}
+            <span className="block text-outline">{t.pgAuthHeadline2}</span>
           </h2>
         </div>
 

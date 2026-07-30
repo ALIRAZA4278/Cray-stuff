@@ -1,11 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { useLocale } from "@/lib/useLocale";
+import { getDict } from "@/lib/i18n";
 
 // Password input with a show/hide (eye) toggle. Drop-in replacement for a
 // <input type="password"> — pass the same props (name, placeholder, etc.).
 export default function PasswordInput({ className = "", ...props }) {
   const [show, setShow] = useState(false);
+  const t = getDict(useLocale());
 
   return (
     <div className="relative">
@@ -13,7 +16,7 @@ export default function PasswordInput({ className = "", ...props }) {
       <button
         type="button"
         onClick={() => setShow((s) => !s)}
-        aria-label={show ? "Hide password" : "Show password"}
+        aria-label={show ? t.pgAuthHidePassword : t.pgAuthShowPassword}
         className="absolute right-3 top-1/2 -translate-y-1/2 text-muted transition-colors hover:text-foreground"
       >
         {show ? <EyeOffIcon /> : <EyeIcon />}

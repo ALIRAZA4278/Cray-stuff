@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
+import { useLocale } from "@/lib/useLocale";
+import { getDict } from "@/lib/i18n";
 
 const container = {
   hidden: {},
@@ -45,6 +47,7 @@ const heroShots = [
 ];
 
 export default function Hero() {
+  const t = getDict(useLocale());
   const sectionRef = useRef(null);
   const px = useMotionValue(0); // -0.5 .. 0.5
   const py = useMotionValue(0);
@@ -130,19 +133,19 @@ export default function Hero() {
           variants={rise}
           className="font-mono text-sm font-semibold uppercase tracking-widest text-violet-300 [text-shadow:0_1px_12px_rgba(0,0,0,0.7)]"
         >
-          Cray Stuff &mdash; One of one
+          Cray Stuff &mdash; {t.hmHeroOneOfOne}
         </motion.p>
         {/* No text-shadow on the lines — the reveal masks would clip it square.
             The scrim above does the legibility work. */}
         <h1 className="mt-4 text-4xl font-semibold uppercase leading-[1.05] tracking-tight text-white sm:text-6xl">
-          <MaskedLine>We don&apos;t follow trends.</MaskedLine>
+          <MaskedLine>{t.hmHeroLine1}</MaskedLine>
           <MaskedLine className="text-outline">
             {/* stroke styling lives on the span so the mask can still clip it */}
-            <span style={{ WebkitTextStrokeColor: "#ffffff", WebkitTextStrokeWidth: "2px" }}>Trends follow us.</span>
+            <span style={{ WebkitTextStrokeColor: "#ffffff", WebkitTextStrokeWidth: "2px" }}>{t.hmHeroLine2}</span>
           </MaskedLine>
         </h1>
         <motion.p variants={rise} className="mx-auto mt-5 max-w-lg text-sm text-white/70 sm:text-base">
-          Premium curated vintage &amp; streetwear &mdash; carefully selected pieces with history, character and style.
+          {t.hmHeroSubtitle}
         </motion.p>
         <motion.div variants={rise} className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
@@ -150,7 +153,7 @@ export default function Hero() {
               href="/shop"
               className="inline-block rounded-full bg-accent px-8 py-3.5 text-sm font-medium uppercase tracking-wide text-accent-foreground transition-opacity hover:opacity-90"
             >
-              Shop now &rarr;
+              {t.hmShopNow} &rarr;
             </Link>
           </motion.div>
           <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
@@ -158,16 +161,16 @@ export default function Hero() {
               href="/shop?sort=new"
               className="inline-block rounded-full border border-white/30 bg-white/5 px-8 py-3.5 text-sm font-medium uppercase tracking-wide text-white backdrop-blur transition-colors hover:border-accent hover:bg-accent hover:text-accent-foreground"
             >
-              New drop
+              {t.hmNewDrop}
             </Link>
           </motion.div>
         </motion.div>
       </motion.div>
 
       <div className="absolute inset-x-0 bottom-0 hidden items-center justify-between border-t border-white/10 bg-black/30 px-6 py-3 font-mono text-[11px] uppercase tracking-widest text-white/60 backdrop-blur sm:flex">
-        <span>Poland &rarr; Worldwide</span>
-        <span>One-of-one archive</span>
-        <span>Ships in 24h</span>
+        <span>{t.hmHeroPolandWorldwide}</span>
+        <span>{t.hmHeroArchive}</span>
+        <span>{t.hmShipsIn24h}</span>
       </div>
     </section>
   );

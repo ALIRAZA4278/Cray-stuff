@@ -9,22 +9,8 @@ import { validateDiscount } from "@/lib/actions/discounts";
 import { getMyAcceptedOffers } from "@/lib/actions/offers";
 import { useAuth } from "@/lib/AuthContext";
 import { useCurrency } from "@/lib/CurrencyContext";
-
-const carriers = [
-  { id: "inpost", label: "InPost Locker" },
-  { id: "dpd", label: "DPD Courier" },
-  { id: "dhl", label: "DHL" },
-  { id: "gls", label: "GLS Courier" },
-  { id: "ups", label: "UPS" },
-  { id: "orlen", label: "Orlen Paczka" },
-];
-
-const paymentMethods = [
-  { id: "card", label: "Card" },
-  { id: "blik", label: "BLIK" },
-  { id: "apple-pay", label: "Apple Pay" },
-  { id: "google-pay", label: "Google Pay" },
-];
+import { useLocale } from "@/lib/useLocale";
+import { getDict } from "@/lib/i18n";
 
 const inputClass =
   "w-full rounded-lg border border-border bg-transparent px-4 py-2.5 text-sm outline-none placeholder:text-muted focus:border-accent";
@@ -52,6 +38,23 @@ export default function CheckoutPage() {
   const { items, clearCart } = useCart();
   const { user, loading } = useAuth();
   const { format } = useCurrency();
+  const t = getDict(useLocale());
+
+  const carriers = [
+    { id: "inpost", label: `InPost ${t.prCarrierLocker}` },
+    { id: "dpd", label: `DPD ${t.prCarrierCourier}` },
+    { id: "dhl", label: "DHL" },
+    { id: "gls", label: `GLS ${t.prCarrierCourier}` },
+    { id: "ups", label: "UPS" },
+    { id: "orlen", label: "Orlen Paczka" },
+  ];
+
+  const paymentMethods = [
+    { id: "card", label: t.prPaymentCard },
+    { id: "blik", label: "BLIK" },
+    { id: "apple-pay", label: "Apple Pay" },
+    { id: "google-pay", label: "Google Pay" },
+  ];
   // This customer's honoured (accepted) offer prices, keyed by product slug.
   const [offers, setOffers] = useState({});
   const priceOf = (item) => offers[item.slug] ?? item.price;
@@ -182,13 +185,13 @@ export default function CheckoutPage() {
     return (
       <div className="px-6 py-24">
         <div className="mx-auto max-w-md rounded-lg border border-dashed border-border bg-surface p-12 text-center">
-          <h1 className="text-2xl font-semibold uppercase tracking-tight">Sign in to check out</h1>
-          <p className="mx-auto mt-2 max-w-xs text-sm text-muted">Your bag is saved — log in to complete your order.</p>
+          <h1 className="text-2xl font-semibold uppercase tracking-tight">{t.prSignInToCheckout}</h1>
+          <p className="mx-auto mt-2 max-w-xs text-sm text-muted">{t.prBagSaved}</p>
           <Link
             href="/login"
             className="mt-6 inline-block rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
           >
-            Log in
+            {t.prLogIn}
           </Link>
         </div>
       </div>
@@ -203,29 +206,28 @@ export default function CheckoutPage() {
             <path d="M5 12.5l4.5 4.5L19 7" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
-        <p className="mt-5 font-mono text-xs uppercase tracking-widest text-accent">Order placed</p>
-        <h1 className="mt-2 text-3xl font-semibold uppercase tracking-tight sm:text-4xl">Thank you</h1>
+        <p className="mt-5 font-mono text-xs uppercase tracking-widest text-accent">{t.prOrderPlaced}</p>
+        <h1 className="mt-2 text-3xl font-semibold uppercase tracking-tight sm:text-4xl">{t.prThankYou}</h1>
         {orderId && (
           <p className="mt-4 inline-block rounded-full border border-border bg-surface px-4 py-1.5 font-mono text-sm">
             {orderId}
           </p>
         )}
         <p className="mx-auto mt-4 max-w-md text-sm text-muted">
-          We&apos;ve got your order and it&apos;s in our queue. You&apos;ll get a confirmation by email — payment is
-          handled once Stripe is connected.
+          {t.prOrderConfirmBody}
         </p>
         <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
           <Link
             href="/account/orders"
             className="rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
           >
-            Track your order
+            {t.prTrackYourOrder}
           </Link>
           <Link
             href="/shop"
             className="rounded-full border border-border px-6 py-3 text-sm font-medium transition-colors hover:border-accent"
           >
-            Continue shopping
+            {t.prContinueShopping}
           </Link>
         </div>
       </div>
@@ -235,9 +237,9 @@ export default function CheckoutPage() {
   if (items.length === 0) {
     return (
       <div className="px-6 py-24 text-center text-muted">
-        <p>Your cart is empty.</p>
+        <p>{t.prCartEmpty}</p>
         <Link href="/shop" className="mt-3 inline-block text-sm text-accent hover:opacity-80">
-          Continue shopping
+          {t.prContinueShopping}
         </Link>
       </div>
     );
@@ -248,28 +250,28 @@ export default function CheckoutPage() {
       <div className="mx-auto max-w-5xl">
         <div className="mb-10">
           <Link href="/cart" className="font-mono text-xs uppercase tracking-widest text-muted hover:text-accent">
-            &larr; Back to cart
+            &larr; {t.prBackToCart}
           </Link>
-          <p className="mt-3 font-mono text-xs uppercase tracking-widest text-accent">Secure checkout</p>
-          <h1 className="mt-2 text-3xl font-semibold uppercase tracking-tight sm:text-4xl">Checkout</h1>
+          <p className="mt-3 font-mono text-xs uppercase tracking-widest text-accent">{t.prSecureCheckout}</p>
+          <h1 className="mt-2 text-3xl font-semibold uppercase tracking-tight sm:text-4xl">{t.prCheckout}</h1>
         </div>
 
         <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr]">
           <form onSubmit={handleSubmit} className="space-y-10">
             <section>
-              <StepLabel n="01">Contact &amp; shipping</StepLabel>
+              <StepLabel n="01">{t.prStepContact}</StepLabel>
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                <input name="name" required placeholder="Full name" className={`${inputClass} sm:col-span-2`} autoComplete="name" />
-                <input name="email" type="email" required placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className={`${inputClass} sm:col-span-2`} autoComplete="email" />
-                <input name="address" required placeholder="Address" className={`${inputClass} sm:col-span-2`} autoComplete="street-address" />
-                <input name="city" required placeholder="City" className={inputClass} autoComplete="address-level2" />
-                <input name="postal" required placeholder="Postal code" className={inputClass} autoComplete="postal-code" />
-                <input name="country" required placeholder="Country" className={`${inputClass} sm:col-span-2`} autoComplete="country-name" />
+                <input name="name" required placeholder={t.prPhFullName} className={`${inputClass} sm:col-span-2`} autoComplete="name" />
+                <input name="email" type="email" required placeholder={t.prPhEmail} value={email} onChange={(e) => setEmail(e.target.value)} className={`${inputClass} sm:col-span-2`} autoComplete="email" />
+                <input name="address" required placeholder={t.prPhAddress} className={`${inputClass} sm:col-span-2`} autoComplete="street-address" />
+                <input name="city" required placeholder={t.prPhCity} className={inputClass} autoComplete="address-level2" />
+                <input name="postal" required placeholder={t.prPhPostal} className={inputClass} autoComplete="postal-code" />
+                <input name="country" required placeholder={t.prPhCountry} className={`${inputClass} sm:col-span-2`} autoComplete="country-name" />
               </div>
             </section>
 
             <section>
-              <StepLabel n="02">Delivery</StepLabel>
+              <StepLabel n="02">{t.prStepDelivery}</StepLabel>
               <div className="mt-4 flex flex-wrap gap-2">
                 {carriers.map((option) => (
                   <button key={option.id} type="button" onClick={() => setCarrier(option.id)} className={pillClass(carrier === option.id)}>
@@ -280,7 +282,7 @@ export default function CheckoutPage() {
             </section>
 
             <section>
-              <StepLabel n="03">Payment</StepLabel>
+              <StepLabel n="03">{t.prStepPayment}</StepLabel>
               <div className="mt-4 flex flex-wrap gap-2">
                 {paymentMethods.map((option) => (
                   <button key={option.id} type="button" onClick={() => setPayment(option.id)} className={pillClass(payment === option.id)}>
@@ -288,7 +290,7 @@ export default function CheckoutPage() {
                   </button>
                 ))}
               </div>
-              <p className="mt-2 text-xs text-muted">No payment is taken yet — this places the order for review.</p>
+              <p className="mt-2 text-xs text-muted">{t.prNoPaymentYet}</p>
             </section>
 
             {error && <p className="text-sm text-red-400">{error}</p>}
@@ -298,14 +300,14 @@ export default function CheckoutPage() {
               disabled={submitting}
               className="w-full rounded-full bg-accent px-6 py-3.5 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
             >
-              {submitting ? "Placing order…" : `Place order — ${format(total)}`}
+              {submitting ? t.prPlacingOrder : t.prPlaceOrder.replace("{total}", format(total))}
             </button>
           </form>
 
           {/* Summary */}
           <div className="h-fit lg:sticky lg:top-24">
             <div className="rounded-lg border border-border bg-surface p-6">
-              <h2 className="text-sm font-medium uppercase tracking-wide text-muted">Order summary</h2>
+              <h2 className="text-sm font-medium uppercase tracking-wide text-muted">{t.prOrderSummary}</h2>
               <ul className="mt-4 space-y-4">
                 {items.map((item) => (
                   <li key={item.slug} className="flex items-center gap-3">
@@ -315,7 +317,7 @@ export default function CheckoutPage() {
                     <div className="min-w-0 flex-1">
                       <p className="font-mono text-[10px] uppercase tracking-wide text-accent">{item.brand}</p>
                       <p className="truncate text-sm">{item.name}</p>
-                      {item.size && <p className="font-mono text-[10px] uppercase tracking-wide text-muted">Fit {item.size}</p>}
+                      {item.size && <p className="font-mono text-[10px] uppercase tracking-wide text-muted">{t.prFit} {item.size}</p>}
                     </div>
                     <span className="font-mono text-sm">
                       {offers[item.slug] != null && (
@@ -332,14 +334,14 @@ export default function CheckoutPage() {
                   <div className="flex items-center justify-between gap-2 rounded-lg border border-accent/40 bg-accent/5 px-3 py-2">
                     <div className="min-w-0">
                       <p className="font-mono text-xs uppercase tracking-wide text-accent">{discount.code}</p>
-                      <p className="text-[11px] text-muted">{discount.label} applied</p>
+                      <p className="text-[11px] text-muted">{t.prLabelApplied.replace("{label}", discount.label)}</p>
                     </div>
                     <button
                       type="button"
                       onClick={removeDiscount}
                       className="font-mono text-[11px] uppercase tracking-widest text-muted transition-colors hover:text-foreground"
                     >
-                      Remove
+                      {t.prRemove}
                     </button>
                   </div>
                 ) : (
@@ -354,7 +356,7 @@ export default function CheckoutPage() {
                             applyCode();
                           }
                         }}
-                        placeholder="Discount code"
+                        placeholder={t.prDiscountCode}
                         className={`${inputClass} font-mono uppercase`}
                       />
                       <button
@@ -363,7 +365,7 @@ export default function CheckoutPage() {
                         disabled={applying || !codeInput.trim()}
                         className="shrink-0 rounded-lg border border-border px-4 text-sm font-medium transition-colors hover:border-accent disabled:opacity-50"
                       >
-                        {applying ? "…" : "Apply"}
+                        {applying ? "…" : t.prApply}
                       </button>
                     </div>
                     {discountError && <p className="mt-1.5 text-xs text-red-400">{discountError}</p>}
@@ -373,27 +375,27 @@ export default function CheckoutPage() {
 
               <div className="mt-4 space-y-2 border-t border-border pt-4 text-sm">
                 <div className="flex justify-between text-muted">
-                  <span>Subtotal</span>
+                  <span>{t.prSubtotal}</span>
                   <span className="font-mono">{format(subtotal)}</span>
                 </div>
                 {discountValue > 0 && (
                   <div className="flex justify-between text-accent">
-                    <span>Discount{discount?.code ? ` (${discount.code})` : ""}</span>
+                    <span>{t.prDiscount}{discount?.code ? ` (${discount.code})` : ""}</span>
                     <span className="font-mono">−{format(discountValue)}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-muted">
-                  <span>Shipping</span>
-                  <span className="font-mono">{shipping === 0 ? "Free" : format(shipping)}</span>
+                  <span>{t.prShipping}</span>
+                  <span className="font-mono">{shipping === 0 ? t.prFree : format(shipping)}</span>
                 </div>
                 <div className="flex justify-between border-t border-border pt-2 text-base font-medium">
-                  <span>Total</span>
+                  <span>{t.prTotal}</span>
                   <span className="font-mono">{format(total)}</span>
                 </div>
               </div>
             </div>
             <p className="mt-4 px-1 font-mono text-[10px] uppercase tracking-widest text-muted">
-              Ships within 24h · InPost · Orlen · GLS · DPD
+              {t.prShipsFooter}
             </p>
           </div>
         </div>

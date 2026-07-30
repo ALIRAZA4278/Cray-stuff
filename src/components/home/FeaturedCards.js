@@ -5,6 +5,8 @@ import Link from "next/link";
 import { motion, useAnimation } from "motion/react";
 import SectionHeading from "@/components/home/SectionHeading";
 import Price from "@/components/Price";
+import { useLocale } from "@/lib/useLocale";
+import { getDict } from "@/lib/i18n";
 
 const charVariants = {
   initial: { y: "125%" },
@@ -73,6 +75,7 @@ function FeaturedCard({ product, side }) {
 }
 
 export default function FeaturedCards({ products }) {
+  const t = getDict(useLocale());
   const items = products.slice(0, 4);
   if (items.length === 0) return null;
 
@@ -82,7 +85,7 @@ export default function FeaturedCards({ products }) {
   return (
     <section className="relative overflow-hidden border-b border-border px-6 py-16">
       <div className="mx-auto max-w-7xl">
-        <SectionHeading eyebrow="Hand-picked" title="Featured pieces" link={{ href: "/shop?sort=popular", label: "Shop all" }} />
+        <SectionHeading eyebrow={t.hmHandPicked} title={t.hmFeaturedPieces} link={{ href: "/shop?sort=popular", label: t.hmShopAll }} />
         <div className="space-y-16">
           {rows.map((row, r) => (
             <div key={r} className="flex flex-col gap-16 md:flex-row md:gap-10">

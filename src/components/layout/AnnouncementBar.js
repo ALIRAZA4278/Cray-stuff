@@ -1,16 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-const messages = [
-  "Shipping within 24 hours",
-  "10% off for newsletter subscribers",
-  "New drop available now",
-  "Make an offer on every item",
-  "Free shipping on orders of 3 items or more",
-];
+import { useLocale } from "@/lib/useLocale";
+import { getDict } from "@/lib/i18n";
 
 export default function AnnouncementBar() {
+  const t = getDict(useLocale());
+  const messages = [
+    t.annShipping,
+    t.annNewsletter,
+    t.annNewDrop,
+    t.annMakeOffer,
+    t.annFreeShipping,
+  ];
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -18,7 +20,7 @@ export default function AnnouncementBar() {
       setIndex((current) => (current + 1) % messages.length);
     }, 4000);
     return () => clearInterval(interval);
-  }, []);
+  }, [messages.length]);
 
   return (
     <div className="relative h-8 overflow-hidden border-b border-border px-6 text-center text-xs uppercase tracking-wide text-muted">

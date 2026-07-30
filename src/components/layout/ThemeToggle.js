@@ -1,11 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useLocale } from "@/lib/useLocale";
+import { getDict } from "@/lib/i18n";
 
 // Flips the site between light and dark by setting data-theme on <html> and
 // remembering the choice. Renders a neutral placeholder until mounted so the
 // server and client markup match.
 export default function ThemeToggle() {
+  const t = getDict(useLocale());
   const [theme, setTheme] = useState(null);
 
   useEffect(() => {
@@ -25,7 +28,7 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={toggle}
-      aria-label="Toggle light or dark theme"
+      aria-label={t.themeToggleAria}
       className="flex h-10 w-10 items-center justify-center text-muted transition-colors hover:text-foreground"
     >
       {theme === "dark" ? <SunIcon /> : theme === "light" ? <MoonIcon /> : <span className="h-5 w-5" />}

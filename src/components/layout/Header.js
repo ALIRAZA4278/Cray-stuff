@@ -11,50 +11,55 @@ import CurrencySelector from "./CurrencySelector";
 import HeaderSearch from "./HeaderSearch";
 import { useCart } from "@/lib/CartContext";
 import { useFireList } from "@/lib/FireListContext";
-
-const navLinks = [
-  { href: "/shop", label: "Shop" },
-  { href: "/shop/vintage", label: "Vintage" },
-  { href: "/shop/y2k", label: "Y2K" },
-  { href: "/shop/skate", label: "Skate" },
-  { href: "/shop/archive", label: "Archive" },
-  { href: "/shop/just-swag", label: "Just Swag" },
-];
-
-// Mobile menu leads with the brand + info pages so they're easy to reach;
-// the style edits sit below as a compact secondary row.
-const mobilePrimaryLinks = [
-  { href: "/", label: "Home" },
-  { href: "/shop", label: "Shop All" },
-  { href: "/sold", label: "Recently Sold" },
-  { href: "/reviews", label: "Reviews" },
-  { href: "/about", label: "About Us" },
-  { href: "/contact", label: "Contact" },
-  { href: "/faq", label: "FAQ" },
-  { href: "/fire-list", label: "Fire List" },
-];
-const mobileStyleLinks = navLinks.slice(1);
-
-// Desktop top nav leads with the main pages; styles live in the Shop dropdown.
-const desktopHomeLink = [{ href: "/", label: "Home" }];
-const desktopPrimaryLinks = [
-  { href: "/about", label: "About Us" },
-  { href: "/reviews", label: "Reviews" },
-  { href: "/contact", label: "Contact" },
-  { href: "/faq", label: "FAQ" },
-];
+import { useLocale } from "@/lib/useLocale";
+import { getDict } from "@/lib/i18n";
 
 const desktopItemClass =
   "nav-underline text-xs font-semibold uppercase tracking-widest text-muted transition-colors hover:text-foreground";
 const desktopActiveClass = "nav-underline text-xs font-semibold uppercase tracking-widest text-accent";
-const mobileItemClass = "py-2 text-sm font-semibold text-muted transition-colors hover:text-foreground";
-const mobileActiveClass = "py-2 text-sm font-semibold text-accent";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const [lang, setLang] = useState("EN");
+  const locale = useLocale();
+  const t = getDict(locale);
   const { items } = useCart();
   const { count: fireCount } = useFireList();
+
+  const styleLinks = [
+    { href: "/shop", label: t.navShop },
+    { href: "/shop/vintage", label: t.navVintage },
+    { href: "/shop/y2k", label: t.navY2K },
+    { href: "/shop/skate", label: t.navSkate },
+    { href: "/shop/archive", label: t.navArchive },
+    { href: "/shop/just-swag", label: t.navJustSwag },
+  ];
+  const mobileStyleLinks = styleLinks.slice(1);
+
+  // Mobile menu leads with the brand + info pages; style edits sit below.
+  const mobilePrimaryLinks = [
+    { href: "/", label: t.navHome },
+    { href: "/shop", label: t.navShopAll },
+    { href: "/sold", label: t.navRecentlySold },
+    { href: "/reviews", label: t.navReviews },
+    { href: "/about", label: t.navAbout },
+    { href: "/contact", label: t.navContact },
+    { href: "/faq", label: t.navFaq },
+    { href: "/fire-list", label: t.navFireList },
+  ];
+
+  const desktopHomeLink = [{ href: "/", label: t.navHome }];
+  const desktopPrimaryLinks = [
+    { href: "/about", label: t.navAbout },
+    { href: "/reviews", label: t.navReviews },
+    { href: "/contact", label: t.navContact },
+    { href: "/faq", label: t.navFaq },
+  ];
+
+  function setLocale(next) {
+    if (next === locale) return;
+    document.cookie = `site-locale=${next}; path=/; max-age=31536000`;
+    window.location.reload();
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
@@ -80,16 +85,16 @@ export default function Header() {
           <div className="hidden items-center gap-1 px-1 font-mono text-xs text-muted sm:flex">
             <button
               type="button"
-              onClick={() => setLang("EN")}
-              className={lang === "EN" ? "text-foreground" : "transition-colors hover:text-foreground"}
+              onClick={() => setLocale("en")}
+              className={locale === "en" ? "text-foreground" : "transition-colors hover:text-foreground"}
             >
               EN
             </button>
             <span>/</span>
             <button
               type="button"
-              onClick={() => setLang("PL")}
-              className={lang === "PL" ? "text-foreground" : "transition-colors hover:text-foreground"}
+              onClick={() => setLocale("pl")}
+              className={locale === "pl" ? "text-foreground" : "transition-colors hover:text-foreground"}
             >
               PL
             </button>
@@ -180,10 +185,10 @@ export default function Header() {
             onClick={() => setOpen(false)}
             className="border-b border-border/50 py-3 text-lg font-semibold uppercase tracking-tight transition-colors hover:text-accent"
           >
-            Account
+            {t.navAccount}
           </Link>
 
-          <p className="mb-2 mt-5 font-mono text-[11px] uppercase tracking-widest text-muted">Shop by style</p>
+          <p className="mb-2 mt-5 font-mono text-[11px] uppercase tracking-widest text-muted">{t.shopByStyle}</p>
           <div className="flex flex-wrap gap-2">
             {mobileStyleLinks.map((link) => (
               <Link
@@ -201,30 +206,30 @@ export default function Header() {
               bar, so mobile gets them here instead. */}
           <div className="mt-5 flex items-end justify-between gap-4">
             <div>
-              <p className="mb-2 font-mono text-[11px] uppercase tracking-widest text-muted">Language</p>
+              <p className="mb-2 font-mono text-[11px] uppercase tracking-widest text-muted">{t.language}</p>
               <div className="flex gap-2">
-                {["EN", "PL"].map((code) => (
+                {["en", "pl"].map((code) => (
                   <button
                     key={code}
                     type="button"
-                    onClick={() => setLang(code)}
+                    onClick={() => setLocale(code)}
                     className={`rounded-full border px-4 py-1.5 font-mono text-xs uppercase tracking-wide transition-colors ${
-                      lang === code
+                      locale === code
                         ? "border-accent bg-accent/10 text-foreground"
                         : "border-border text-muted hover:border-accent hover:text-foreground"
                     }`}
                   >
-                    {code}
+                    {code.toUpperCase()}
                   </button>
                 ))}
               </div>
             </div>
             <div>
-              <p className="mb-2 font-mono text-[11px] uppercase tracking-widest text-muted">Currency</p>
+              <p className="mb-2 font-mono text-[11px] uppercase tracking-widest text-muted">{t.currency}</p>
               <CurrencySelector />
             </div>
             <div>
-              <p className="mb-2 font-mono text-[11px] uppercase tracking-widest text-muted">Theme</p>
+              <p className="mb-2 font-mono text-[11px] uppercase tracking-widest text-muted">{t.theme}</p>
               <div className="rounded-full border border-border">
                 <ThemeToggle />
               </div>

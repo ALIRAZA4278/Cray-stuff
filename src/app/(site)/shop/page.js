@@ -5,11 +5,14 @@ import ShopFilterSidebar from "@/components/shop/ShopFilterSidebar";
 import CollapsibleAside from "@/components/shop/CollapsibleAside";
 import ActiveFilters from "@/components/shop/ActiveFilters";
 import BrandDiscovery from "@/components/home/BrandDiscovery";
+import { cookies } from "next/headers";
+import { getDict } from "@/lib/i18n";
 import { getAllProducts } from "@/lib/products";
 import { getBrandGroups } from "@/lib/brands";
 import { sortProducts, filterProducts, getFacets } from "@/lib/shop-filters";
 
 export default async function ShopPage({ searchParams }) {
+  const t = getDict((await cookies()).get("site-locale")?.value || "en");
   const params = await searchParams;
   const active = {
     categories: params.category ? params.category.split(",").filter(Boolean) : [],
@@ -33,13 +36,12 @@ export default async function ShopPage({ searchParams }) {
     <div className="px-6 py-16">
       <div className="mx-auto max-w-7xl">
         <Reveal className="mb-10">
-          <p className="font-mono text-xs uppercase tracking-widest text-accent">Curated &middot; One of one</p>
+          <p className="font-mono text-xs uppercase tracking-widest text-accent">{t.shCuratedOneOfOne}</p>
           <h1 className="mt-2 text-3xl font-semibold uppercase tracking-tight sm:text-4xl">
-            {q ? `Search: “${q}”` : "The Shop"}
+            {q ? `${t.shSearchLabel}: “${q}”` : t.shTheShop}
           </h1>
           <p className="mt-2 max-w-xl text-sm text-muted">
-            {products.length} {products.length === 1 ? "piece" : "pieces"} — hand-sourced and never restocked. Once
-            it&apos;s gone, it&apos;s gone.
+            {products.length} {products.length === 1 ? t.shPiece : t.shPieces} {t.shShopCountTail}
           </p>
         </Reveal>
 
@@ -61,7 +63,7 @@ export default async function ShopPage({ searchParams }) {
               </div>
               <div className="flex shrink-0 items-center gap-4">
                 <span className="hidden font-mono text-[11px] uppercase tracking-widest text-muted sm:inline">
-                  {products.length} results
+                  {products.length} {t.shResults}
                 </span>
                 <SortSelect value={sort} />
               </div>

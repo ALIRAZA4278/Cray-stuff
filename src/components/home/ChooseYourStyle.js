@@ -5,34 +5,8 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import SectionHeading from "@/components/home/SectionHeading";
 import { slugify } from "@/lib/shop-filters";
-
-// The four aesthetics the store is built around. "Just Swag" is our name for
-// the no-name pieces — good-looking stuff without a famous label.
-// TODO(wiktor): swap in real lookbook shots per style when they land.
-const styles = [
-  {
-    tag: "Vintage",
-    blurb: "Lived-in, worn-in, one of one.",
-    image: "/PRODOCT/NEW/usa-leather-jacket.jpg",
-  },
-  {
-    tag: "Y2K",
-    blurb: "Baggy, loud, unmistakably 2000s.",
-    image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/true-religion-jeans.jpg",
-  },
-  {
-    tag: "Skate",
-    blurb: "Built to be thrashed, aged right.",
-    image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/y2k-jeans-2.jpg",
-  },
-  {
-    tag: "Just Swag",
-    blurb: "No label, all character.",
-    // Picked visually from Wiktor's Just Swag options — the Born To Be Free pants
-    // read boldest at this size.
-    image: "/PRODOCT/NEW/born-to-be-free-pants.jpg",
-  },
-];
+import { useLocale } from "@/lib/useLocale";
+import { getDict } from "@/lib/i18n";
 
 const card = {
   hidden: { opacity: 0, y: 40 },
@@ -40,13 +14,43 @@ const card = {
 };
 
 export default function ChooseYourStyle() {
+  const t = getDict(useLocale());
+
+  // The four aesthetics the store is built around. "Just Swag" is our name for
+  // the no-name pieces — good-looking stuff without a famous label.
+  // TODO(wiktor): swap in real lookbook shots per style when they land.
+  const styles = [
+    {
+      tag: "Vintage",
+      blurb: t.hmStyleVintageBlurb,
+      image: "/PRODOCT/NEW/usa-leather-jacket.jpg",
+    },
+    {
+      tag: "Y2K",
+      blurb: t.hmStyleY2KBlurb,
+      image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/true-religion-jeans.jpg",
+    },
+    {
+      tag: "Skate",
+      blurb: t.hmStyleSkateBlurb,
+      image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/y2k-jeans-2.jpg",
+    },
+    {
+      tag: "Just Swag",
+      blurb: t.hmStyleSwagBlurb,
+      // Picked visually from Wiktor's Just Swag options — the Born To Be Free pants
+      // read boldest at this size.
+      image: "/PRODOCT/NEW/born-to-be-free-pants.jpg",
+    },
+  ];
+
   return (
     <section className="border-b border-border px-6 py-16">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
-          eyebrow="Find your lane"
-          title="Choose your style"
-          link={{ href: "/shop", label: "All pieces" }}
+          eyebrow={t.hmFindYourLane}
+          title={t.hmChooseYourStyle}
+          link={{ href: "/shop", label: t.hmAllPieces }}
         />
         <motion.div
           initial="hidden"
@@ -77,7 +81,7 @@ export default function ChooseYourStyle() {
                   </p>
                   <p className="mt-1 text-xs leading-relaxed text-white/60">{style.blurb}</p>
                   <span className="mt-3 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-widest text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    Shop {style.tag} &rarr;
+                    {t.hmShop} {style.tag} &rarr;
                   </span>
                 </div>
               </Link>

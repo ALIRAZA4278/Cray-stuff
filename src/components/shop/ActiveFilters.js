@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
+import { getDict } from "@/lib/i18n";
 import { categoryLabels, priceRangeLabel, toggleParam } from "@/lib/shop-filters";
 
 function toggleHref(basePath, params, key, value) {
@@ -28,13 +30,28 @@ function Chip({ href, label }) {
 }
 
 // Removable chips for every active filter. Returns null when nothing is active.
-export default function ActiveFilters({ basePath, params, active, q }) {
+export default async function ActiveFilters({ basePath, params, active, q }) {
+  const t = getDict((await cookies()).get("site-locale")?.value || "en");
+  const catLabel = { mens: t.shCatMens, womens: t.shCatWomens, unisex: t.shCatUnisex };
+  const condLabel = {
+    Excellent: t.shCondExcellent,
+    "Very Good": t.shCondVeryGood,
+    Good: t.shCondGood,
+    "Like New": t.shCondLikeNew,
+  };
+  const priceLabel = {
+    "0-50": t.shPrice0_50,
+    "50-100": t.shPrice50_100,
+    "100-150": t.shPrice100_150,
+    "150-": t.shPrice150,
+  };
+
   const chips = [];
-  active.categories.forEach((c) => chips.push({ key: `c-${c}`, href: toggleHref(basePath, params, "category", c), label: categoryLabels[c] || c }));
-  active.sizes.forEach((s) => chips.push({ key: `s-${s}`, href: toggleHref(basePath, params, "size", s), label: `Fit ${s}` }));
+  active.categories.forEach((c) => chips.push({ key: `c-${c}`, href: toggleHref(basePath, params, "category", c), label: catLabel[c] || categoryLabels[c] || c }));
+  active.sizes.forEach((s) => chips.push({ key: `s-${s}`, href: toggleHref(basePath, params, "size", s), label: `${t.shFit} ${s}` }));
   active.brands.forEach((b) => chips.push({ key: `b-${b}`, href: toggleHref(basePath, params, "brand", b), label: b }));
-  active.conditions.forEach((c) => chips.push({ key: `cn-${c}`, href: toggleHref(basePath, params, "condition", c), label: c }));
-  active.prices.forEach((p) => chips.push({ key: `p-${p}`, href: toggleHref(basePath, params, "price", p), label: priceRangeLabel(p) }));
+  active.conditions.forEach((c) => chips.push({ key: `cn-${c}`, href: toggleHref(basePath, params, "condition", c), label: condLabel[c] || c }));
+  active.prices.forEach((p) => chips.push({ key: `p-${p}`, href: toggleHref(basePath, params, "price", p), label: priceLabel[p] || priceRangeLabel(p) }));
   if (q) chips.push({ key: "q", href: deleteHref(basePath, params, "q"), label: `“${q}”` });
 
   if (chips.length === 0) return null;
@@ -45,7 +62,7 @@ export default function ActiveFilters({ basePath, params, active, q }) {
         <Chip key={c.key} href={c.href} label={c.label} />
       ))}
       <Link href={basePath} className="ml-1 font-mono text-[11px] uppercase tracking-widest text-muted transition-colors hover:text-accent">
-        Clear all
+        {t.shClearAll}
       </Link>
     </div>
   );

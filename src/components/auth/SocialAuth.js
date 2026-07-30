@@ -1,6 +1,8 @@
 "use client";
 
 import { signInWithProvider } from "@/lib/actions/auth";
+import { useLocale } from "@/lib/useLocale";
+import { getDict } from "@/lib/i18n";
 
 // Social sign-in buttons. Each submits a form bound to the OAuth server action
 // and only works once the matching provider is enabled in the Supabase
@@ -8,6 +10,7 @@ import { signInWithProvider } from "@/lib/actions/auth";
 // (needs a paid Apple Developer account) — to re-enable it, restore the Apple
 // <form> block below and switch the wrapper back to `grid grid-cols-2`.
 export default function SocialAuth() {
+  const t = getDict(useLocale());
   return (
     <div className="grid gap-3">
       <form action={signInWithProvider.bind(null, "google")}>
@@ -16,7 +19,7 @@ export default function SocialAuth() {
           className="flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-transparent px-4 py-2.5 text-sm transition-colors hover:border-accent"
         >
           <GoogleMark />
-          Continue with Google
+          {t.pgAuthGoogle}
         </button>
       </form>
       {/* Apple sign-in — deferred until an Apple Developer account is set up:

@@ -3,8 +3,11 @@
 import { useActionState, useEffect } from "react";
 import { useAnimate } from "motion/react";
 import { subscribeNewsletter } from "@/lib/actions/newsletter";
+import { useLocale } from "@/lib/useLocale";
+import { getDict } from "@/lib/i18n";
 
 export default function NewsletterForm() {
+  const t = getDict(useLocale());
   const [state, formAction, pending] = useActionState(subscribeNewsletter, null);
   const [scope, animate] = useAnimate();
 
@@ -26,7 +29,7 @@ export default function NewsletterForm() {
           name="email"
           autoComplete="email"
           required
-          placeholder="Enter your email"
+          placeholder={t.nlEmailPlaceholder}
           className="w-full rounded-full border border-border bg-transparent px-4 py-2.5 text-sm outline-none placeholder:text-muted focus:border-accent"
         />
         <button
@@ -34,11 +37,11 @@ export default function NewsletterForm() {
           disabled={pending || state?.success}
           className="shrink-0 rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90 disabled:opacity-60"
         >
-          {state?.success ? "Subscribed" : pending ? "…" : "Subscribe"}
+          {state?.success ? t.nlSubscribed : pending ? "…" : t.nlSubscribe}
         </button>
       </form>
       {state?.error && <p className="newsletter-msg mt-2 text-xs text-red-400">{state.error}</p>}
-      {state?.success && <p className="newsletter-msg mt-2 text-xs text-accent">You&apos;re on the list — watch your inbox.</p>}
+      {state?.success && <p className="newsletter-msg mt-2 text-xs text-accent">{t.nlSuccess}</p>}
     </div>
   );
 }

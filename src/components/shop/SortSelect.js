@@ -1,18 +1,21 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-
-const options = [
-  { value: "new", label: "Newest" },
-  { value: "price-asc", label: "Price: Low to High" },
-  { value: "price-desc", label: "Price: High to Low" },
-  { value: "popular", label: "Most Popular" },
-];
+import { useLocale } from "@/lib/useLocale";
+import { getDict } from "@/lib/i18n";
 
 export default function SortSelect({ value }) {
+  const t = getDict(useLocale());
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  const options = [
+    { value: "new", label: t.shSortNewest },
+    { value: "price-asc", label: t.shSortPriceAsc },
+    { value: "price-desc", label: t.shSortPriceDesc },
+    { value: "popular", label: t.shSortPopular },
+  ];
 
   function handleChange(event) {
     const params = new URLSearchParams(searchParams.toString());
