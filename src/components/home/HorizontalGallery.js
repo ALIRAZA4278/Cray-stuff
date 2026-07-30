@@ -85,16 +85,20 @@ export default function HorizontalGallery() {
         <h2 className="mt-1 font-display text-2xl font-semibold uppercase tracking-tight sm:text-3xl">{t.hmShopByStyle}</h2>
       </div>
 
-      <div
-        ref={track}
-        className="flex w-max snap-x snap-mandatory items-center gap-5 overflow-x-auto px-6 pb-8 pt-4 [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-6 sm:px-10 md:h-full md:overflow-visible md:pb-0 md:pt-0 md:will-change-transform"
-      >
-        {items.map((item) => (
-          <Link
-            key={item.label}
-            href={item.href}
-            className="group relative h-[62vh] w-[82vw] shrink-0 snap-start overflow-hidden rounded-2xl border border-border sm:w-[40vw]"
-          >
+      {/* Mobile: this wrapper is the horizontal scroller (viewport-width) and the
+          w-max track overflows it → native swipe. Desktop: wrapper goes visible +
+          full-height and GSAP translates the track while the section is pinned. */}
+      <div className="overflow-x-auto pb-8 pt-4 [-ms-overflow-style:none] [scrollbar-width:none] md:h-full md:overflow-visible md:pb-0 md:pt-0">
+        <div
+          ref={track}
+          className="flex w-max snap-x items-center gap-5 px-6 sm:gap-6 sm:px-10 md:h-full md:will-change-transform"
+        >
+          {items.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className="group relative h-[62vh] w-[82vw] shrink-0 snap-start overflow-hidden rounded-2xl border border-border sm:w-[40vw]"
+            >
             <Image
               src={item.image}
               alt={item.label}
@@ -114,8 +118,9 @@ export default function HorizontalGallery() {
                 {t.hmShop} &rarr;
               </span>
             </div>
-          </Link>
-        ))}
+            </Link>
+          ))}
+        </div>
       </div>
 
       <p className="pointer-events-none absolute bottom-6 right-6 z-20 hidden font-mono text-[11px] uppercase tracking-widest text-muted sm:right-10 md:block">
