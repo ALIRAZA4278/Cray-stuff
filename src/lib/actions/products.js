@@ -90,6 +90,10 @@ export async function saveProduct(prevState, formData) {
   }
 
   revalidateCatalog();
+  // On a fresh listing, drop straight back to the catalog so the next piece can
+  // be added right away (and the form — images included — starts clean). Edits
+  // stay put and just confirm inline.
+  if (!id) redirect("/admin/products");
   return { success: true, name };
 }
 

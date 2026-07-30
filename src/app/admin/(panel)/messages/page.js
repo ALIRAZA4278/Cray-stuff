@@ -3,6 +3,7 @@ import StatusBadge from "@/components/admin/StatusBadge";
 import AnswerQuestionForm from "@/components/admin/AnswerQuestionForm";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getAllQuestions } from "@/lib/qa";
+import { getAllProducts } from "@/lib/products";
 import { cookies } from "next/headers";
 import { getAdminDict } from "@/lib/admin-i18n";
 
@@ -25,6 +26,8 @@ export default async function AdminMessagesPage() {
   const messages = data || [];
   const tableMissing = Boolean(error);
   const questions = await getAllQuestions();
+  const products = await getAllProducts();
+  const productBySlug = Object.fromEntries(products.map((p) => [p.slug, p]));
   const locale = (await cookies()).get("admin-locale")?.value || "en";
   const t = getAdminDict(locale);
 
@@ -43,8 +46,19 @@ export default async function AdminMessagesPage() {
               <article key={q.id} className="rounded-lg border border-border bg-surface p-5">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
-                    <p className="font-mono text-[11px] text-muted">on /product/{q.product_slug}</p>
-                    <p className="mt-1 text-sm font-medium">{q.question}</p>
+                    <a
+                      href={`/product/${q.product_slug}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex max-w-full items-center gap-1.5 rounded-full bg-accent/15 px-2.5 py-1 font-mono text-[11px] font-medium text-accent transition-colors hover:bg-accent/25"
+                    >
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-3 w-3 shrink-0">
+                        <path d="M4 7h13l-1 13H5L4 7z" />
+                        <path d="M8 7a2.5 2.5 0 0 1 5 0" />
+                      </svg>
+                      <span className="truncate">{productBySlug[q.product_slug]?.name || q.product_slug}</span>
+                    </a>
+                    <p className="mt-1.5 text-sm font-medium">{q.question}</p>
                     <p className="mt-1 font-mono text-[11px] text-muted">
                       {(q.name || "—") + " · " + q.email}
                     </p>

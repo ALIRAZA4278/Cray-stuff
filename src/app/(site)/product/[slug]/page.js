@@ -4,6 +4,7 @@ import Link from "next/link";
 import ProductGallery from "@/components/product/ProductGallery";
 import CartActions from "@/components/product/CartActions";
 import MakeOfferDialog from "@/components/product/MakeOfferDialog";
+import MessageSellerDialog from "@/components/product/MessageSellerDialog";
 import FireListButton from "@/components/product/FireListButton";
 import ProductQA from "@/components/product/ProductQA";
 import ProductCard from "@/components/product/ProductCard";
@@ -173,6 +174,7 @@ export default async function ProductPage({ params }) {
                   <MakeOfferDialog product={product} />
                 </>
               )}
+              <MessageSellerDialog product={product} />
               <FireListButton product={product} />
             </div>
 

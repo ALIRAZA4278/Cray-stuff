@@ -53,7 +53,9 @@ export default function ProductCard({ product }) {
       <div className="mt-4 flex flex-1 flex-col">
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
-            <p className="truncate font-mono text-xs uppercase tracking-wide text-accent">{product.brand}</p>
+            <span className="inline-block max-w-full truncate rounded-full bg-accent px-2.5 py-0.5 align-middle font-mono text-[10px] font-semibold uppercase tracking-wide text-white">
+              {product.brand}
+            </span>
             <p className="mt-0.5 line-clamp-2 text-base font-medium">{product.name}</p>
           </div>
           <p className="shrink-0 whitespace-nowrap font-mono text-sm font-medium sm:text-base">

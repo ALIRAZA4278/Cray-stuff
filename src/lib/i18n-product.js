@@ -19,6 +19,14 @@ export const en = {
   prAsk: "Ask",
   prQuestionSent: "Question sent — we'll email you when it's answered.",
 
+  // ── message seller ──
+  prMessageSeller: "Message seller",
+  prMessageTitle: "Ask about this piece",
+  prMessageDesc: "Questions about size, fit, condition or shipping? Send a message — we usually reply within a day.",
+  prMessageNamePlaceholder: "Your name (optional)",
+  prMessageSend: "Send message",
+  prMessageSentTitle: "Message sent",
+
   // ── cart actions ──
   prBuyNow: "Buy now",
   prAddedToCart: "Added to cart",
@@ -156,6 +164,14 @@ export const pl = {
   prSending: "Wysyłanie…",
   prAsk: "Zapytaj",
   prQuestionSent: "Pytanie wysłane — odpowiemy e-mailem, gdy będzie gotowa odpowiedź.",
+
+  // ── message seller ──
+  prMessageSeller: "Napisz do sprzedawcy",
+  prMessageTitle: "Zapytaj o tę sztukę",
+  prMessageDesc: "Pytania o rozmiar, krój, stan lub wysyłkę? Napisz — zwykle odpowiadamy w ciągu doby.",
+  prMessageNamePlaceholder: "Twoje imię (opcjonalnie)",
+  prMessageSend: "Wyślij wiadomość",
+  prMessageSentTitle: "Wiadomość wysłana",
 
   // ── cart actions ──
   prBuyNow: "Kup teraz",
