@@ -1,5 +1,6 @@
 import FilterPill from "@/components/shop/FilterPill";
 import { styleTags } from "@/lib/mock-products";
+import { categoryLabel } from "@/lib/category-label";
 
 export default function StyleFilterRow({ currentStyle }) {
   return (
@@ -11,7 +12,7 @@ export default function StyleFilterRow({ currentStyle }) {
         const slug = style.toLowerCase();
         return (
           <FilterPill key={style} href={`/shop/${slug}`} active={currentStyle === slug}>
-            {style}
+            {categoryLabel(style)}
           </FilterPill>
         );
       })}

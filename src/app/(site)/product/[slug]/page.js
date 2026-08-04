@@ -15,6 +15,7 @@ import { pieceNumber } from "@/lib/piece-number";
 import { slugify } from "@/lib/shop-filters";
 import { getQuestionsForProduct } from "@/lib/qa";
 import { getDict } from "@/lib/i18n";
+import { categoryLabel } from "@/lib/category-label";
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -66,7 +67,7 @@ export default async function ProductPage({ params }) {
           {product.tags[0] && (
             <>
               <Link href={`/shop/${product.tags[0].toLowerCase()}`} className="transition-colors hover:text-foreground">
-                {product.tags[0]}
+                {categoryLabel(product.tags[0])}
               </Link>
               <span className="mx-2">/</span>
             </>
@@ -116,7 +117,7 @@ export default async function ProductPage({ params }) {
                   href={`/shop/${slugify(tag)}`}
                   className="rounded border border-border px-2 py-1 text-xs text-muted transition-colors hover:border-accent hover:text-foreground"
                 >
-                  {tag}
+                  {categoryLabel(tag)}
                 </Link>
               ))}
             </div>

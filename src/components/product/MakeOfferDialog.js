@@ -1,11 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { submitOffer, acceptCounter } from "@/lib/actions/offers";
+import { submitOffer } from "@/lib/actions/offers";
 import { useRequireLogin } from "@/lib/AuthContext";
 import { useCurrency } from "@/lib/CurrencyContext";
-import { useCart } from "@/lib/CartContext";
 import { useLocale } from "@/lib/useLocale";
 import { getDict } from "@/lib/i18n";
 
@@ -15,15 +13,13 @@ const inputClass =
 export default function MakeOfferDialog({ product }) {
   const { slug, name: productName, price, minOffer } = product;
   const { format } = useCurrency();
-  const { addItem } = useCart();
   const t = getDict(useLocale());
-  const router = useRouter();
   const run = useRequireLogin();
   const [open, setOpen] = useState(false);
   const [offer, setOffer] = useState("");
   const [pending, setPending] = useState(false);
   const [error, setError] = useState(null);
-  const [result, setResult] = useState(null); // { outcome, counter, id, price }
+  const [sent, setSent] = useState(false);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -35,35 +31,12 @@ export default function MakeOfferDialog({ product }) {
       setError(res.error);
       return;
     }
-    setResult(res);
-  }
-
-  async function acceptTheCounter() {
-    setError(null);
-    setPending(true);
-    const res = await acceptCounter(result.id);
-    setPending(false);
-    if (res?.error) {
-      setError(res.error);
-      return;
-    }
-    // Now honoured at the counter price — show the "deal done" view.
-    setResult({ outcome: "accepted", price: res.price ?? result.counter });
-  }
-
-  // Add the piece to the bag (its offer price is applied automatically at
-  // checkout for this customer) and either continue to checkout or keep shopping.
-  function takeDeal(destination) {
-    addItem(product);
-    setOpen(false);
-    setResult(null);
-    setOffer("");
-    if (destination === "checkout") router.push("/checkout");
+    setSent(true);
   }
 
   function close() {
     setOpen(false);
-    setResult(null);
+    setSent(false);
     setOffer("");
     setError(null);
   }
@@ -92,74 +65,20 @@ export default function MakeOfferDialog({ product }) {
               </svg>
             </button>
 
-            {result?.outcome === "accepted" && (
-              <div className="text-center">
-                <p className="font-mono text-xs uppercase tracking-widest text-accent">{t.prOfferAccepted}</p>
-                <h3 className="mt-3 text-lg font-semibold uppercase tracking-tight">
-                  {t.prYoureInAt.replace("{price}", format(result.price))}
-                </h3>
-                <p className="mt-2 text-sm text-muted">
-                  {t.prAcceptedNote}
-                </p>
-                <div className="mt-6 flex flex-col gap-2">
-                  <button
-                    type="button"
-                    onClick={() => takeDeal("checkout")}
-                    className="rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
-                  >
-                    {t.prGoToCheckout}
-                  </button>
-                  <button type="button" onClick={() => takeDeal("shop")} className="text-sm text-muted hover:text-foreground">
-                    {t.prKeepShopping}
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {result?.outcome === "countered" && (
-              <div className="text-center">
-                <p className="font-mono text-xs uppercase tracking-widest text-accent">{t.prCounteroffer}</p>
-                <h3 className="mt-3 text-lg font-semibold uppercase tracking-tight">{t.prWeCanDo.replace("{price}", format(result.counter))}</h3>
-                <p className="mt-2 text-sm text-muted">
-                  {t.prCounterNote.replace("{offer}", format(Number(offer)))}
-                </p>
-                {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
-                <div className="mt-6 flex flex-col gap-2">
-                  <button
-                    type="button"
-                    onClick={acceptTheCounter}
-                    disabled={pending}
-                    className="rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
-                  >
-                    {pending ? "…" : t.prAcceptPrice.replace("{price}", format(result.counter))}
-                  </button>
-                  <button type="button" onClick={close} className="text-sm text-muted hover:text-foreground">
-                    {t.prNoThanks}
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {result?.outcome === "pending" && (
+            {sent ? (
               <div className="text-center">
                 <p className="font-mono text-xs uppercase tracking-widest text-accent">{t.prOfferSent}</p>
                 <h3 className="mt-3 text-lg font-semibold uppercase tracking-tight">{t.prWellBeInTouch}</h3>
-                <p className="mt-2 text-sm text-muted">
-                  {t.prPendingNote.replace("{offer}", format(Number(offer)))}
-                </p>
+                <p className="mt-2 text-sm text-muted">{t.prPendingNote.replace("{offer}", format(Number(offer)))}</p>
                 <button type="button" onClick={close} className="mt-6 text-sm text-muted hover:text-foreground">
                   {t.prClose}
                 </button>
               </div>
-            )}
-
-            {!result && (
+            ) : (
               <>
                 <p className="font-mono text-xs uppercase tracking-widest text-accent">{t.prMakeOffer}</p>
                 <h3 className="mt-3 text-lg font-semibold uppercase tracking-tight">{t.prNameYourPrice}</h3>
-                <p className="mt-2 text-sm text-muted">
-                  {t.prListedAt.replace("{price}", format(price))}
-                </p>
+                <p className="mt-2 text-sm text-muted">{t.prListedAt.replace("{price}", format(price))}</p>
                 <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-3">
                   <input
                     type="number"

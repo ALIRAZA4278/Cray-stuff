@@ -18,8 +18,10 @@ async function currentEmail() {
   }
 }
 
-// Customer submits an offer. Auto-accept at/above the hidden min price,
-// auto-counter below it, or leave Pending if the piece has no min set.
+// Customer submits an offer. Every offer lands as Pending for the seller to
+// review by hand — no auto-accept or auto-counter. The min price is still stored
+// as a private reference for the admin. On accept, the customer's offered price
+// is honoured at checkout (their personal discount).
 export async function submitOffer(payload) {
   const { slug, productName, listPrice, minOffer, offer } = payload || {};
   const amount = Number(offer);
@@ -28,21 +30,6 @@ export async function submitOffer(payload) {
 
   const email = await currentEmail();
   if (!email) return { error: "Please sign in to make an offer." };
-
-  let status = "Pending";
-  let counter = null;
-  let outcome = "pending";
-
-  if (minOffer != null) {
-    if (amount >= minOffer) {
-      status = "Auto-accepted";
-      outcome = "accepted";
-    } else {
-      status = "Countered";
-      counter = minOffer;
-      outcome = "countered";
-    }
-  }
 
   const id = "OF-" + Date.now().toString().slice(-6);
   const supabase = createAdminClient();
@@ -54,8 +41,8 @@ export async function submitOffer(payload) {
     offer_price: amount,
     list_price: listPrice,
     min_offer: minOffer,
-    counter_price: counter,
-    status,
+    counter_price: null,
+    status: "Pending",
   });
 
   if (error) {
@@ -68,8 +55,7 @@ export async function submitOffer(payload) {
 
   revalidatePath("/admin/offers");
   revalidatePath("/admin");
-  // `price` is what this customer will now pay for the piece.
-  return { success: true, outcome, counter, id, price: outcome === "accepted" ? amount : counter };
+  return { success: true, outcome: "pending", id };
 }
 
 // Customer accepts a counteroffer — honours it at the counter price for them.

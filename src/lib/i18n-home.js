@@ -46,7 +46,7 @@ export const en = {
 
   // ── promo banner ──
   hmPromoEyebrow: "No bidding. No waiting.", hmPromoTitle: "Name your price.",
-  hmPromoDesc: "Make an offer on any piece. Meet our price and it's an instant match — shipped today. Otherwise we'll counter automatically. No auctions, no countdowns.",
+  hmPromoDesc: "Make an offer on any piece and we'll reply with a personalized discount — reviewed by hand, just for you. No auctions, no bots.",
   hmPromoCta: "See how it works",
 
   // ── reviews ──
@@ -134,7 +134,7 @@ export const pl = {
 
   // ── promo banner ──
   hmPromoEyebrow: "Bez licytacji. Bez czekania.", hmPromoTitle: "Podaj swoją cenę.",
-  hmPromoDesc: "Złóż ofertę na dowolną sztukę. Trafisz w naszą cenę i od razu jest zgoda — wysyłka jeszcze dziś. W przeciwnym razie automatycznie złożymy kontrofertę. Bez aukcji, bez odliczania.",
+  hmPromoDesc: "Złóż ofertę na dowolną sztukę, a odpowiemy spersonalizowaną zniżką — sprawdzoną ręcznie, tylko dla Ciebie. Bez aukcji, bez botów.",
   hmPromoCta: "Zobacz, jak to działa",
 
   // ── reviews ──

@@ -6,6 +6,7 @@ import FireListToggle from "@/components/product/FireListToggle";
 import Price from "@/components/Price";
 import { useLocale } from "@/lib/useLocale";
 import { getDict } from "@/lib/i18n";
+import { categoryLabel } from "@/lib/category-label";
 
 export default function ProductCard({ product }) {
   const t = getDict(useLocale());
@@ -73,7 +74,7 @@ export default function ProductCard({ product }) {
               key={tag}
               className="max-w-full truncate rounded border border-border px-1.5 py-0.5 text-[11px] text-muted"
             >
-              {tag}
+              {categoryLabel(tag)}
             </span>
           ))}
         </div>
