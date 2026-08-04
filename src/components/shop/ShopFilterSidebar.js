@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import FilterPill from "@/components/shop/FilterPill";
 import { getDict } from "@/lib/i18n";
 import { styleTags } from "@/lib/mock-products";
+import { categoryLabel } from "@/lib/category-label";
 import {
   browseCategories,
   categoryLabels,
@@ -93,7 +94,7 @@ export default async function ShopFilterSidebar({ basePath, params, active, face
           const slug = slugify(s);
           return (
             <FilterPill key={s} href={`/shop/${slug}`} active={currentStyle === slug}>
-              {s}
+              {categoryLabel(s)}
             </FilterPill>
           );
         })}
