@@ -94,7 +94,7 @@ const pl = {
   photosHint: "Prześlij z urządzenia lub wklej linki do zdjęć poniżej — po jednym w linii. Pierwsze jest głównym zdjęciem.",
   uploadsNote: "Zdjęcia są przechowywane w Cloudinary i szybko serwowane, automatycznie zoptymalizowane.",
   uploadFailedPrefix: "Błąd przesyłania", mainBadge: "Główne",
-  productName: "Nazwa produktu", brand: "Marka", fit: "Krój", fitHint: "jak faktycznie leży, np. M/L",
+  productName: "Nazwa produktu", brand: "Marka", fit: "Fit", fitHint: "jak faktycznie leży, np. M/L",
   currency: "Waluta", price: "Cena", minOffer: "Min. oferta", minOfferHint: "ukryte przed klientami",
   condition: "Stan", category: "Kategoria", measurements: "Wymiary",
   flaws: "Wady", flawsHint: "bądź szczery, to buduje zaufanie", description: "Opis",

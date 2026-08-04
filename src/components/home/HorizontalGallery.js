@@ -75,8 +75,7 @@ export default function HorizontalGallery() {
             <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/30" />
             <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-6">
               <div>
-                <p className="font-mono text-xs uppercase tracking-widest text-white/60">N° {item.n}</p>
-                <p className="mt-1 font-display text-4xl font-semibold uppercase tracking-tight text-white sm:text-5xl">
+                <p className="font-display text-4xl font-semibold uppercase tracking-tight text-white sm:text-5xl">
                   {item.label}
                 </p>
               </div>

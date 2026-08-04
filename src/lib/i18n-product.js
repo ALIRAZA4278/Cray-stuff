@@ -17,7 +17,7 @@ export const en = {
   prEmailPlaceholder: "Your email",
   prSending: "Sending…",
   prAsk: "Ask",
-  prQuestionSent: "Question sent — we'll email you when it's answered.",
+  prQuestionSent: "I'll get back to you as soon as possible. — Wiktor, Cray Stuff",
 
   // ── message seller ──
   prMessageSeller: "Message seller",
@@ -25,7 +25,7 @@ export const en = {
   prMessageDesc: "Questions about size, fit, condition or shipping? Send a message — we usually reply within a day.",
   prMessageNamePlaceholder: "Your name (optional)",
   prMessageSend: "Send message",
-  prMessageSentTitle: "Message sent",
+  prMessageSentTitle: "Thank you for your message!",
 
   // ── cart actions ──
   prBuyNow: "Buy now",
@@ -61,7 +61,7 @@ export const en = {
 
   // ── product page ──
   prShop: "Shop",
-  prOneOfOneTag: "One of one — once it's gone, it's gone",
+  prOneOfOneTag: "Hand-picked & inspected — once it's gone, you may never get another chance",
   prOnFireLists: "{n} on Fire Lists",
   prFit: "Fit",
   prCondition: "Condition",
@@ -71,8 +71,8 @@ export const en = {
   prFlaws: "Flaws — told straight",
   prAssureShipTitle: "Ships in 24h",
   prAssureShipNote: "InPost · Orlen · GLS · DPD",
-  prAssureOneTitle: "One of one",
-  prAssureOneNote: "Never restocked",
+  prAssureOneTitle: "Hand-picked",
+  prAssureOneNote: "Inspected & unique",
   prAssureCheckTitle: "Hand-checked",
   prAssureCheckNote: "Sourced & graded by us",
   prAssureSecureTitle: "Secure checkout",
@@ -150,7 +150,7 @@ export const en = {
 export const pl = {
   // ── product card ──
   prSoldOut: "Wyprzedane",
-  prFitBadge: "Krój {size}",
+  prFitBadge: "Fit {size}",
 
   // ── product Q&A ──
   prQuestionsHeading: "Pytania",
@@ -163,7 +163,7 @@ export const pl = {
   prEmailPlaceholder: "Twój e-mail",
   prSending: "Wysyłanie…",
   prAsk: "Zapytaj",
-  prQuestionSent: "Pytanie wysłane — odpowiemy e-mailem, gdy będzie gotowa odpowiedź.",
+  prQuestionSent: "Odezwę się najszybciej, jak to możliwe. — Wiktor, Cray Stuff",
 
   // ── message seller ──
   prMessageSeller: "Napisz do sprzedawcy",
@@ -171,7 +171,7 @@ export const pl = {
   prMessageDesc: "Pytania o rozmiar, krój, stan lub wysyłkę? Napisz — zwykle odpowiadamy w ciągu doby.",
   prMessageNamePlaceholder: "Twoje imię (opcjonalnie)",
   prMessageSend: "Wyślij wiadomość",
-  prMessageSentTitle: "Wiadomość wysłana",
+  prMessageSentTitle: "Dziękujemy za wiadomość!",
 
   // ── cart actions ──
   prBuyNow: "Kup teraz",
@@ -207,9 +207,9 @@ export const pl = {
 
   // ── product page ──
   prShop: "Sklep",
-  prOneOfOneTag: "Jedyny w swoim rodzaju — jak zniknie, to na zawsze",
+  prOneOfOneTag: "Ręcznie wybrane i sprawdzone — gdy zniknie, drugiej szansy może nie być",
   prOnFireLists: "{n} na Fire List",
-  prFit: "Krój",
+  prFit: "Fit",
   prCondition: "Stan",
   prMaterial: "Materiał",
   prMadeIn: "Wyprodukowano w",
@@ -217,8 +217,8 @@ export const pl = {
   prFlaws: "Wady — bez owijania",
   prAssureShipTitle: "Wysyłka w 24h",
   prAssureShipNote: "InPost · Orlen · GLS · DPD",
-  prAssureOneTitle: "Jedyny w swoim rodzaju",
-  prAssureOneNote: "Bez wznowień",
+  prAssureOneTitle: "Ręcznie wybrane",
+  prAssureOneNote: "Sprawdzone i wyjątkowe",
   prAssureCheckTitle: "Sprawdzane ręcznie",
   prAssureCheckNote: "Pozyskane i ocenione przez nas",
   prAssureSecureTitle: "Bezpieczna kasa",

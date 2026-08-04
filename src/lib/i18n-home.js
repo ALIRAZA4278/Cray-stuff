@@ -6,7 +6,7 @@ export const en = {
   hmShopNow: "Shop now", hmNewDrop: "New drop", hmShipsIn24h: "Ships in 24h", hmViewAll: "View all",
   hmCuratedEdits: "Curated edits", hmShopByStyle: "Shop by style",
   hmOurPhilosophy: "Our philosophy", hmSecondLifeFirstChoice: "Second life. First choice.",
-  hmChooseYourStyle: "Choose your style", hmArchive: "Archive", hmScroll: "Scroll",
+  hmChooseYourStyle: "Choose your style", hmArchive: "Designer", hmScroll: "Scroll",
 
   // ── home page — product grids ──
   hmNewThisWeek: "New this week", hmLatestDrop: "Latest Drop", hmShopNewArrivals: "Shop new arrivals",
@@ -25,7 +25,7 @@ export const en = {
   // ── browse by category ──
   hmCatNewDrop: "New Drop", hmCatNewDropCta: "Shop new drop",
   hmCatUnder100: "Under $100", hmCatUnder100Cta: "Shop under $100",
-  hmCatArchive: "The Archive", hmCatArchiveCta: "Shop archive",
+  hmCatArchive: "Designer", hmCatArchiveCta: "Shop designer",
 
   // ── choose your style ──
   hmFindYourLane: "Find your lane",
@@ -36,7 +36,7 @@ export const en = {
 
   // ── curtains ──
   hmCurtain1Eyebrow: "The archive", hmCurtain1Title: "One of one",
-  hmCurtain1Copy: "Every piece is the only one that will ever exist. No restocks, no duplicates — hand-picked, authenticated, and yours alone. Once it's gone, it's gone for good.",
+  hmCurtain1Copy: "Every piece is carefully hand-picked and inspected — chosen for character and quality. Once it's gone, you may never get another chance to own it.",
   hmCurtain1Cta: "Shop the drop",
   hmCurtain2Eyebrow: "Never restocked", hmCurtain2Title: "Wear it first",
   hmCurtain2Copy: "Fresh finds land every week and they don't wait around. Catch the drop before someone else does — packed and shipped within 24 hours, Poland to worldwide.",
@@ -61,8 +61,8 @@ export const en = {
   hmValueEyebrow: "Why CRAY STUFF", hmValueTitle: "The difference",
   hmValue1Title: "Hand-picked & authenticated",
   hmValue1Desc: "Every piece is personally sourced and checked before it's listed — no dropshipping, no guesswork.",
-  hmValue2Title: "One-of-one, never restocked",
-  hmValue2Desc: "Once a piece sells, it's gone for good. What you see is the only one that will ever exist.",
+  hmValue2Title: "Hand-picked & unique",
+  hmValue2Desc: "Every piece is carefully hand-picked and inspected. Once it's gone, you may never get another chance to own it.",
   hmValue3Title: "Poland-first, worldwide shipping",
   hmValue3Desc: "Fast local delivery via InPost, Orlen Paczka, GLS and DPD — with shipping available globally too.",
 
@@ -94,7 +94,7 @@ export const pl = {
   hmShopNow: "Kupuj teraz", hmNewDrop: "Nowy drop", hmShipsIn24h: "Wysyłka w 24h", hmViewAll: "Zobacz wszystko",
   hmCuratedEdits: "Wyselekcjonowane zestawy", hmShopByStyle: "Kupuj według stylu",
   hmOurPhilosophy: "Nasza filozofia", hmSecondLifeFirstChoice: "Drugie życie. Pierwszy wybór.",
-  hmChooseYourStyle: "Wybierz swój styl", hmArchive: "Archiwum", hmScroll: "Przewiń",
+  hmChooseYourStyle: "Wybierz swój styl", hmArchive: "Designer", hmScroll: "Przewiń",
 
   // ── home page — product grids ──
   hmNewThisWeek: "Nowości w tym tygodniu", hmLatestDrop: "Najnowszy drop", hmShopNewArrivals: "Kupuj nowości",
@@ -113,7 +113,7 @@ export const pl = {
   // ── browse by category ──
   hmCatNewDrop: "Nowy drop", hmCatNewDropCta: "Kupuj nowy drop",
   hmCatUnder100: "Poniżej $100", hmCatUnder100Cta: "Kupuj poniżej $100",
-  hmCatArchive: "Archiwum", hmCatArchiveCta: "Kupuj archiwum",
+  hmCatArchive: "Designer", hmCatArchiveCta: "Kupuj designer",
 
   // ── choose your style ──
   hmFindYourLane: "Znajdź swój styl",
@@ -124,7 +124,7 @@ export const pl = {
 
   // ── curtains ──
   hmCurtain1Eyebrow: "Archiwum", hmCurtain1Title: "Jedyny w swoim rodzaju",
-  hmCurtain1Copy: "Każda sztuka jest jedyną, jaka kiedykolwiek powstanie. Bez wznowień, bez duplikatów — ręcznie wybrana, sprawdzona i tylko Twoja. Gdy zniknie, znika na zawsze.",
+  hmCurtain1Copy: "Każda sztuka jest starannie wybrana i sprawdzona — dobrana za charakter i jakość. Gdy zniknie, drugiej szansy na jej zdobycie może nie być.",
   hmCurtain1Cta: "Kupuj drop",
   hmCurtain2Eyebrow: "Bez wznowień", hmCurtain2Title: "Noś to jako pierwszy",
   hmCurtain2Copy: "Nowe znaleziska pojawiają się co tydzień i nie czekają. Złap drop, zanim zrobi to ktoś inny — pakujemy i wysyłamy w 24 godziny, z Polski na cały świat.",
@@ -149,8 +149,8 @@ export const pl = {
   hmValueEyebrow: "Dlaczego CRAY STUFF", hmValueTitle: "Różnica",
   hmValue1Title: "Ręcznie wybrane i sprawdzone",
   hmValue1Desc: "Każdą sztukę osobiście wyszukujemy i sprawdzamy przed wystawieniem — bez dropshippingu, bez zgadywania.",
-  hmValue2Title: "Jedyne w swoim rodzaju, bez wznowień",
-  hmValue2Desc: "Gdy sztuka się sprzeda, znika na zawsze. To, co widzisz, to jedyny egzemplarz, jaki kiedykolwiek powstanie.",
+  hmValue2Title: "Ręcznie wybrane i wyjątkowe",
+  hmValue2Desc: "Każda sztuka jest starannie wybrana i sprawdzona. Gdy zniknie, drugiej szansy na jej zdobycie może nie być.",
   hmValue3Title: "Najpierw Polska, wysyłka na cały świat",
   hmValue3Desc: "Szybka dostawa lokalna przez InPost, Orlen Paczka, GLS i DPD — z wysyłką dostępną również globalnie.",
 

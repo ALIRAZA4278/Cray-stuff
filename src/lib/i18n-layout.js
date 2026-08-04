@@ -4,7 +4,7 @@
 export const en = {
   // ── header / nav ──
   navShop: "Shop", navVintage: "Vintage", navY2K: "Y2K", navSkate: "Skate",
-  navArchive: "Archive", navJustSwag: "Just Swag", navHome: "Home", navShopAll: "Shop All",
+  navArchive: "Designer", navJustSwag: "Just Swag", navHome: "Home", navShopAll: "Shop All",
   navRecentlySold: "Recently Sold", navReviews: "Reviews", navAbout: "About Us",
   navContact: "Contact", navFaq: "FAQ", navFireList: "Fire List", navAccount: "Account",
   shopByStyle: "Shop by style", language: "Language", currency: "Currency", theme: "Theme",
@@ -54,7 +54,7 @@ export const en = {
 export const pl = {
   // ── header / nav ──
   navShop: "Sklep", navVintage: "Vintage", navY2K: "Y2K", navSkate: "Skate",
-  navArchive: "Archiwum", navJustSwag: "Just Swag", navHome: "Strona główna", navShopAll: "Wszystko",
+  navArchive: "Designer", navJustSwag: "Just Swag", navHome: "Strona główna", navShopAll: "Wszystko",
   navRecentlySold: "Ostatnio sprzedane", navReviews: "Opinie", navAbout: "O nas",
   navContact: "Kontakt", navFaq: "FAQ", navFireList: "Fire List", navAccount: "Konto",
   shopByStyle: "Kupuj według stylu", language: "Język", currency: "Waluta", theme: "Motyw",

@@ -67,7 +67,9 @@ export default async function StyleShopPage({ params, searchParams }) {
       <div className="mx-auto max-w-7xl">
         <Reveal className="mb-10">
           <p className="font-mono text-xs uppercase tracking-widest text-accent">{t.shCuratedEdit}</p>
-          <h1 className="mt-2 text-3xl font-semibold uppercase tracking-tight sm:text-4xl">{styleLabel}</h1>
+          <h1 className="mt-2 text-3xl font-semibold uppercase tracking-tight sm:text-4xl">
+            {styleLabel === "Archive" ? "Designer" : styleLabel}
+          </h1>
           <p className="mt-2 max-w-xl text-sm text-muted">{localizedCopy[style] || styleCopy[style]}</p>
           <p className="mt-2 font-mono text-[11px] uppercase tracking-widest text-muted">
             {products.length} {products.length === 1 ? t.shPiece : t.shPieces} {t.shStyleCountTail}

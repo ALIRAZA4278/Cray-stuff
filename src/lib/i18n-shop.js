@@ -96,7 +96,7 @@ export const pl = {
 
   // ── filter sidebar group labels ──
   shAvailability: "Dostępność", shCategory: "Kategoria", shType: "Typ",
-  shStyle: "Styl", shFit: "Krój", shBrand: "Marka", shCondition: "Stan", shPrice: "Cena",
+  shStyle: "Styl", shFit: "Fit", shBrand: "Marka", shCondition: "Stan", shPrice: "Cena",
 
   // ── availability options ──
   shAvailable: "Dostępne", shSold: "Sprzedane", shAll: "Wszystkie",
