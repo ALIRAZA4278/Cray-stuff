@@ -11,18 +11,20 @@ export default async function BrowseByCategory() {
 
   // Wiktor's own shots, one per tile. Swapping one is a single-line change — drop
   // the new Cloudinary URL in and nothing else moves.
+  // Order: Under $100 (left) · New Drop (center) · Designer (right) — New Drop in
+  // the middle balances the two similar-looking side tiles.
   const tiles = [
-    {
-      label: t.hmCatNewDrop,
-      cta: t.hmCatNewDropCta,
-      href: "/shop?sort=new",
-      image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/new-drop-jeans.jpg",
-    },
     {
       label: t.hmCatUnder100,
       cta: t.hmCatUnder100Cta,
       href: "/shop?price=0-50,50-100",
       image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/true-religion-jeans.jpg",
+    },
+    {
+      label: t.hmCatNewDrop,
+      cta: t.hmCatNewDropCta,
+      href: "/shop?sort=new",
+      image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/new-drop-jeans.jpg",
     },
     {
       label: t.hmCatArchive,
