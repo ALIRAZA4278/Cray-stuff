@@ -14,7 +14,7 @@ export const en = {
 
   // ── hero ──
   hmHeroOneOfOne: "One of one",
-  hmHeroLine1: "We don't follow trends.", hmHeroLine2: "Trends follow us.",
+  hmHeroLine1: "Wear Something Different,", hmHeroLine2: "Style With a Story.",
   hmHeroSubtitle: "Premium curated vintage & streetwear — carefully selected pieces with history, character and style.",
   hmHeroPolandWorldwide: "Poland → Worldwide", hmHeroArchive: "One-of-one archive",
 
@@ -102,7 +102,7 @@ export const pl = {
 
   // ── hero ──
   hmHeroOneOfOne: "jedyny w swoim rodzaju",
-  hmHeroLine1: "Nie podążamy za trendami.", hmHeroLine2: "Trendy podążają za nami.",
+  hmHeroLine1: "Noś coś innego,", hmHeroLine2: "Styl z historią.",
   hmHeroSubtitle: "Starannie wyselekcjonowany vintage i streetwear premium — kawałki z historią, charakterem i stylem.",
   hmHeroPolandWorldwide: "Polska → cały świat", hmHeroArchive: "Archiwum jedynych w swoim rodzaju",
 
