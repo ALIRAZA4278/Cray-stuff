@@ -28,12 +28,12 @@ export default function ChooseYourStyle() {
     {
       tag: "Y2K",
       blurb: t.hmStyleY2KBlurb,
-      image: "/PRODOCT/NEW/y2k-rockrevival.jpg",
+      image: "/PRODOCT/NEW/y2k-missme.jpg",
     },
     {
       tag: "Skate",
       blurb: t.hmStyleSkateBlurb,
-      image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/y2k-jeans-2.jpg",
+      image: "/PRODOCT/NEW/skate-jeans.jpg",
     },
     {
       tag: "Just Swag",

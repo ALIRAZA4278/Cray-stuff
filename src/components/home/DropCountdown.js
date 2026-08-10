@@ -36,7 +36,7 @@ export default function DropCountdown({ target }) {
   return (
     <div className="relative flex h-full min-h-[320px] flex-col justify-end overflow-hidden rounded-lg border border-border p-8">
       <Image
-        src="https://picsum.photos/seed/cray-next-drop/800/900"
+        src="/PRODOCT/NEW/next-drop-tees.jpg"
         alt=""
         fill
         sizes="(max-width: 640px) 100vw, 50vw"

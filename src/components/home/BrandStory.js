@@ -10,7 +10,7 @@ export default async function BrandStory() {
   return (
     <div className="relative flex h-full min-h-[320px] flex-col justify-end overflow-hidden rounded-lg border border-border p-8">
       <Image
-        src="https://picsum.photos/seed/cray-philosophy/800/900"
+        src="/PRODOCT/NEW/philosophy-polo.jpg"
         alt=""
         fill
         sizes="(max-width: 640px) 100vw, 50vw"
