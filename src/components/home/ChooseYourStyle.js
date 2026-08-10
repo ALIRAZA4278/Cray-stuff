@@ -28,7 +28,7 @@ export default function ChooseYourStyle() {
     {
       tag: "Y2K",
       blurb: t.hmStyleY2KBlurb,
-      image: "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/true-religion-jeans.jpg",
+      image: "/PRODOCT/NEW/y2k-rockrevival.jpg",
     },
     {
       tag: "Skate",
@@ -38,9 +38,7 @@ export default function ChooseYourStyle() {
     {
       tag: "Just Swag",
       blurb: t.hmStyleSwagBlurb,
-      // Picked visually from Wiktor's Just Swag options — the Born To Be Free pants
-      // read boldest at this size.
-      image: "/PRODOCT/NEW/born-to-be-free-pants.jpg",
+      image: "/PRODOCT/NEW/just-swag-ruthless.jpg",
     },
   ];
 
