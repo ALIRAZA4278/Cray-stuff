@@ -10,11 +10,11 @@ export default async function PromoBanner() {
   return (
     <section className="relative flex h-[380px] items-center overflow-hidden border-b border-border px-6 sm:h-[460px]">
       <Image
-        src="https://picsum.photos/seed/cray-promo-offer/1600/900"
+        src="/PRODOCT/NEW/make-offer-shorts.jpg"
         alt=""
         fill
         sizes="100vw"
-        className="object-cover grayscale-[25%]"
+        className="object-cover object-center grayscale-[25%]"
       />
       {/* Dark editorial wash — rich and legible in both themes. */}
       <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/25" />
