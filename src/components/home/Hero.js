@@ -8,12 +8,13 @@ import { useLocale } from "@/lib/useLocale";
 import { getDict } from "@/lib/i18n";
 import { useLiteMotion } from "@/lib/useLiteMotion";
 
-// Four different pieces, side by side.
+// Real people in the pieces. Mobile shows just the first (strongest) shot;
+// desktop fans out all four side by side.
 const heroShots = [
-  "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/new-drop-jeans.jpg",
-  "https://res.cloudinary.com/wnbvtyon/image/upload/cray-stuff/products/true-religion-jeans.jpg",
-  "/PRODOCT/NEW/real-point-hoodie.jpg",
-  "/PRODOCT/NEW/brazil-track-jacket.jpg",
+  "/PRODOCT/NEW/hero-red-model.jpg",
+  "/PRODOCT/NEW/hero-teal.jpg",
+  "/PRODOCT/NEW/hero-red-group.jpg",
+  "/PRODOCT/NEW/hero-street.jpg",
 ];
 
 export default function Hero() {
@@ -51,16 +52,21 @@ export default function Hero() {
           so it can be the LCP paint without waiting on JS. The whole strip drifts
           with the cursor on desktop for depth. */}
       <motion.div aria-hidden style={lite ? undefined : { x: auroraX, y: auroraY }} className="absolute -inset-16 transform-gpu">
-        <div className="grid h-full w-full grid-cols-2 sm:grid-cols-4">
+        <div className="grid h-full w-full grid-cols-1 sm:grid-cols-4">
           {heroShots.map((src, index) => (
-            <div key={src} className="relative overflow-hidden border-white/10 sm:border-r last:border-r-0">
+            <div
+              key={src}
+              className={`relative overflow-hidden border-white/10 sm:border-r last:border-r-0 ${
+                index > 0 ? "hidden sm:block" : ""
+              }`}
+            >
               <div className="absolute -inset-y-10 inset-x-0 transform-gpu">
                 <Image
                   src={src}
                   alt=""
                   fill
-                  priority={index < 2}
-                  sizes="(max-width: 640px) 50vw, 25vw"
+                  priority={index === 0}
+                  sizes="(max-width: 640px) 100vw, 25vw"
                   className="object-cover object-center grayscale-[30%]"
                 />
               </div>

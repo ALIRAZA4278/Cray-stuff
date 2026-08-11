@@ -14,7 +14,7 @@ export default async function BrandStory() {
         alt=""
         fill
         sizes="(max-width: 640px) 100vw, 50vw"
-        className="object-cover grayscale-[50%]"
+        className="object-cover object-[22%_45%] grayscale-[50%]"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/25" />
       <div className="relative z-10">
