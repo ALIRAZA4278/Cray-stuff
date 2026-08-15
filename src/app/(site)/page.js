@@ -11,6 +11,7 @@ import Reviews from "@/components/home/Reviews";
 import Community from "@/components/home/Community";
 import PhilosophyAndDrop from "@/components/home/PhilosophyAndDrop";
 import { getAllProducts } from "@/lib/products";
+import { getReviewCount } from "@/lib/settings";
 import { cookies } from "next/headers";
 import { getDict } from "@/lib/i18n";
 
@@ -40,12 +41,13 @@ export default async function HomePage() {
   const latest = featured.length ? featured : products.slice(0, 12);
   const popular = mostPopular.slice(0, 12);
   const dropTarget = Date.now() + 1000 * 60 * 60 * 24 * 7;
+  const reviewCount = await getReviewCount();
   const t = getDict((await cookies()).get("site-locale")?.value || "en");
 
   return (
     <>
       <Hero />
-      <TrustBar />
+      <TrustBar reviewCount={reviewCount} />
       <BrowseByCategory />
       <ProductGrid
         eyebrow={t.hmNewThisWeek}
@@ -63,10 +65,10 @@ export default async function HomePage() {
       />
       <BrandTicker />
       <ChooseYourStyle />
-      <Curtains />
+      <Curtains reviewCount={reviewCount} />
       <PromoBanner />
       <HorizontalGallery />
-      <Reviews />
+      <Reviews reviewCount={reviewCount} />
       <Community />
       <PhilosophyAndDrop dropTarget={dropTarget} />
     </>

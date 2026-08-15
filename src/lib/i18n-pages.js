@@ -108,7 +108,7 @@ export const en = {
   pgReviewsEyebrow: "The receipts",
   pgReviewsTitle: "Reviews",
   pgReviewsRatings:
-    "ratings on Vinted from buyers across Poland and the EU. Below are the ones who took the time to write something — no automatic comments, no edits.",
+    "reviews collected from across all our platforms — buyers from Poland and the EU. Below are the ones who took the time to write something — no automatic comments, no edits.",
   pgReviewsViewProfile: "View our Vinted profile →",
   pgReviewsBoughtTitle: "Bought something you love?",
   pgReviewsBoughtDesc: "Tag us — your fit could feature on our page.",
@@ -316,7 +316,7 @@ export const pl = {
   pgReviewsEyebrow: "Dowody",
   pgReviewsTitle: "Opinie",
   pgReviewsRatings:
-    "ocen na Vinted od kupujących z Polski i całej UE. Poniżej te osoby, które poświęciły czas, by coś napisać — bez automatycznych komentarzy, bez edycji.",
+    "opinii zebranych ze wszystkich naszych platform — od kupujących z Polski i całej UE. Poniżej te osoby, które poświęciły czas, by coś napisać — bez automatycznych komentarzy, bez edycji.",
   pgReviewsViewProfile: "Zobacz nasz profil na Vinted →",
   pgReviewsBoughtTitle: "Kupiłeś coś, co pokochałeś?",
   pgReviewsBoughtDesc: "Oznacz nas — Twoja stylizacja może trafić na naszą stronę.",

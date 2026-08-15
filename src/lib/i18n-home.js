@@ -19,7 +19,7 @@ export const en = {
   hmHeroPolandWorldwide: "Poland → Worldwide", hmHeroArchive: "One-of-one archive",
 
   // ── trust bar ──
-  hmTrustRatings: "+ Vinted ratings", hmTrustWorldwide: "Worldwide shipping",
+  hmTrustRatings: "+ reviews", hmTrustWorldwide: "Worldwide shipping",
   hmTrustSecure: "Secure payments", hmTrustOneOfOne: "One-of-one pieces",
 
   // ── browse by category ──
@@ -50,8 +50,8 @@ export const en = {
   hmPromoCta: "See how it works",
 
   // ── reviews ──
-  hmReviewsEyebrow: "Verified on Vinted", hmReviewsTitle: "What buyers say", hmReviewsAll: "All reviews",
-  hmReviewsRatings: "ratings on our Vinted profile", hmReviewsCheck: "Check it yourself",
+  hmReviewsEyebrow: "Verified reviews", hmReviewsTitle: "What buyers say", hmReviewsAll: "All reviews",
+  hmReviewsRatings: "reviews across all our platforms", hmReviewsCheck: "Check it yourself",
   hmReviewsDisclaimer: "Every quote here was written by a real buyer — we leave out Vinted's automatic ones.",
 
   // ── community ──
@@ -107,7 +107,7 @@ export const pl = {
   hmHeroPolandWorldwide: "Polska → cały świat", hmHeroArchive: "Archiwum jedynych w swoim rodzaju",
 
   // ── trust bar ──
-  hmTrustRatings: "+ ocen Vinted", hmTrustWorldwide: "Wysyłka na cały świat",
+  hmTrustRatings: "+ opinii", hmTrustWorldwide: "Wysyłka na cały świat",
   hmTrustSecure: "Bezpieczne płatności", hmTrustOneOfOne: "Jedyne w swoim rodzaju",
 
   // ── browse by category ──
@@ -138,8 +138,8 @@ export const pl = {
   hmPromoCta: "Zobacz, jak to działa",
 
   // ── reviews ──
-  hmReviewsEyebrow: "Zweryfikowane na Vinted", hmReviewsTitle: "Co mówią kupujący", hmReviewsAll: "Wszystkie opinie",
-  hmReviewsRatings: "ocen na naszym profilu Vinted", hmReviewsCheck: "Sprawdź sam",
+  hmReviewsEyebrow: "Zweryfikowane opinie", hmReviewsTitle: "Co mówią kupujący", hmReviewsAll: "Wszystkie opinie",
+  hmReviewsRatings: "opinii ze wszystkich naszych platform", hmReviewsCheck: "Sprawdź sam",
   hmReviewsDisclaimer: "Każdy cytat napisał prawdziwy kupujący — pomijamy automatyczne opinie Vinted.",
 
   // ── community ──

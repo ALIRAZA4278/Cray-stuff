@@ -3,13 +3,12 @@ import CountUp from "@/components/motion/CountUp";
 import { reviewsCount } from "@/lib/reviews";
 import { getDict } from "@/lib/i18n";
 
-export default async function TrustBar() {
+export default async function TrustBar({ reviewCount = reviewsCount }) {
   const t = getDict((await cookies()).get("site-locale")?.value || "en");
 
-  // Review count comes from one place so the site never claims more than is real.
-  // "Ratings" not "five-star reviews" — we can't verify every one of them is a 5.
+  // Count is admin-editable (settings) so it reflects reviews across all platforms.
   const items = [
-    { count: reviewsCount, suffix: t.hmTrustRatings },
+    { count: reviewCount, suffix: t.hmTrustRatings },
     { text: t.hmTrustWorldwide },
     { text: t.hmTrustSecure },
     { text: t.hmTrustOneOfOne },

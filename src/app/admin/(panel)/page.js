@@ -4,9 +4,11 @@ import { getAdminDict } from "@/lib/admin-i18n";
 import AdminHeader from "@/components/admin/AdminHeader";
 import StatCard from "@/components/admin/StatCard";
 import StatusBadge from "@/components/admin/StatusBadge";
+import ReviewCountForm from "@/components/admin/ReviewCountForm";
 import { getAllProducts } from "@/lib/products";
 import { getAllOrders } from "@/lib/orders";
 import { getAllOffers } from "@/lib/offers";
+import { getReviewCount } from "@/lib/settings";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export const metadata = { title: "Dashboard — Admin" };
@@ -26,6 +28,8 @@ export default async function AdminDashboardPage() {
   const supabase = createAdminClient();
   const { count } = await supabase.from("contact_messages").select("*", { count: "exact", head: true });
   if (count) messageCount = count;
+
+  const reviewCount = await getReviewCount();
 
   return (
     <div>
@@ -102,6 +106,10 @@ export default async function AdminDashboardPage() {
             </Link>
           )}
         </section>
+      </div>
+
+      <div className="mt-6">
+        <ReviewCountForm current={reviewCount} locale={locale} />
       </div>
     </div>
   );

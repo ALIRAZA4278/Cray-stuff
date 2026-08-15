@@ -198,3 +198,13 @@ alter table public.products add column if not exists currency text not null defa
 alter table public.discount_codes add column if not exists first_order_only  boolean not null default false;
 alter table public.discount_codes add column if not exists once_per_customer boolean not null default false;
 -- `type` already exists; it now also accepts 'bogo' (buy one, % off the next).
+
+-- Site-wide editable settings (key/value). Currently holds the public review
+-- count shown across the storefront, editable from the admin dashboard.
+create table if not exists site_settings (
+  key text primary key,
+  value text,
+  updated_at timestamptz default now()
+);
+insert into site_settings (key, value) values ('review_count', '650')
+  on conflict (key) do nothing;

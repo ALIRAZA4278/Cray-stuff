@@ -31,6 +31,9 @@ const en = {
   accept: "Accept", decline: "Decline", writeAnswer: "Write an answer…", posting: "Posting…", reply: "Reply",
   dragToReorder: "Drag photos to reorder — the first one is the main image.",
   deleteConfirm: "Delete this product? This can't be undone.",
+  save: "Save", reviewCountTitle: "Reviews count",
+  reviewCountDesc: "The total shown across the site (home, trust bar, reviews page). Bump it as it grows.",
+  reviewCountSaved: "Saved — live across the site.",
 
   // ── dashboard ──
   overview: "Overview", dashboardDesc: "Everything happening across CRAY STUFF at a glance.",
@@ -105,6 +108,9 @@ const pl = {
   accept: "Akceptuj", decline: "Odrzuć", writeAnswer: "Napisz odpowiedź…", posting: "Wysyłanie…", reply: "Odpowiedz",
   dragToReorder: "Przeciągnij zdjęcia, aby zmienić kolejność — pierwsze jest głównym.",
   deleteConfirm: "Usunąć ten produkt? Tej operacji nie można cofnąć.",
+  save: "Zapisz", reviewCountTitle: "Liczba opinii",
+  reviewCountDesc: "Łączna liczba pokazywana na stronie (główna, pasek zaufania, opinie). Zwiększaj, gdy rośnie.",
+  reviewCountSaved: "Zapisano — widoczne na całej stronie.",
 
   overview: "Przegląd", dashboardDesc: "Wszystko, co dzieje się w CRAY STUFF, w jednym miejscu.",
   livePieces: "Aktywne produkty", ordersToShip: "Zamówienia do wysyłki", offersToReview: "Oferty do sprawdzenia", revenue: "Przychód",

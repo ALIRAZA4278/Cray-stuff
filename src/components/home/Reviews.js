@@ -7,7 +7,7 @@ import { reviews, reviewsCount } from "@/lib/reviews";
 import { socialLinks } from "@/lib/site";
 import { getDict } from "@/lib/i18n";
 
-export default async function Reviews() {
+export default async function Reviews({ reviewCount = reviewsCount }) {
   const t = getDict((await cookies()).get("site-locale")?.value || "en");
   const featured = reviews.slice(0, 3);
 
@@ -26,7 +26,7 @@ export default async function Reviews() {
             className="group mb-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 rounded-lg border border-border bg-surface px-6 py-5 text-center transition-colors hover:border-accent"
           >
             <span className="flex items-baseline gap-2">
-              <CountUp to={reviewsCount} className="font-display text-4xl font-semibold text-accent sm:text-5xl" />
+              <CountUp to={reviewCount} className="font-display text-4xl font-semibold text-accent sm:text-5xl" />
               <span className="font-display text-4xl font-semibold text-accent sm:text-5xl">+</span>
             </span>
             <span className="text-left">

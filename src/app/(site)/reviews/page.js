@@ -3,7 +3,8 @@ import { cookies } from "next/headers";
 import Reveal from "@/components/motion/Reveal";
 import CountUp from "@/components/motion/CountUp";
 import ReviewCard from "@/components/reviews/ReviewCard";
-import { reviews, reviewsCount } from "@/lib/reviews";
+import { reviews } from "@/lib/reviews";
+import { getReviewCount } from "@/lib/settings";
 import { socialLinks } from "@/lib/site";
 import { getDict } from "@/lib/i18n";
 
@@ -14,6 +15,7 @@ export const metadata = {
 
 export default async function ReviewsPage() {
   const t = getDict((await cookies()).get("site-locale")?.value || "en");
+  const reviewCount = await getReviewCount();
   return (
     <div className="relative overflow-hidden px-6 py-16">
       <div className="relative mx-auto max-w-5xl">
@@ -21,7 +23,7 @@ export default async function ReviewsPage() {
           <p className="font-mono text-xs uppercase tracking-widest text-accent">{t.pgReviewsEyebrow}</p>
           <h1 className="mt-3 text-3xl font-semibold uppercase tracking-tight sm:text-5xl">{t.pgReviewsTitle}</h1>
           <p className="mx-auto mt-4 flex items-baseline justify-center gap-2 font-display text-5xl font-semibold uppercase tracking-tight text-accent sm:text-6xl">
-            <CountUp to={reviewsCount} />
+            <CountUp to={reviewCount} />
             <span>+</span>
           </p>
           <p className="mx-auto mt-2 max-w-xl text-sm text-muted">

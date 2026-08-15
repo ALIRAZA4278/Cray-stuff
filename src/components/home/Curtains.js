@@ -109,7 +109,7 @@ function Panel({ panel, isLast, total }) {
   );
 }
 
-export default function Curtains() {
+export default function Curtains({ reviewCount = reviewsCount }) {
   const t = getDict(useLocale());
 
   // Free rebuild of Motion+'s useCurtains: full-height panels pinned with sticky,
@@ -140,8 +140,8 @@ export default function Curtains() {
       index: "03",
       eyebrow: t.hmOurPhilosophy,
       title: t.hmSecondLifeFirstChoice,
-      copy: t.hmCurtain3Copy.replace("{n}", reviewsCount),
-      meta: ["Est. 2021", t.hmCurtain3MetaHand, t.hmCurtain3Reviews.replace("{n}", reviewsCount)],
+      copy: t.hmCurtain3Copy.replace("{n}", reviewCount),
+      meta: ["Est. 2021", t.hmCurtain3MetaHand, t.hmCurtain3Reviews.replace("{n}", reviewCount)],
       cta: t.hmCurtain3Cta,
       href: "/about",
       base: "from-[#26202f] via-[#181521] to-[#0c0a11]",
