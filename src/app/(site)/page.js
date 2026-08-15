@@ -21,10 +21,23 @@ export const revalidate = 60;
 export default async function HomePage() {
   const products = await getAllProducts();
   const mostPopular = [...products].sort((a, b) => b.fireCount - a.fireCount);
-  // The homepage rails only tease the catalog — capping them keeps the initial
-  // DOM + hydration light (the full set lives behind "View all"). Rendering all
-  // 37 twice was ~74 client cards fighting to hydrate before the hero could paint.
-  const latest = products.slice(0, 12);
+  // Wiktor's hand-picked Latest Drop line-up, in his exact ranked order. Any slug
+  // that isn't live just drops out. Falls back to newest if none resolve.
+  const featuredDropSlugs = [
+    "heavy-y2k-abercrombie-fitch-zip-hoodie",
+    "y2k-true-religion-jeans-jacket-women-fit-made-in-mexico",
+    "vintage-ed-hardy-fade-tee-y2k-crazy-women-t-shirt",
+    "retro-checkered-boxy-skate-hoodie",
+    "heavy-gray-distressed-zip-flag-usa-uk-hoodie",
+    "rocawear-crazy-hides-2000s-baggy-shorts",
+    "baggy-rockawear-2000sjeans-shorts",
+    "classic-ecko-untld-skate-baggy-2000s-shorts",
+    "crazy-no-faith-studios-flared-heavy-baggy-pants-distressed",
+  ];
+  const bySlug = Object.fromEntries(products.map((p) => [p.slug, p]));
+  const featured = featuredDropSlugs.map((s) => bySlug[s]).filter(Boolean);
+  // The other rail stays capped so the homepage hydration stays light.
+  const latest = featured.length ? featured : products.slice(0, 12);
   const popular = mostPopular.slice(0, 12);
   const dropTarget = Date.now() + 1000 * 60 * 60 * 24 * 7;
   const t = getDict((await cookies()).get("site-locale")?.value || "en");

@@ -169,7 +169,7 @@ export default function Header() {
       </nav>
 
       {open && (
-        <nav className="flex flex-col border-t border-border px-6 py-4 md:hidden">
+        <nav className="flex max-h-[calc(100dvh-5rem)] flex-col overflow-y-auto overscroll-contain border-t border-border px-6 py-4 md:hidden">
           {mobilePrimaryLinks.map((link) => (
             <Link
               key={link.href}
