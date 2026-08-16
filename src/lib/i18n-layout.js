@@ -21,7 +21,7 @@ export const en = {
   footJoinDesc: "Be the first to know about new drops and exclusive offers.",
   footColShop: "Shop", footColCare: "Customer Care", footColCompany: "Company", footColLegal: "Legal",
   footAllProducts: "All Products", footTrackOrder: "Track Order", footNewArrivals: "New Arrivals",
-  footPrivacy: "Privacy Policy", footTerms: "Terms & Conditions",
+  footPrivacy: "Privacy Policy", footTerms: "Terms & Conditions", footReturns: "Returns",
   footTagline: "Wear Something Different.", footShopVinted: "Shop our Vinted",
   footRights: "All rights reserved.",
 
@@ -71,7 +71,7 @@ export const pl = {
   footJoinDesc: "Bądź pierwszy, który dowie się o nowych dropach i ekskluzywnych ofertach.",
   footColShop: "Sklep", footColCare: "Obsługa klienta", footColCompany: "Firma", footColLegal: "Informacje prawne",
   footAllProducts: "Wszystkie produkty", footTrackOrder: "Śledź zamówienie", footNewArrivals: "Nowości",
-  footPrivacy: "Polityka prywatności", footTerms: "Regulamin",
+  footPrivacy: "Polityka prywatności", footTerms: "Regulamin", footReturns: "Zwroty",
   footTagline: "Noś coś innego.", footShopVinted: "Zobacz nasz Vinted",
   footRights: "Wszelkie prawa zastrzeżone.",
 

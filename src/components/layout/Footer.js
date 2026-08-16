@@ -47,8 +47,9 @@ export default async function Footer() {
     {
       title: t.footColLegal,
       links: [
-        { href: "/faq", label: t.footPrivacy },
-        { href: "/faq", label: t.footTerms },
+        { href: "/privacy", label: t.footPrivacy },
+        { href: "/terms", label: t.footTerms },
+        { href: "/returns", label: t.footReturns },
       ],
     },
   ];
