@@ -40,6 +40,7 @@ export default function Header() {
     { href: "/", label: t.navHome },
     { href: "/shop", label: t.navShopAll },
     { href: "/sold", label: t.navRecentlySold },
+    { href: "/gallery", label: t.navGallery },
     { href: "/reviews", label: t.navReviews },
     { href: "/about", label: t.navAbout },
     { href: "/contact", label: t.navContact },
@@ -50,6 +51,7 @@ export default function Header() {
   const desktopHomeLink = [{ href: "/", label: t.navHome }];
   const desktopPrimaryLinks = [
     { href: "/about", label: t.navAbout },
+    { href: "/gallery", label: t.navGallery },
     { href: "/reviews", label: t.navReviews },
     { href: "/contact", label: t.navContact },
     { href: "/faq", label: t.navFaq },

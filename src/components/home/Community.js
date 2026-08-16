@@ -1,23 +1,15 @@
 import Image from "next/image";
+import Link from "next/link";
 import { cookies } from "next/headers";
 import Reveal from "@/components/motion/Reveal";
 import SectionHeading from "@/components/home/SectionHeading";
-import { socialLinks } from "@/lib/site";
+import { galleryImages } from "@/lib/gallery";
 import { getDict } from "@/lib/i18n";
-
-// Real shots from Wiktor's world, not stock placeholders — product flatlays
-// mixed with worn/street shots.
-const tiles = [
-  "/PRODOCT/NEW/checked-hoodie.jpg",
-  "/PRODOCT/NEW/lifestyle-jeans-back.jpg",
-  "/PRODOCT/NEW/stussy-cdg-tee.jpg",
-  "/PRODOCT/NEW/lifestyle-group-usa.jpg",
-  "/PRODOCT/NEW/carhartt-jackets.jpg",
-  "/PRODOCT/NEW/nike-max-shorts.jpg",
-];
 
 export default async function Community() {
   const t = getDict((await cookies()).get("site-locale")?.value || "en");
+  // A teaser of the gallery — the full set lives on /gallery.
+  const tiles = galleryImages.slice(0, 6);
 
   return (
     <section className="border-b border-border px-6 py-16">
@@ -25,15 +17,13 @@ export default async function Community() {
         <SectionHeading
           eyebrow={t.hmCommunityEyebrow}
           title={t.hmCommunityTitle}
-          link={{ href: socialLinks.instagram, label: "@craybze" }}
+          link={{ href: "/gallery", label: t.hmCommunityViewGallery }}
         />
         <div className="grid grid-cols-3 gap-2 sm:grid-cols-6 sm:gap-3">
           {tiles.map((image, index) => (
             <Reveal key={image} delay={index * 0.04}>
-              <a
-                href={socialLinks.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/gallery"
                 className="group relative block aspect-square overflow-hidden rounded-md border border-border transition-colors hover:border-accent"
               >
                 <Image
@@ -44,9 +34,9 @@ export default async function Community() {
                   className="object-cover grayscale-[30%] transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-background/0 opacity-0 transition-all duration-300 group-hover:bg-background/40 group-hover:opacity-100">
-                  <InstagramIcon />
+                  <ExpandIcon />
                 </div>
-              </a>
+              </Link>
             </Reveal>
           ))}
         </div>
@@ -55,12 +45,10 @@ export default async function Community() {
   );
 }
 
-function InstagramIcon() {
+function ExpandIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-6 w-6 text-foreground">
-      <rect x="3" y="3" width="18" height="18" rx="5" />
-      <circle cx="12" cy="12" r="4" />
-      <circle cx="17" cy="7" r="1" fill="currentColor" stroke="none" />
+      <path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3" strokeLinecap="round" />
     </svg>
   );
 }

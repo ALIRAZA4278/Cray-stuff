@@ -40,6 +40,7 @@ export default async function Footer() {
       title: t.footColCompany,
       links: [
         { href: "/about", label: t.navAbout },
+        { href: "/gallery", label: t.navGallery },
         { href: "/shop?sort=new", label: t.footNewArrivals },
       ],
     },

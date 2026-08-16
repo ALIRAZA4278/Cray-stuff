@@ -105,6 +105,10 @@ export const en = {
   pgContactSend: "Send message",
 
   // ── reviews ──
+  pgGalleryEyebrow: "The gallery",
+  pgGalleryTitle: "From our world",
+  pgGalleryDesc: "Pieces worn, styled and lived in — the world of Cray Stuff. We add new shots over time.",
+
   pgReviewsEyebrow: "The receipts",
   pgReviewsTitle: "Reviews",
   pgReviewsRatings:
@@ -313,6 +317,10 @@ export const pl = {
   pgContactSend: "Wyślij wiadomość",
 
   // ── reviews ──
+  pgGalleryEyebrow: "Galeria",
+  pgGalleryTitle: "Z naszego świata",
+  pgGalleryDesc: "Ubrania noszone, stylizowane i przeżyte — świat Cray Stuff. Z czasem dodajemy nowe zdjęcia.",
+
   pgReviewsEyebrow: "Dowody",
   pgReviewsTitle: "Opinie",
   pgReviewsRatings:

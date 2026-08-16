@@ -56,6 +56,7 @@ export const en = {
 
   // ── community ──
   hmCommunityEyebrow: "Worn by the community", hmCommunityTitle: "From our world", hmCommunityAlt: "Community post",
+  hmCommunityViewGallery: "View gallery",
 
   // ── value props ──
   hmValueEyebrow: "Why CRAY STUFF", hmValueTitle: "The difference",
@@ -144,6 +145,7 @@ export const pl = {
 
   // ── community ──
   hmCommunityEyebrow: "Noszone przez społeczność", hmCommunityTitle: "Z naszego świata", hmCommunityAlt: "Post społeczności",
+  hmCommunityViewGallery: "Zobacz galerię",
 
   // ── value props ──
   hmValueEyebrow: "Dlaczego CRAY STUFF", hmValueTitle: "Różnica",
