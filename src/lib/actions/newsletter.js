@@ -1,6 +1,7 @@
 "use server";
 
 import { createAdminClient } from "@/lib/supabase/admin";
+import { sendNewsletterWelcome } from "@/lib/email";
 
 export async function subscribeNewsletter(prevState, formData) {
   const email = formData.get("email")?.toString().trim().toLowerCase();
@@ -16,6 +17,11 @@ export async function subscribeNewsletter(prevState, formData) {
     }
     return { error: "Something went wrong. Please try again." };
   }
+
+  // Welcome + 10% code — no-ops silently until the email provider is connected.
+  try {
+    await sendNewsletterWelcome(email);
+  } catch {}
 
   return { success: true };
 }

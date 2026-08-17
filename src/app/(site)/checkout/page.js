@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useCart } from "@/lib/CartContext";
-import { placeOrder } from "@/lib/actions/orders";
+import { placeOrder, createCheckoutSession } from "@/lib/actions/orders";
 import { validateDiscount } from "@/lib/actions/discounts";
 import { getMyAcceptedOffers } from "@/lib/actions/offers";
 import { useAuth } from "@/lib/AuthContext";
@@ -34,7 +35,7 @@ function StepLabel({ n, children }) {
   );
 }
 
-export default function CheckoutPage() {
+function CheckoutInner() {
   const { items, clearCart } = useCart();
   const { user, loading } = useAuth();
   const { format } = useCurrency();
@@ -66,6 +67,18 @@ export default function CheckoutPage() {
   const [orderId, setOrderId] = useState(null);
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const searchParams = useSearchParams();
+
+  // Returning from a successful Stripe payment — show the confirmation and empty
+  // the bag (the webhook has already marked the order Paid).
+  useEffect(() => {
+    if (searchParams.get("success")) {
+      setOrderId(searchParams.get("order"));
+      setPlaced(true);
+      clearCart();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Discount code state.
   const [codeInput, setCodeInput] = useState("");
@@ -153,7 +166,7 @@ export default function CheckoutPage() {
     const finalTotal = Math.max(0, subtotal + shipping - appliedAmount);
 
     const form = new FormData(event.target);
-    const result = await placeOrder({
+    const payload = {
       items,
       subtotal,
       discountCode: appliedCode,
@@ -167,7 +180,22 @@ export default function CheckoutPage() {
       city: form.get("city"),
       postal: form.get("postal"),
       country: form.get("country"),
-    });
+    };
+
+    // If Stripe is connected, hand off to the hosted card page. Otherwise the
+    // order is just recorded for review (no charge) and we show confirmation.
+    const checkout = await createCheckoutSession(payload);
+    if (checkout?.url) {
+      window.location.href = checkout.url;
+      return;
+    }
+    if (checkout?.error) {
+      setSubmitting(false);
+      setError(checkout.error);
+      return;
+    }
+
+    const result = await placeOrder(payload);
 
     setSubmitting(false);
 
@@ -401,5 +429,13 @@ export default function CheckoutPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={null}>
+      <CheckoutInner />
+    </Suspense>
   );
 }
