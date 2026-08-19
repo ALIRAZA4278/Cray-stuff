@@ -57,8 +57,6 @@ function CheckoutInner() {
   const paymentMethods = [
     { id: "card", label: t.prPaymentCard },
     { id: "blik", label: "BLIK" },
-    { id: "apple-pay", label: "Apple Pay" },
-    { id: "google-pay", label: "Google Pay" },
   ];
   // This customer's honoured (accepted) offer prices, keyed by product slug.
   const [offers, setOffers] = useState({});
