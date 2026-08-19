@@ -1,6 +1,7 @@
 import AdminHeader from "@/components/admin/AdminHeader";
 import StatCard from "@/components/admin/StatCard";
 import OrderStatusSelect from "@/components/admin/OrderStatusSelect";
+import DeleteOrderButton from "@/components/admin/DeleteOrderButton";
 import { getAllOrders } from "@/lib/orders";
 import { cookies } from "next/headers";
 import { getAdminDict } from "@/lib/admin-i18n";
@@ -44,6 +45,7 @@ export default async function AdminOrdersPage() {
               <th className="px-4 py-3 font-normal">{t.thTotal}</th>
               <th className="px-4 py-3 font-normal">{t.thCarrier}</th>
               <th className="px-4 py-3 font-normal">{t.status}</th>
+              <th className="px-4 py-3 font-normal"></th>
             </tr>
           </thead>
           <tbody>
@@ -60,6 +62,9 @@ export default async function AdminOrdersPage() {
                 <td className="px-4 py-3 text-muted">{order.carrier}</td>
                 <td className="px-4 py-3">
                   <OrderStatusSelect id={order.id} status={order.status} locale={locale} />
+                </td>
+                <td className="px-4 py-3 text-right">
+                  <DeleteOrderButton id={order.id} locale={locale} />
                 </td>
               </tr>
             ))}

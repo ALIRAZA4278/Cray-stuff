@@ -47,6 +47,7 @@ const en = {
   totalOrders: "Total orders", toShip: "To ship", toShipHint: "Paid or new — awaiting dispatch",
   noOrdersTitle: "No orders yet", noOrdersBody: "When a customer checks out, their order shows up here.",
   thOrder: "Order", thDate: "Date", thTotal: "Total", thCarrier: "Carrier",
+  deleteOrder: "Delete order", deleteOrderConfirm: "Delete this order? This can't be undone.", confirmDelete: "Confirm",
 
   // ── offers ──
   makeAnOffer: "Make an Offer",
@@ -122,6 +123,7 @@ const pl = {
   totalOrders: "Wszystkie zamówienia", toShip: "Do wysyłki", toShipHint: "Opłacone lub nowe — oczekują na wysyłkę",
   noOrdersTitle: "Brak zamówień", noOrdersBody: "Gdy klient złoży zamówienie, pojawi się ono tutaj.",
   thOrder: "Zamówienie", thDate: "Data", thTotal: "Suma", thCarrier: "Przewoźnik",
+  deleteOrder: "Usuń zamówienie", deleteOrderConfirm: "Usunąć to zamówienie? Tej operacji nie można cofnąć.", confirmDelete: "Potwierdź",
 
   makeAnOffer: "Złóż ofertę",
   offersDesc: "Oferty są automatycznie akceptowane przy cenie minimalnej lub wyższej i kontrowane poniżej. Sprawdź te bez ustawionej ceny minimalnej.",

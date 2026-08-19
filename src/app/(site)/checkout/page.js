@@ -35,6 +35,10 @@ function StepLabel({ n, children }) {
   );
 }
 
+// Set NEXT_PUBLIC_PAYMENTS_LIVE=true (alongside the Stripe keys) to switch the
+// checkout copy from "order for review" to real payment wording.
+const paymentsLive = process.env.NEXT_PUBLIC_PAYMENTS_LIVE === "true";
+
 function CheckoutInner() {
   const { items, clearCart } = useCart();
   const { user, loading } = useAuth();
@@ -318,7 +322,7 @@ function CheckoutInner() {
                   </button>
                 ))}
               </div>
-              <p className="mt-2 text-xs text-muted">{t.prNoPaymentYet}</p>
+              <p className="mt-2 text-xs text-muted">{paymentsLive ? t.prSecurePayment : t.prNoPaymentYet}</p>
             </section>
 
             {error && <p className="text-sm text-red-400">{error}</p>}
@@ -328,7 +332,11 @@ function CheckoutInner() {
               disabled={submitting}
               className="w-full rounded-full bg-accent px-6 py-3.5 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
             >
-              {submitting ? t.prPlacingOrder : t.prPlaceOrder.replace("{total}", format(total))}
+              {submitting
+                ? paymentsLive
+                  ? t.prRedirecting
+                  : t.prPlacingOrder
+                : (paymentsLive ? t.prContinuePayment : t.prPlaceOrder).replace("{total}", format(total))}
             </button>
           </form>
 

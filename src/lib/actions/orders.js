@@ -27,6 +27,22 @@ export async function updateOrderStatus(id, status) {
   return { success: true };
 }
 
+// Admin-only: permanently remove an order (e.g. a test order or an abandoned
+// Pending checkout). Gone from the admin tables and the customer's tracker.
+export async function deleteOrder(id) {
+  if (!(await isAdmin())) return { error: "Not authorized." };
+  if (!id) return { error: "Missing order id." };
+
+  const supabase = createAdminClient();
+  const { error } = await supabase.from("orders").delete().eq("id", id);
+  if (error) return { error: error.message };
+
+  revalidatePath("/admin/orders");
+  revalidatePath("/admin");
+  revalidatePath("/account/orders");
+  return { success: true };
+}
+
 // Price the order on the server — never trust client-sent totals. Applies this
 // customer's honoured offer prices, then shipping, then discount. Returns the DB
 // record plus the pricing breakdown. Shared by placeOrder and Stripe checkout.
