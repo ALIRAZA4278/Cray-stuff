@@ -63,7 +63,7 @@ export async function sendOrderConfirmation(order) {
       <td style="padding:10px 0;text-align:right;color:#8b5cf6;font-weight:700">${Number(order.total || 0)} zł</td></tr>
     </table>
     <p style="margin:16px 0 0;color:#8a8794;font-size:13px">We'll email you again when it ships. Reply to this email if you need anything.</p>`;
-  return send({ to: order.email, subject: `Order confirmed — ${order.id}`, html: shell("Order confirmed 🖤", inner) });
+  return send({ to: order.email, replyTo: ADMIN_TO, subject: `Order confirmed — ${order.id}`, html: shell("Order confirmed 🖤", inner) });
 }
 
 // ── admin notification ──────────────────────────────────────────────────────
@@ -85,7 +85,7 @@ export async function sendNewsletterWelcome(email) {
     <p style="margin:0 0 8px;color:#cbc9d3;font-size:14px">Here's 10% off your first order:</p>
     <div style="display:inline-block;border:1px solid #8b5cf6;background:rgba(139,92,246,.12);color:#8b5cf6;font-weight:700;letter-spacing:2px;font-size:18px;padding:10px 18px;border-radius:8px">WELCOME10</div>
     <p style="margin:16px 0 0;color:#8a8794;font-size:13px">Enter it at checkout.</p>`;
-  return send({ to: email, subject: "Welcome to Cray Stuff — 10% off inside", html: shell("Welcome 🖤", inner) });
+  return send({ to: email, replyTo: ADMIN_TO, subject: "Welcome to Cray Stuff — 10% off inside", html: shell("Welcome 🖤", inner) });
 }
 
 // ── order status update (shipped / delivered / cancelled) ───────────────────
@@ -98,7 +98,7 @@ export async function sendOrderStatusUpdate(order) {
   const line = lines[order.status];
   if (!line) return { skipped: true }; // only notify on these transitions
   const inner = `<p style="margin:0 0 16px;color:#cbc9d3;font-size:14px;line-height:1.6">${line}</p>`;
-  return send({ to: order.email, subject: `Order ${order.id} — ${order.status}`, html: shell(`Order ${order.status}`, inner) });
+  return send({ to: order.email, replyTo: ADMIN_TO, subject: `Order ${order.id} — ${order.status}`, html: shell(`Order ${order.status}`, inner) });
 }
 
 // ── contact form → admin inbox ──────────────────────────────────────────────
@@ -131,5 +131,5 @@ export async function sendOfferDecision(offer) {
          It's a one-of-one, so head to checkout to lock it in — the price is reserved for your account.</p>`
     : `<p style="margin:0 0 16px;color:#cbc9d3;font-size:14px;line-height:1.6">
          Thanks for your offer on <b style="color:#fff">${offer.product_name || offer.product_slug}</b>. We can't take it this time, but the piece is still live — feel free to send another.</p>`;
-  return send({ to: offer.email, subject: accepted ? `Your offer was accepted 🖤` : `About your offer`, html: shell(accepted ? "Offer accepted" : "Offer update", inner) });
+  return send({ to: offer.email, replyTo: ADMIN_TO, subject: accepted ? `Your offer was accepted 🖤` : `About your offer`, html: shell(accepted ? "Offer accepted" : "Offer update", inner) });
 }
