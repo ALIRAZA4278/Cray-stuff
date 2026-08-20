@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useLocale } from "@/lib/useLocale";
 import { getDict } from "@/lib/i18n";
+import { subscribeNewsletter } from "@/lib/actions/newsletter";
 
 const SEEN_KEY = "cray-discount-popup-seen";
 
@@ -25,6 +26,11 @@ export default function DiscountPopup() {
 
   function handleSubmit(event) {
     event.preventDefault();
+    // Save the subscriber and fire the welcome email (no-ops without a provider).
+    // Fire-and-forget so the code shows instantly regardless.
+    const data = new FormData();
+    data.append("email", email);
+    subscribeNewsletter(null, data).catch(() => {});
     setSubmitted(true);
     sessionStorage.setItem(SEEN_KEY, "1");
   }
