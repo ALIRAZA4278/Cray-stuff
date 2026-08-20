@@ -1,6 +1,7 @@
 "use server";
 
 import { createAdminClient } from "@/lib/supabase/admin";
+import { sendContactNotification } from "@/lib/email";
 
 // Handles the /contact form. Inserts the message with the service-role client
 // (server-side, trusted) so it lands in the admin Messages inbox.
@@ -21,6 +22,11 @@ export async function sendContactMessage(prevState, formData) {
     // Most likely the table hasn't been created yet — see docs/supabase-schema.sql.
     return { error: "Something went wrong sending your message. Please try again shortly." };
   }
+
+  // Ping the seller — no-ops silently until the email provider is connected.
+  try {
+    await sendContactNotification({ name, email, subject, message });
+  } catch {}
 
   return { success: true };
 }

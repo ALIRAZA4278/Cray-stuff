@@ -12,10 +12,10 @@ const resend = KEY ? new Resend(KEY) : null;
 
 export const emailEnabled = Boolean(resend);
 
-async function send({ to, subject, html }) {
+async function send({ to, subject, html, replyTo }) {
   if (!resend || !to) return { skipped: true };
   try {
-    await resend.emails.send({ from: FROM, to, subject, html });
+    await resend.emails.send({ from: FROM, to, subject, html, ...(replyTo ? { replyTo } : {}) });
     return { sent: true };
   } catch (e) {
     return { error: e?.message || "send failed" };
@@ -86,4 +86,50 @@ export async function sendNewsletterWelcome(email) {
     <div style="display:inline-block;border:1px solid #8b5cf6;background:rgba(139,92,246,.12);color:#8b5cf6;font-weight:700;letter-spacing:2px;font-size:18px;padding:10px 18px;border-radius:8px">WELCOME10</div>
     <p style="margin:16px 0 0;color:#8a8794;font-size:13px">Enter it at checkout.</p>`;
   return send({ to: email, subject: "Welcome to Cray Stuff — 10% off inside", html: shell("Welcome 🖤", inner) });
+}
+
+// ── order status update (shipped / delivered / cancelled) ───────────────────
+export async function sendOrderStatusUpdate(order) {
+  const lines = {
+    Shipped: `Good news — your order <b style="color:#fff">${order.id}</b> is on its way via ${order.carrier || "your carrier"}. Keep an eye out for it.`,
+    Delivered: `Your order <b style="color:#fff">${order.id}</b> has been delivered. We hope you love it — tag us when you wear it. 🖤`,
+    Cancelled: `Your order <b style="color:#fff">${order.id}</b> has been cancelled. If this wasn't expected, just reply to this email and we'll sort it out.`,
+  };
+  const line = lines[order.status];
+  if (!line) return { skipped: true }; // only notify on these transitions
+  const inner = `<p style="margin:0 0 16px;color:#cbc9d3;font-size:14px;line-height:1.6">${line}</p>`;
+  return send({ to: order.email, subject: `Order ${order.id} — ${order.status}`, html: shell(`Order ${order.status}`, inner) });
+}
+
+// ── contact form → admin inbox ──────────────────────────────────────────────
+export async function sendContactNotification(msg) {
+  if (!ADMIN_TO) return { skipped: true };
+  const inner = `
+    <p style="margin:0 0 12px;color:#cbc9d3;font-size:14px"><b style="color:#fff">${msg.name}</b> · ${msg.email}</p>
+    ${msg.subject ? `<p style="margin:0 0 12px;color:#8a8794;font-size:13px">Subject: ${msg.subject}</p>` : ""}
+    <p style="margin:0;color:#cbc9d3;font-size:14px;line-height:1.6;white-space:pre-wrap">${msg.message}</p>`;
+  return send({ to: ADMIN_TO, replyTo: msg.email, subject: `New message from ${msg.name}`, html: shell("New message", inner) });
+}
+
+// ── new offer → admin inbox ─────────────────────────────────────────────────
+export async function sendNewOfferNotification(offer) {
+  if (!ADMIN_TO) return { skipped: true };
+  const inner = `
+    <p style="margin:0 0 12px;color:#cbc9d3;font-size:14px">New offer <b style="color:#fff">${offer.id}</b> on <b style="color:#fff">${offer.product_name || offer.product_slug}</b></p>
+    <p style="margin:0 0 6px;color:#cbc9d3;font-size:14px">Offered: <b style="color:#8b5cf6">${Number(offer.offer_price || 0)} zł</b> · List: ${Number(offer.list_price || 0)} zł</p>
+    <p style="margin:0;color:#8a8794;font-size:13px">From ${offer.email} — review it in the admin Offers tab.</p>`;
+  return send({ to: ADMIN_TO, replyTo: offer.email, subject: `New offer ${offer.id} — ${Number(offer.offer_price || 0)} zł`, html: shell("New offer", inner) });
+}
+
+// ── offer decision → customer ───────────────────────────────────────────────
+export async function sendOfferDecision(offer) {
+  const price = offer.counter_price != null ? Number(offer.counter_price) : Number(offer.offer_price || 0);
+  const accepted = offer.status === "Accepted";
+  const inner = accepted
+    ? `<p style="margin:0 0 16px;color:#cbc9d3;font-size:14px;line-height:1.6">
+         Your offer on <b style="color:#fff">${offer.product_name || offer.product_slug}</b> was <b style="color:#8b5cf6">accepted</b> at <b style="color:#fff">${price} zł</b>.
+         It's a one-of-one, so head to checkout to lock it in — the price is reserved for your account.</p>`
+    : `<p style="margin:0 0 16px;color:#cbc9d3;font-size:14px;line-height:1.6">
+         Thanks for your offer on <b style="color:#fff">${offer.product_name || offer.product_slug}</b>. We can't take it this time, but the piece is still live — feel free to send another.</p>`;
+  return send({ to: offer.email, subject: accepted ? `Your offer was accepted 🖤` : `About your offer`, html: shell(accepted ? "Offer accepted" : "Offer update", inner) });
 }

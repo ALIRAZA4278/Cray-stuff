@@ -5,6 +5,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { honoredOffersForEmail } from "@/lib/offers";
 import { isAdmin } from "@/lib/admin-auth";
+import { sendNewOfferNotification, sendOfferDecision } from "@/lib/email";
 
 // The email an accepted price is tied to = the signed-in account, never a typed
 // field. Prevents anyone from buying at someone else's negotiated price.
@@ -53,6 +54,11 @@ export async function submitOffer(payload) {
     };
   }
 
+  // Alert the seller to review it — no-ops silently without an email provider.
+  try {
+    await sendNewOfferNotification({ id, product_name: productName, product_slug: slug, email, offer_price: amount, list_price: listPrice });
+  } catch {}
+
   revalidatePath("/admin/offers");
   revalidatePath("/admin");
   return { success: true, outcome: "pending", id };
@@ -86,6 +92,13 @@ export async function decideOffer(id, decision) {
   const supabase = createAdminClient();
   const { error } = await supabase.from("offers").update({ status }).eq("id", id);
   if (error) return { error: error.message };
+
+  // Let the customer know either way — no-ops silently without an email provider.
+  try {
+    const { data: offer } = await supabase.from("offers").select("*").eq("id", id).maybeSingle();
+    if (offer) await sendOfferDecision(offer);
+  } catch {}
+
   revalidatePath("/admin/offers");
   revalidatePath("/admin");
   return { success: true };

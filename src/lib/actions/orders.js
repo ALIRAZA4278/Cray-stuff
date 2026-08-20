@@ -7,7 +7,7 @@ import { isAdmin } from "@/lib/admin-auth";
 import { incrementDiscountUse, validateDiscount } from "@/lib/actions/discounts";
 import { honoredOffersForEmail } from "@/lib/offers";
 import { stripe, stripeEnabled } from "@/lib/stripe";
-import { sendOrderConfirmation, sendAdminOrderNotification } from "@/lib/email";
+import { sendOrderConfirmation, sendAdminOrderNotification, sendOrderStatusUpdate } from "@/lib/email";
 
 const ORDER_STATUSES = ["New", "Pending", "Paid", "Shipped", "Delivered", "Cancelled"];
 
@@ -20,6 +20,13 @@ export async function updateOrderStatus(id, status) {
   const supabase = createAdminClient();
   const { error } = await supabase.from("orders").update({ status }).eq("id", id);
   if (error) return { error: error.message };
+
+  // Keep the customer in the loop on shipped/delivered/cancelled. sendOrderStatusUpdate
+  // ignores other statuses; the whole thing no-ops without an email provider.
+  try {
+    const { data: order } = await supabase.from("orders").select("*").eq("id", id).maybeSingle();
+    if (order) await sendOrderStatusUpdate(order);
+  } catch {}
 
   revalidatePath("/admin/orders");
   revalidatePath("/admin");
