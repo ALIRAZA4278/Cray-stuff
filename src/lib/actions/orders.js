@@ -8,6 +8,7 @@ import { incrementDiscountUse, validateDiscount } from "@/lib/actions/discounts"
 import { honoredOffersForEmail } from "@/lib/offers";
 import { stripe, stripeEnabled } from "@/lib/stripe";
 import { sendOrderConfirmation, sendAdminOrderNotification, sendOrderStatusUpdate } from "@/lib/email";
+import { serverShippingCost } from "@/lib/shipping";
 
 const ORDER_STATUSES = ["New", "Pending", "Paid", "Shipped", "Delivered", "Cancelled"];
 
@@ -75,7 +76,8 @@ async function buildOrder(payload) {
     return offerPrice != null ? { ...it, price: offerPrice, listPrice: it.price } : it;
   });
   const subtotal = pricedItems.reduce((sum, it) => sum + Number(it.price || 0), 0);
-  const shipping = pricedItems.length >= 3 ? 0 : 6;
+  // Priced on the server by destination + package size — client totals are never trusted.
+  const shipping = serverShippingCost(country, pricedItems.length);
 
   let discountAmount = 0;
   let appliedCode = null;

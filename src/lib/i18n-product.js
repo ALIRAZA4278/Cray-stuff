@@ -147,6 +147,8 @@ export const en = {
   prApply: "Apply",
   prDiscount: "Discount",
   prFree: "Free",
+  prPackage: "Package",
+  prPickCountry: "Select your country above to see delivery options and shipping cost.",
   prShipsFooter: "Ships within 24h · InPost · Orlen · GLS · DPD",
 };
 
@@ -296,5 +298,7 @@ export const pl = {
   prApply: "Zastosuj",
   prDiscount: "Rabat",
   prFree: "Gratis",
+  prPackage: "Paczka",
+  prPickCountry: "Wybierz kraj powyżej, aby zobaczyć opcje dostawy i koszt wysyłki.",
   prShipsFooter: "Wysyłka w 24h · InPost · Orlen · GLS · DPD",
 };

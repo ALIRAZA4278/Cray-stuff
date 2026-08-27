@@ -12,6 +12,7 @@ import { useAuth } from "@/lib/AuthContext";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { useLocale } from "@/lib/useLocale";
 import { getDict } from "@/lib/i18n";
+import { shippingCost, resolveZone, ZONE_CARRIERS, packageSize, PACKAGE_LABELS, SHIP_COUNTRIES } from "@/lib/shipping";
 
 const inputClass =
   "w-full rounded-lg border border-border bg-transparent px-4 py-2.5 text-sm outline-none placeholder:text-muted focus:border-accent";
@@ -45,7 +46,7 @@ function CheckoutInner() {
   const { format } = useCurrency();
   const t = getDict(useLocale());
 
-  const carriers = [
+  const allCarriers = [
     { id: "inpost", label: `InPost ${t.prCarrierLocker}` },
     { id: "dpd", label: `DPD ${t.prCarrierCourier}` },
     { id: "dhl", label: "DHL" },
@@ -63,6 +64,7 @@ function CheckoutInner() {
   const priceOf = (item) => offers[item.slug] ?? item.price;
   const subtotal = items.reduce((sum, it) => sum + priceOf(it), 0);
   const [carrier, setCarrier] = useState("inpost");
+  const [country, setCountry] = useState("");
   const [payment, setPayment] = useState("card");
   const [email, setEmail] = useState("");
   const [placed, setPlaced] = useState(false);
@@ -88,11 +90,24 @@ function CheckoutInner() {
   const [discountError, setDiscountError] = useState(null);
   const [applying, setApplying] = useState(false);
 
-  // Free shipping on orders of 3 items or more (every piece is one-of-one, so
-  // items.length is the piece count). Smaller orders pay a flat rate.
-  const shipping = items.length === 0 || items.length >= 3 ? 0 : 6;
+  // Shipping is priced by destination zone + package size (see lib/shipping).
+  // It stays null until the customer picks a country, so the summary can prompt.
+  const shipZone = resolveZone(country);
+  const carriers = shipZone
+    ? allCarriers.filter((c) => ZONE_CARRIERS[shipZone].includes(c.id))
+    : allCarriers;
+  const shipping = shippingCost(country, items.length);
   const discountValue = discount?.amount || 0;
-  const total = Math.max(0, subtotal + shipping - discountValue);
+  const total = Math.max(0, subtotal + (shipping || 0) - discountValue);
+
+  // If the chosen carrier isn't offered for the new destination, snap to the
+  // first one that is.
+  useEffect(() => {
+    if (shipZone && !ZONE_CARRIERS[shipZone].includes(carrier)) {
+      setCarrier(ZONE_CARRIERS[shipZone][0]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shipZone]);
 
   async function applyCode() {
     if (!codeInput.trim() || applying) return;
@@ -165,7 +180,7 @@ function CheckoutInner() {
         return;
       }
     }
-    const finalTotal = Math.max(0, subtotal + shipping - appliedAmount);
+    const finalTotal = Math.max(0, subtotal + (shipping || 0) - appliedAmount);
 
     const form = new FormData(event.target);
     const payload = {
@@ -296,19 +311,40 @@ function CheckoutInner() {
                 <input name="address" required placeholder={t.prPhAddress} className={`${inputClass} sm:col-span-2`} autoComplete="street-address" />
                 <input name="city" required placeholder={t.prPhCity} className={inputClass} autoComplete="address-level2" />
                 <input name="postal" required placeholder={t.prPhPostal} className={inputClass} autoComplete="postal-code" />
-                <input name="country" required placeholder={t.prPhCountry} className={`${inputClass} sm:col-span-2`} autoComplete="country-name" />
+                <select
+                  name="country"
+                  required
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  className={`${inputClass} sm:col-span-2 ${country ? "" : "text-muted"}`}
+                  autoComplete="country-name"
+                >
+                  <option value="" disabled>{t.prPhCountry}</option>
+                  {SHIP_COUNTRIES.map((c) => (
+                    <option key={c} value={c} className="text-foreground">{c}</option>
+                  ))}
+                </select>
               </div>
             </section>
 
             <section>
               <StepLabel n="02">{t.prStepDelivery}</StepLabel>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {carriers.map((option) => (
-                  <button key={option.id} type="button" onClick={() => setCarrier(option.id)} className={pillClass(carrier === option.id)}>
-                    {option.label}
-                  </button>
-                ))}
-              </div>
+              {shipZone ? (
+                <>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {carriers.map((option) => (
+                      <button key={option.id} type="button" onClick={() => setCarrier(option.id)} className={pillClass(carrier === option.id)}>
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
+                  <p className="mt-2 text-xs text-muted">
+                    {t.prPackage}: {PACKAGE_LABELS[packageSize(items.length)]} · {t.prShipping} {shipping != null ? format(shipping) : "—"}
+                  </p>
+                </>
+              ) : (
+                <p className="mt-4 text-xs text-muted">{t.prPickCountry}</p>
+              )}
             </section>
 
             <section>
@@ -420,7 +456,7 @@ function CheckoutInner() {
                 )}
                 <div className="flex justify-between text-muted">
                   <span>{t.prShipping}</span>
-                  <span className="font-mono">{shipping === 0 ? t.prFree : format(shipping)}</span>
+                  <span className="font-mono">{shipping == null ? "—" : shipping === 0 ? t.prFree : format(shipping)}</span>
                 </div>
                 <div className="flex justify-between border-t border-border pt-2 text-base font-medium">
                   <span>{t.prTotal}</span>
