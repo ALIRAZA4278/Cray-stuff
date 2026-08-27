@@ -1,7 +1,6 @@
 // External brand links, in one place.
-// ⚠️ TODO (client): confirm the exact TikTok handle and Vinted profile URL.
 export const socialLinks = {
   instagram: "https://instagram.com/craybze",
-  tiktok: "https://tiktok.com/@craystuff",
+  tiktok: "https://www.tiktok.com/@craybze",
   vinted: "https://www.vinted.pl/member/221261342-craybze",
 };
