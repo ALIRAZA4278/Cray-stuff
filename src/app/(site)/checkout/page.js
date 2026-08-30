@@ -13,6 +13,7 @@ import { useCurrency } from "@/lib/CurrencyContext";
 import { useLocale } from "@/lib/useLocale";
 import { getDict } from "@/lib/i18n";
 import { shippingCost, resolveZone, ZONE_CARRIERS, packageSize, PACKAGE_LABELS, SHIP_COUNTRIES } from "@/lib/shipping";
+import CountrySelect from "@/components/checkout/CountrySelect";
 
 const inputClass =
   "w-full rounded-lg border border-border bg-transparent px-4 py-2.5 text-sm outline-none placeholder:text-muted focus:border-accent";
@@ -156,6 +157,10 @@ function CheckoutInner() {
   async function handleSubmit(event) {
     event.preventDefault();
     setError(null);
+    if (!country) {
+      setError(t.prPickCountry);
+      return;
+    }
     setSubmitting(true);
 
     // Re-check the code at the last moment so the charged total always matches
@@ -196,7 +201,7 @@ function CheckoutInner() {
       address: form.get("address"),
       city: form.get("city"),
       postal: form.get("postal"),
-      country: form.get("country"),
+      country,
     };
 
     // If Stripe is connected, hand off to the hosted card page. Otherwise the
@@ -311,19 +316,12 @@ function CheckoutInner() {
                 <input name="address" required placeholder={t.prPhAddress} className={`${inputClass} sm:col-span-2`} autoComplete="street-address" />
                 <input name="city" required placeholder={t.prPhCity} className={inputClass} autoComplete="address-level2" />
                 <input name="postal" required placeholder={t.prPhPostal} className={inputClass} autoComplete="postal-code" />
-                <select
-                  name="country"
-                  required
+                <CountrySelect
                   value={country}
-                  onChange={(e) => setCountry(e.target.value)}
-                  className={`${inputClass} sm:col-span-2 ${country ? "" : "text-muted"}`}
-                  autoComplete="country-name"
-                >
-                  <option value="" disabled>{t.prPhCountry}</option>
-                  {SHIP_COUNTRIES.map((c) => (
-                    <option key={c} value={c} className="text-foreground">{c}</option>
-                  ))}
-                </select>
+                  onChange={setCountry}
+                  placeholder={t.prPhCountry}
+                  countries={SHIP_COUNTRIES}
+                />
               </div>
             </section>
 
