@@ -56,7 +56,19 @@ export default async function AdminOrdersPage() {
                   <p>{order.customer}</p>
                   <p className="font-mono text-[11px] text-muted">{order.email}</p>
                 </td>
-                <td className="px-4 py-3 text-muted">{order.product}</td>
+                <td className="px-4 py-3">
+                  <div className="flex items-center gap-2">
+                    {order.items?.[0]?.image && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={order.items[0].image}
+                        alt=""
+                        className="h-11 w-9 shrink-0 rounded border border-border object-cover"
+                      />
+                    )}
+                    <span className="text-muted">{order.product}</span>
+                  </div>
+                </td>
                 <td className="px-4 py-3 font-mono text-muted">{order.date}</td>
                 <td className="px-4 py-3 font-mono">${order.total}</td>
                 <td className="px-4 py-3 text-muted">{order.carrier}</td>

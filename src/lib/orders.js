@@ -9,6 +9,8 @@ function mapRow(row) {
     customer: row.customer_name,
     email: row.email,
     product: items.map((i) => i.name).join(", ") || "—",
+    // Keep the thumbnails so the admin can see at a glance what sold.
+    items: items.map((i) => ({ name: i.name, image: i.image || null, size: i.size || null })),
     itemCount: items.length,
     date: row.created_at ? new Date(row.created_at).toISOString().slice(0, 10) : "—",
     total: Number(row.total),
