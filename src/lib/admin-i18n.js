@@ -14,6 +14,10 @@ const en = {
   // ── product page headers ──
   catalog: "Catalog", addProduct: "Add product", addProductDesc: "List a new one-of-one piece.",
   addProductBtn: "+ Add product", edit: "Edit", piecesInCatalog: "pieces in the catalog", fires: "Fires",
+  // catalog filter bar
+  fltStatus: "Status", fltAll: "All", fltAvailable: "Available", fltSold: "Sold",
+  fltCategory: "Category", fltMens: "Men's", fltWomens: "Women's", fltUnisex: "Unisex",
+  fltDensity: "View", fltCompact: "Compact", fltLarge: "Large", fltShowing: "showing",
 
   // ── product form ──
   photos: "Photos", uploadPhotos: "Upload photos", uploading: "Uploading…",
@@ -73,6 +77,16 @@ const en = {
 
   // ── discounts ──
   marketing: "Marketing", discountCodes: "Discount codes",
+  // individual customer reviews
+  reviews: "Reviews",
+  reviewsDesc: "The public review total, plus the individual quotes shown on the site.",
+  reviewsFormDesc: "Paste a real customer review. Published ones appear on the homepage and the reviews page.",
+  addReview: "Add review", editReview: "Edit review",
+  reviewName: "Customer name / handle", reviewSource: "Source", reviewText: "Review",
+  reviewRating: "Rating", reviewOrder: "Sort order (lower shows first)",
+  reviewPublished: "Show on the site", reviewHidden: "Hidden",
+  reviewSaved: "Saved.", yourReviews: "Your reviews",
+  noReviewsYet: "No individual reviews yet — the built-in Vinted quotes are showing until you add one.",
   discountsDesc: "Create codes customers type in at checkout. Great for launch promos and newsletter offers.",
   newDiscountCode: "New discount code", code: "Code",
   percentOff: "Percentage off", fixedOff: "Fixed amount off ($)", bogoOff: "Buy one, get % off the 2nd", amountLabel: "Amount ($)", percentageLabel: "Percentage (%)",
@@ -93,6 +107,10 @@ const pl = {
 
   catalog: "Katalog", addProduct: "Dodaj produkt", addProductDesc: "Wystaw nową rzecz jedyną w swoim rodzaju.",
   addProductBtn: "+ Dodaj produkt", edit: "Edytuj", piecesInCatalog: "produktów w katalogu", fires: "Ognie",
+  // catalog filter bar
+  fltStatus: "Status", fltAll: "Wszystkie", fltAvailable: "Dostępne", fltSold: "Sprzedane",
+  fltCategory: "Kategoria", fltMens: "Męskie", fltWomens: "Damskie", fltUnisex: "Unisex",
+  fltDensity: "Widok", fltCompact: "Kompaktowy", fltLarge: "Duży", fltShowing: "pokazano",
 
   photos: "Zdjęcia", uploadPhotos: "Dodaj zdjęcia", uploading: "Przesyłanie…",
   photosHint: "Prześlij z urządzenia lub wklej linki do zdjęć poniżej — po jednym w linii. Pierwsze jest głównym zdjęciem.",
@@ -145,6 +163,16 @@ const pl = {
   taxonomyNote: "Zmiany są widoczne w edytorze — zapis do Supabase po dodaniu tabeli taksonomii.",
 
   marketing: "Marketing", discountCodes: "Kody rabatowe",
+  // individual customer reviews
+  reviews: "Opinie",
+  reviewsDesc: "Publiczna liczba opinii oraz pojedyncze cytaty pokazywane na stronie.",
+  reviewsFormDesc: "Wklej prawdziwą opinię klienta. Opublikowane pojawią się na stronie głównej i w zakładce opinii.",
+  addReview: "Dodaj opinię", editReview: "Edytuj opinię",
+  reviewName: "Nazwa / nick klienta", reviewSource: "Źródło", reviewText: "Opinia",
+  reviewRating: "Ocena", reviewOrder: "Kolejność (niższa = wyżej)",
+  reviewPublished: "Pokaż na stronie", reviewHidden: "Ukryta",
+  reviewSaved: "Zapisano.", yourReviews: "Twoje opinie",
+  noReviewsYet: "Brak pojedynczych opinii — do czasu dodania pierwszej pokazują się wbudowane cytaty z Vinted.",
   discountsDesc: "Twórz kody, które klienci wpisują przy kasie. Świetne na promocje startowe i oferty newslettera.",
   newDiscountCode: "Nowy kod rabatowy", code: "Kod",
   percentOff: "Procent zniżki", fixedOff: "Kwota zniżki ($)", bogoOff: "Kup jeden, % taniej drugi", amountLabel: "Kwota ($)", percentageLabel: "Procent (%)",
