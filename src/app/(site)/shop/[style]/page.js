@@ -7,9 +7,10 @@ import ShopResults from "@/components/shop/ShopResults";
 import ShopFilterSidebar from "@/components/shop/ShopFilterSidebar";
 import CollapsibleAside from "@/components/shop/CollapsibleAside";
 import ActiveFilters from "@/components/shop/ActiveFilters";
+import GenderSwitch from "@/components/shop/GenderSwitch";
 import { styleTags } from "@/lib/mock-products";
 import { getAllProducts } from "@/lib/products";
-import { sortProducts, filterProducts, getFacets, clothingTypes, slugify } from "@/lib/shop-filters";
+import { sortProducts, filterProducts, getFacets, clothingTypes, slugify, parseFilters, tagGroupForSlug } from "@/lib/shop-filters";
 import { styleCopy } from "@/lib/style-copy";
 
 // One route serves both style edits (Vintage, Y2K…) and clothing types
@@ -30,22 +31,32 @@ export default async function StyleShopPage({ params, searchParams }) {
   }
 
   const search = await searchParams;
-  const active = {
-    categories: search.category ? search.category.split(",").filter(Boolean) : [],
-    sizes: search.size ? search.size.split(",").filter(Boolean) : [],
-    brands: search.brand ? search.brand.split(",").filter(Boolean) : [],
-    conditions: search.condition ? search.condition.split(",").filter(Boolean) : [],
-    prices: search.price ? search.price.split(",").filter(Boolean) : [],
-    availability: search.availability || null,
-  };
   const sort = search.sort || "new";
-  const basePath = `/shop/${style}`;
+
+  // The route slug is just a pre-applied filter value now. Seeding it into the
+  // matching group (type vs style) means every control on the page can combine
+  // with it — /shop/vintage + Jackets narrows down instead of navigating away
+  // and losing the edit. The landing copy above stays for SEO.
+  const routeGroup = tagGroupForSlug(style);
+  const active = parseFilters(search);
+  if (!active[routeGroup === "type" ? "types" : "styles"].includes(style)) {
+    active[routeGroup === "type" ? "types" : "styles"].push(style);
+  }
+
+  // Filter controls all target /shop and carry the seeded slug in the query, so
+  // adding a second filter folds this landing page into the full catalog.
+  const basePath = "/shop";
+  const baseParams = new URLSearchParams(search);
+  baseParams.set(routeGroup, active[routeGroup === "type" ? "types" : "styles"].join(","));
 
   const all = await getAllProducts();
   const facets = getFacets(all);
-  const filtered = filterProducts(all, { ...active, style });
+  const filtered = filterProducts(all, active);
   const products = sortProducts(filtered, sort);
-  const baseParams = new URLSearchParams(search);
+  const activeCount =
+    active.categories.length + active.sizes.length + active.brands.length +
+    active.conditions.length + active.prices.length + active.types.length +
+    active.styles.length + (active.availability ? 1 : 0);
 
   const localizedCopy = {
     vintage: t.shCopyVintage,
@@ -76,9 +87,13 @@ export default async function StyleShopPage({ params, searchParams }) {
           </p>
         </Reveal>
 
+        <div className="mb-8">
+          <GenderSwitch basePath={basePath} params={baseParams} active={active} />
+        </div>
+
         <div className="grid gap-8 lg:grid-cols-[220px_1fr]">
-          <CollapsibleAside>
-            <ShopFilterSidebar basePath={basePath} params={baseParams} active={active} facets={facets} currentStyle={style} />
+          <CollapsibleAside activeCount={activeCount}>
+            <ShopFilterSidebar basePath={basePath} params={baseParams} active={active} facets={facets} />
           </CollapsibleAside>
 
           <div>
@@ -93,7 +108,7 @@ export default async function StyleShopPage({ params, searchParams }) {
                 <SortSelect value={sort} />
               </div>
             </div>
-            <ShopResults products={products} clearHref={basePath} />
+            <ShopResults products={products} clearHref={`/shop/${style}`} />
           </div>
         </div>
       </div>

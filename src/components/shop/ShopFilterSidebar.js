@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import FilterPill from "@/components/shop/FilterPill";
+import FilterGroup from "@/components/shop/FilterGroup";
 import { getDict } from "@/lib/i18n";
 import { styleTags } from "@/lib/mock-products";
 import { categoryLabel } from "@/lib/category-label";
@@ -15,20 +16,29 @@ import {
   setParam,
 } from "@/lib/shop-filters";
 
-function Group({ label, children }) {
-  return (
-    <div>
-      <p className="mb-2 font-mono text-[11px] uppercase tracking-widest text-muted">{label}</p>
-      <div className="flex flex-wrap gap-2">{children}</div>
-    </div>
-  );
-}
-
 // Server-rendered filter sidebar shared by /shop and /shop/[style].
-export default async function ShopFilterSidebar({ basePath, params, active, facets, currentStyle = null }) {
+//
+// Every group writes to a query param, so groups intersect (Shorts + Y2K) instead
+// of replacing each other. Type and Style used to be routes — /shop/vintage,
+// /shop/shorts — which made them mutually exclusive by construction and gave
+// them no way to be deselected. They are `?type=` and `?style=` now, and the
+// pills always target /shop so a style landing page folds into the full catalog
+// as soon as a second filter is added.
+export default async function ShopFilterSidebar({ basePath, params, active, facets }) {
   const t = getDict((await cookies()).get("site-locale")?.value || "en");
-  const href = (key, value) => `${basePath}?${toggleParam(params, key, value).toString()}`;
-  const singleHref = (key, value) => `${basePath}?${setParam(params, key, value).toString()}`;
+  // Deselecting the last filter should land on a clean `/shop`, not `/shop?`.
+  const withQuery = (next) => {
+    const qs = next.toString();
+    return qs ? `${basePath}?${qs}` : basePath;
+  };
+  const href = (key, value) => withQuery(toggleParam(params, key, value));
+  const singleHref = (key, value) => withQuery(setParam(params, key, value));
+  // "All" clears just that group and leaves every other filter alone.
+  const clearHref = (key) => {
+    const next = new URLSearchParams(params);
+    next.delete(key);
+    return withQuery(next);
+  };
 
   const availabilityOptions = [
     { value: "available", label: t.shAvailable },
@@ -58,83 +68,104 @@ export default async function ShopFilterSidebar({ basePath, params, active, face
   };
 
   return (
-    <aside className="space-y-6">
-      <Group label={t.shAvailability}>
+    <aside className="space-y-4">
+      <FilterGroup label={t.shAvailability}>
+        <FilterPill href={clearHref("availability")} active={!active.availability}>
+          {t.shAll}
+        </FilterPill>
         {availabilityOptions.map((o) => (
           <FilterPill key={o.value} href={singleHref("availability", o.value)} active={active.availability === o.value}>
             {o.label}
           </FilterPill>
         ))}
-      </Group>
+      </FilterGroup>
 
-      <Group label={t.shCategory}>
+      <FilterGroup label={t.shCategory}>
+        <FilterPill href={clearHref("category")} active={active.categories.length === 0}>
+          {t.shAll}
+        </FilterPill>
         {browseCategories.map((c) => (
           <FilterPill key={c} href={href("category", c)} active={active.categories.includes(c)}>
             {catLabel[c] || categoryLabels[c]}
           </FilterPill>
         ))}
-      </Group>
+      </FilterGroup>
 
-      <Group label={t.shType}>
+      <FilterGroup label={t.shType}>
+        <FilterPill href={clearHref("type")} active={active.types.length === 0}>
+          {t.shAll}
+        </FilterPill>
         {clothingTypes.map((type) => {
           const slug = slugify(type);
           return (
-            <FilterPill key={type} href={`/shop/${slug}`} active={currentStyle === slug}>
+            <FilterPill key={type} href={href("type", slug)} active={active.types.includes(slug)}>
               {typeLabel[type] || type}
             </FilterPill>
           );
         })}
-      </Group>
+      </FilterGroup>
 
-      <Group label={t.shStyle}>
-        <FilterPill href="/shop" active={!currentStyle}>
+      <FilterGroup label={t.shStyle}>
+        <FilterPill href={clearHref("style")} active={active.styles.length === 0}>
           {t.shAll}
         </FilterPill>
         {styleTags.map((s) => {
           const slug = slugify(s);
           return (
-            <FilterPill key={s} href={`/shop/${slug}`} active={currentStyle === slug}>
+            <FilterPill key={s} href={href("style", slug)} active={active.styles.includes(slug)}>
               {categoryLabel(s)}
             </FilterPill>
           );
         })}
-      </Group>
+      </FilterGroup>
 
       {facets.sizes.length > 0 && (
-        <Group label={t.shFit}>
+        <FilterGroup label={t.shFit}>
+          <FilterPill href={clearHref("size")} active={active.sizes.length === 0}>
+            {t.shAll}
+          </FilterPill>
           {facets.sizes.map((s) => (
             <FilterPill key={s} href={href("size", s)} active={active.sizes.includes(s)}>
               {s}
             </FilterPill>
           ))}
-        </Group>
+        </FilterGroup>
       )}
 
       {facets.brands.length > 0 && (
-        <Group label={t.shBrand}>
+        <FilterGroup label={t.shBrand} previewCount={8}>
+          <FilterPill href={clearHref("brand")} active={active.brands.length === 0}>
+            {t.shAll}
+          </FilterPill>
           {facets.brands.map((b) => (
             <FilterPill key={b} href={href("brand", b)} active={active.brands.includes(b)}>
               {b}
             </FilterPill>
           ))}
-        </Group>
+        </FilterGroup>
       )}
 
-      <Group label={t.shCondition}>
+      <FilterGroup label={t.shCondition} defaultOpen={false}>
+        <FilterPill href={clearHref("condition")} active={active.conditions.length === 0}>
+          {t.shAll}
+        </FilterPill>
         {conditions.map((c) => (
           <FilterPill key={c} href={href("condition", c)} active={active.conditions.includes(c)}>
             {condLabel[c] || c}
           </FilterPill>
         ))}
-      </Group>
+      </FilterGroup>
 
-      <Group label={t.shPrice}>
+      <FilterGroup label={t.shPrice} defaultOpen={false}>
+        <FilterPill href={clearHref("price")} active={active.prices.length === 0}>
+          {t.shAll}
+        </FilterPill>
         {priceRanges.map((r) => (
           <FilterPill key={r.id} href={href("price", r.id)} active={active.prices.includes(r.id)}>
             {priceLabel[r.id] || priceRangeLabel(r.id)}
           </FilterPill>
         ))}
-      </Group>
+      </FilterGroup>
     </aside>
   );
 }

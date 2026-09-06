@@ -33,6 +33,9 @@ export function sortProducts(products, sort) {
   if (sort === "price-asc") return [...products].sort((a, b) => a.price - b.price);
   if (sort === "price-desc") return [...products].sort((a, b) => b.price - a.price);
   if (sort === "popular") return [...products].sort((a, b) => b.fireCount - a.fireCount);
+  // Available pieces first, newest within each group. `products` already
+  // arrives newest-first from getAllProducts, so a stable partition is enough.
+  if (sort === "available") return [...products].sort((a, b) => Number(a.sold) - Number(b.sold));
   return products;
 }
 
@@ -58,9 +61,28 @@ function matchesPrice(product, prices) {
   return active.some((r) => product.price >= r.min && (r.max == null || product.price <= r.max));
 }
 
-// Applies every active filter (category, size, brand, condition, price, style, availability, search).
+// True when the product carries at least one of the given tag slugs. Used for
+// both style edits (Vintage, Y2K…) and clothing types (Shorts, Hoodies…) —
+// both live on `product.tags`.
+function matchesTagSlugs(product, slugs) {
+  return product.tags.some((tag) => slugs.includes(slugify(tag)));
+}
+
+// Applies every active filter. Groups combine with AND (Shorts AND Y2K), values
+// inside one group combine with OR (Shorts OR Hoodies) — so "Vintage + Jackets"
+// narrows down instead of one filter replacing the other.
 export function filterProducts(products, filters = {}) {
-  const { categories = [], sizes = [], brands = [], conditions = [], prices = [], style = null, availability = null, q = null } = filters;
+  const {
+    categories = [],
+    sizes = [],
+    brands = [],
+    conditions = [],
+    prices = [],
+    types = [],
+    styles = [],
+    availability = null,
+    q = null,
+  } = filters;
   const query = q ? q.trim().toLowerCase() : null;
 
   return products.filter((product) => {
@@ -71,14 +93,38 @@ export function filterProducts(products, filters = {}) {
     if (brands.length && !brands.includes(product.brand)) return false;
     if (conditions.length && !conditions.includes(product.condition)) return false;
     if (prices.length && !matchesPrice(product, prices)) return false;
-    // `style` is a slug and covers both style tags and clothing types.
-    if (style && !product.tags.some((tag) => slugify(tag) === style)) return false;
+    // Separate groups so a type and a style intersect rather than compete.
+    if (types.length && !matchesTagSlugs(product, types)) return false;
+    if (styles.length && !matchesTagSlugs(product, styles)) return false;
     if (query) {
       const haystack = `${product.name} ${product.brand} ${product.tags.join(" ")} ${product.description || ""}`.toLowerCase();
       if (!haystack.includes(query)) return false;
     }
     return true;
   });
+}
+
+const csv = (value) => (value ? String(value).split(",").filter(Boolean) : []);
+
+// Single place that turns a searchParams object into the filter shape every
+// consumer expects, so /shop and /shop/[style] can't drift apart.
+export function parseFilters(params = {}) {
+  return {
+    categories: csv(params.category),
+    sizes: csv(params.size),
+    brands: csv(params.brand),
+    conditions: csv(params.condition),
+    prices: csv(params.price),
+    types: csv(params.type),
+    styles: csv(params.style),
+    availability: params.availability || null,
+  };
+}
+
+// Is this slug a clothing type (Shorts) or a style edit (Y2K)? Decides which
+// filter group a /shop/[style] landing page seeds.
+export function tagGroupForSlug(slug) {
+  return clothingTypes.some((type) => slugify(type) === slug) ? "type" : "style";
 }
 
 // Single-select param: clicking the active value clears it, otherwise it

@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { getDict } from "@/lib/i18n";
-import { categoryLabels, priceRangeLabel, toggleParam } from "@/lib/shop-filters";
+import { styleTags } from "@/lib/mock-products";
+import { categoryLabel } from "@/lib/category-label";
+import { categoryLabels, clothingTypes, priceRangeLabel, slugify, toggleParam } from "@/lib/shop-filters";
 
 function toggleHref(basePath, params, key, value) {
   const qs = toggleParam(params, key, value).toString();
@@ -19,6 +21,7 @@ function Chip({ href, label }) {
   return (
     <Link
       href={href}
+      scroll={false}
       className="flex items-center gap-1.5 rounded-full border border-accent bg-accent/10 px-3 py-1 text-xs text-foreground transition-colors hover:bg-accent/20"
     >
       {label}
@@ -46,12 +49,35 @@ export default async function ActiveFilters({ basePath, params, active, q }) {
     "150-": t.shPrice150,
   };
 
+  const typeLabel = {
+    Outerwear: t.shTypeOuterwear,
+    Hoodies: t.shTypeHoodies,
+    "T-Shirts": t.shTypeTShirts,
+    "Long Sleeves": t.shTypeLongSleeves,
+    Pants: t.shTypePants,
+    Shorts: t.shTypeShorts,
+    Accessories: t.shTypeAccessories,
+  };
+  // Slug -> display label, so a chip reads "Long Sleeves", not "long-sleeves".
+  const labelForSlug = (slug) => {
+    const type = clothingTypes.find((c) => slugify(c) === slug);
+    if (type) return typeLabel[type] || type;
+    const style = styleTags.find((s) => slugify(s) === slug);
+    return style ? categoryLabel(style) : slug;
+  };
+
   const chips = [];
   active.categories.forEach((c) => chips.push({ key: `c-${c}`, href: toggleHref(basePath, params, "category", c), label: catLabel[c] || categoryLabels[c] || c }));
+  (active.types ?? []).forEach((v) => chips.push({ key: `t-${v}`, href: toggleHref(basePath, params, "type", v), label: labelForSlug(v) }));
+  (active.styles ?? []).forEach((v) => chips.push({ key: `st-${v}`, href: toggleHref(basePath, params, "style", v), label: labelForSlug(v) }));
   active.sizes.forEach((s) => chips.push({ key: `s-${s}`, href: toggleHref(basePath, params, "size", s), label: `${t.shFit} ${s}` }));
   active.brands.forEach((b) => chips.push({ key: `b-${b}`, href: toggleHref(basePath, params, "brand", b), label: b }));
   active.conditions.forEach((c) => chips.push({ key: `cn-${c}`, href: toggleHref(basePath, params, "condition", c), label: condLabel[c] || c }));
   active.prices.forEach((p) => chips.push({ key: `p-${p}`, href: toggleHref(basePath, params, "price", p), label: priceLabel[p] || priceRangeLabel(p) }));
+  if (active.availability) {
+    const availLabel = { available: t.shAvailable, sold: t.shSold };
+    chips.push({ key: "av", href: deleteHref(basePath, params, "availability"), label: availLabel[active.availability] });
+  }
   if (q) chips.push({ key: "q", href: deleteHref(basePath, params, "q"), label: `“${q}”` });
 
   if (chips.length === 0) return null;
@@ -61,7 +87,7 @@ export default async function ActiveFilters({ basePath, params, active, q }) {
       {chips.map((c) => (
         <Chip key={c.key} href={c.href} label={c.label} />
       ))}
-      <Link href={basePath} className="ml-1 font-mono text-[11px] uppercase tracking-widest text-muted transition-colors hover:text-accent">
+      <Link href={basePath} scroll={false} className="ml-1 font-mono text-[11px] uppercase tracking-widest text-muted transition-colors hover:text-accent">
         {t.shClearAll}
       </Link>
     </div>

@@ -12,6 +12,7 @@ export default function SortSelect({ value }) {
 
   const options = [
     { value: "new", label: t.shSortNewest },
+    { value: "available", label: t.shSortAvailable },
     { value: "price-asc", label: t.shSortPriceAsc },
     { value: "price-desc", label: t.shSortPriceDesc },
     { value: "popular", label: t.shSortPopular },
@@ -20,7 +21,9 @@ export default function SortSelect({ value }) {
   function handleChange(event) {
     const params = new URLSearchParams(searchParams.toString());
     params.set("sort", event.target.value);
-    router.push(`${pathname}?${params.toString()}`);
+    // scroll: false — changing the sort should re-order the grid under the
+    // cursor, not throw the viewport back to the top of the page.
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
   return (

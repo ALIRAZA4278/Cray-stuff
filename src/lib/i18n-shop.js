@@ -17,6 +17,7 @@ export const en = {
 
   // ── sort options ──
   shSortNewest: "Newest",
+  shSortAvailable: "Available first",
   shSortPriceAsc: "Price: Low to High",
   shSortPriceDesc: "Price: High to Low",
   shSortPopular: "Most Popular",
@@ -27,6 +28,8 @@ export const en = {
 
   // ── collapsible filters toggle ──
   shFilters: "Filters",
+  shShowMore: "more", shShowLess: "Show less",
+  shShopFor: "Shop for", shEveryone: "Everyone",
 
   // ── filter sidebar group labels ──
   shAvailability: "Availability", shCategory: "Category", shType: "Type",
@@ -83,6 +86,7 @@ export const pl = {
 
   // ── sort options ──
   shSortNewest: "Najnowsze",
+  shSortAvailable: "Najpierw dostępne",
   shSortPriceAsc: "Cena: rosnąco",
   shSortPriceDesc: "Cena: malejąco",
   shSortPopular: "Najpopularniejsze",
@@ -93,6 +97,8 @@ export const pl = {
 
   // ── collapsible filters toggle ──
   shFilters: "Filtry",
+  shShowMore: "więcej", shShowLess: "Pokaż mniej",
+  shShopFor: "Kupuję dla", shEveryone: "Wszyscy",
 
   // ── filter sidebar group labels ──
   shAvailability: "Dostępność", shCategory: "Kategoria", shType: "Typ",

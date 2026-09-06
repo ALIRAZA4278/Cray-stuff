@@ -4,24 +4,18 @@ import ShopResults from "@/components/shop/ShopResults";
 import ShopFilterSidebar from "@/components/shop/ShopFilterSidebar";
 import CollapsibleAside from "@/components/shop/CollapsibleAside";
 import ActiveFilters from "@/components/shop/ActiveFilters";
+import GenderSwitch from "@/components/shop/GenderSwitch";
 import BrandDiscovery from "@/components/home/BrandDiscovery";
 import { cookies } from "next/headers";
 import { getDict } from "@/lib/i18n";
 import { getAllProducts } from "@/lib/products";
 import { getBrandGroups } from "@/lib/brands";
-import { sortProducts, filterProducts, getFacets } from "@/lib/shop-filters";
+import { sortProducts, filterProducts, getFacets, parseFilters } from "@/lib/shop-filters";
 
 export default async function ShopPage({ searchParams }) {
   const t = getDict((await cookies()).get("site-locale")?.value || "en");
   const params = await searchParams;
-  const active = {
-    categories: params.category ? params.category.split(",").filter(Boolean) : [],
-    sizes: params.size ? params.size.split(",").filter(Boolean) : [],
-    brands: params.brand ? params.brand.split(",").filter(Boolean) : [],
-    conditions: params.condition ? params.condition.split(",").filter(Boolean) : [],
-    prices: params.price ? params.price.split(",").filter(Boolean) : [],
-    availability: params.availability || null,
-  };
+  const active = parseFilters(params);
   const q = params.q || null;
   const sort = params.sort || "new";
 
@@ -31,6 +25,12 @@ export default async function ShopPage({ searchParams }) {
   const filtered = filterProducts(all, { ...active, q });
   const products = sortProducts(filtered, sort);
   const baseParams = new URLSearchParams(params);
+  // Drives the mobile "Filters (N)" badge so a collapsed panel still says how
+  // many filters are narrowing the grid.
+  const activeCount =
+    active.categories.length + active.sizes.length + active.brands.length +
+    active.conditions.length + active.prices.length + active.types.length +
+    active.styles.length + (active.availability ? 1 : 0);
 
   return (
     <div className="px-6 py-16">
@@ -51,9 +51,13 @@ export default async function ShopPage({ searchParams }) {
           </div>
         )}
 
+        <div className="mb-8">
+          <GenderSwitch basePath="/shop" params={baseParams} active={active} />
+        </div>
+
         <div className="grid gap-8 lg:grid-cols-[220px_1fr]">
-          <CollapsibleAside>
-            <ShopFilterSidebar basePath="/shop" params={baseParams} active={active} facets={facets} currentStyle={null} />
+          <CollapsibleAside activeCount={activeCount}>
+            <ShopFilterSidebar basePath="/shop" params={baseParams} active={active} facets={facets} />
           </CollapsibleAside>
 
           <div>
