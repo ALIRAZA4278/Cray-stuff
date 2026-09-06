@@ -13,6 +13,7 @@ import Reveal from "@/components/motion/Reveal";
 import { getProductBySlug, getAllProducts } from "@/lib/products";
 import { pieceNumber } from "@/lib/piece-number";
 import { slugify } from "@/lib/shop-filters";
+import { BASE_CURRENCY } from "@/lib/currency";
 import { getQuestionsForProduct } from "@/lib/qa";
 import { getDict } from "@/lib/i18n";
 import { categoryLabel } from "@/lib/category-label";
@@ -21,9 +22,34 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
   if (!product) return { title: "Not found — CRAY STUFF" };
+
+  // Lead with brand + name: that is the shape people actually type into Google
+  // ("True Religion Y2K straight pants"), and the first ~60 characters are what
+  // the result renders.
+  const title = `${product.brand} ${product.name} — ${product.size} — CRAY STUFF`;
+  const description =
+    product.description?.slice(0, 155) ||
+    `${product.brand} ${product.name} in ${product.condition} condition, size ${product.size}. One-of-one ${product.tags.join(", ")} piece from CRAY STUFF.`;
+  const image = product.images?.[0];
+
   return {
-    title: `${product.name} — ${product.brand} — CRAY STUFF`,
-    description: product.description,
+    title,
+    description,
+    keywords: [product.brand, product.name, ...product.tags, product.size, "vintage", "streetwear"].filter(Boolean),
+    alternates: { canonical: `/product/${product.slug}` },
+    openGraph: {
+      type: "website",
+      title,
+      description,
+      url: `/product/${product.slug}`,
+      images: image ? [{ url: image, alt: product.name }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: image ? [image] : undefined,
+    },
   };
 }
 
@@ -56,8 +82,42 @@ export default async function ProductPage({ params }) {
 
   const number = pieceNumber(product.id);
 
+  // Product structured data. This is what lets a listing show up in Google with
+  // its price and availability attached, rather than as a bare blue link.
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "";
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    image: product.images?.length ? product.images : undefined,
+    description: product.description || undefined,
+    sku: String(product.id),
+    brand: { "@type": "Brand", name: product.brand },
+    category: product.tags?.join(" > ") || undefined,
+    size: product.size,
+    material: product.material || undefined,
+    itemCondition: "https://schema.org/UsedCondition",
+    offers: {
+      "@type": "Offer",
+      url: `${siteUrl}/product/${product.slug}`,
+      price: product.price,
+      // BASE_CURRENCY, not product.currency. Every price is entered and stored
+      // in PLN (see lib/currency.js); the per-row `currency` column is a stale
+      // leftover that still reads "USD", which would have published 219 zł to
+      // Google as $219.
+      priceCurrency: BASE_CURRENCY,
+      // One-of-one stock: once it is sold there is never another.
+      availability: product.sold ? "https://schema.org/SoldOut" : "https://schema.org/InStock",
+    },
+  };
+
   return (
     <div className="px-6 py-16">
+      {/* `<` is escaped per the Next JSON-LD guide so product copy can't break out. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+      />
       <div className="mx-auto max-w-6xl">
         <nav className="mb-6 font-mono text-xs uppercase tracking-widest text-muted">
           <Link href="/shop" className="transition-colors hover:text-foreground">
@@ -72,7 +132,7 @@ export default async function ProductPage({ params }) {
               <span className="mx-2">/</span>
             </>
           )}
-          <span className="text-foreground">{product.name}</span>
+          <span translate="no" className="notranslate text-foreground">{product.name}</span>
         </nav>
 
         <div className="grid gap-10 lg:grid-cols-2">
@@ -81,13 +141,19 @@ export default async function ProductPage({ params }) {
           {/* Details */}
           <div className="self-start lg:sticky lg:top-24">
             <div className="flex items-center justify-between gap-3">
-              <p className="font-mono text-xs uppercase tracking-widest text-accent">{product.brand}</p>
+              <p translate="no" className="notranslate font-mono text-xs uppercase tracking-widest text-accent">{product.brand}</p>
               <span className="font-mono text-[11px] uppercase tracking-widest text-muted">
                 N&deg; {number}/1
               </span>
             </div>
 
-            <h1 className="mt-2 text-3xl font-semibold uppercase leading-tight tracking-tight sm:text-4xl">
+            {/* Product titles are naming terms, not prose — Chrome's page
+                translation was rewriting them ("Distress Skate Pants" ->
+                "distressed skate trousers"). Held in English. */}
+            <h1
+              translate="no"
+              className="notranslate mt-2 text-3xl font-semibold uppercase leading-tight tracking-tight sm:text-4xl"
+            >
               {product.name}
             </h1>
             <p className="mt-1 font-mono text-[11px] uppercase tracking-widest text-muted">

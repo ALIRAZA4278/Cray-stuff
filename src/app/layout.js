@@ -18,9 +18,25 @@ const displayFont = Archivo_Black({
   weight: "400",
 });
 
+// metadataBase lets pages below declare canonical/OG URLs as relative paths.
+// Next throws at build time on a relative URL-based metadata field without it.
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://cray-stuff.vercel.app";
+
 export const metadata = {
-  title: "CRAY STUFF",
+  metadataBase: new URL(siteUrl),
+  // No `template` here on purpose — every page below already spells out its own
+  // "… — CRAY STUFF" title, and a template would double the suffix.
+  title: "CRAY STUFF — Vintage, Y2K & Streetwear",
   description: "Curated vintage, Y2K, Japanese, skate and streetwear — one-of-one pieces.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: "CRAY STUFF",
+    url: "/",
+    title: "CRAY STUFF — Vintage, Y2K & Streetwear",
+    description: "Curated vintage, Y2K, Japanese, skate and streetwear — one-of-one pieces.",
+  },
+  robots: { index: true, follow: true },
 };
 
 // Runs before paint so the correct theme is applied with no flash.
