@@ -39,9 +39,14 @@ export default function CountrySelect({ value, onChange, placeholder, countries 
       </button>
 
       {open && (
+        // `bg-surface` is rgba(255,255,255,0.04) — a tint meant to sit ON a
+        // panel, not to BE one. On a floating dropdown it was effectively
+        // transparent and the checkout behind it showed straight through the
+        // country list. An opaque `bg-background` is the actual fix; z-50 keeps
+        // it above the sticky order summary.
         <ul
           role="listbox"
-          className="absolute z-20 mt-1 max-h-64 w-full overflow-y-auto rounded-lg border border-border bg-surface py-1 shadow-lg"
+          className="absolute z-50 mt-1 max-h-64 w-full overflow-y-auto rounded-lg border border-border bg-background py-1 shadow-2xl"
         >
           {countries.map((c) => (
             <li key={c} role="option" aria-selected={c === value}>
