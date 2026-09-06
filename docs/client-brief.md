@@ -782,3 +782,82 @@ About page live, slogan in footer/about, FAQ facts updated, carriers (DHL+UPS)
 added. Pending code: product structure (New/Used + flaws + material + country),
 clothing-type categories, Recently Sold / New Arrivals, Authenticity section,
 testimonials section (needs real Vinted reviews + ~520 count).
+
+---
+
+## Feedback round 2 — Wiktor, 2026-09-05
+
+Full site review from Wiktor before launch, sent over WhatsApp with screenshots
+(his friend's store `unico13.com` as the mobile-grid reference). Logged here so
+the list survives the chat.
+
+### Done
+
+- **Catalog ordering.** `getAllProducts()` ordered by `created_at` **ascending**,
+  so the oldest (mostly sold) pieces led everywhere. Now descending. This one
+  line was the root cause of three separate complaints: new listings buried in
+  the admin catalog, sold items at the top of the homepage, and the shop's
+  "Newest" sort actually returning oldest-first.
+- **Filters could not be combined.** Type (Shorts, Hoodies…) and Style (Vintage,
+  Y2K…) were *routes* — `/shop/shorts`, `/shop/vintage` — so they replaced each
+  other by construction and had no way to be deselected. Both are query params
+  now (`?type=`, `?style=`), multi-select, AND across groups / OR within a group.
+  `/shop/vintage` still renders its landing copy for SEO, but seeds the filter
+  instead of locking it, so Vintage + Jackets narrows down.
+- **No "All" / deselect.** Every filter group has an All pill, and every pill
+  toggles off when clicked again.
+- **Page jumped to the top on every filter click.** `scroll={false}` on the
+  filter links, chips and the sort select.
+- **Desktop filters unreachable while browsing.** The sidebar was `sticky` but
+  taller than the viewport, so Price was only reachable at the bottom of the
+  page. It scrolls independently now, capped to the viewport height.
+- **Mobile filters swallowed the screen.** Groups collapse, Brand shows 8 then
+  "+N more", and the panel is capped at 60vh. The Filters button carries an
+  active-filter count.
+- **Men's / Women's.** Added as a prominent switch at the top of the catalog,
+  not just a sidebar pill.
+- **Grid sizing.** Mobile went 1 → 2 per row (his friend's-store reference);
+  desktop 4 → 3 up to 2xl, with tighter card padding, so photos render larger.
+- **Dark/dimmed photos.** Product cards had `grayscale-[40%]` plus a
+  full-tile black gradient. Both removed; only a short bottom scrim remains so
+  the FIT badge stays readable. Admin thumbnails lost their grayscale too.
+- **Titles being translated.** Chrome's page translation was rewriting product
+  names ("Crazy Heavy Distress Skate Pants" → "crazy, heavy, distressed, skate
+  trousers"). Product names, brands and style tags now carry `translate="no"`.
+- **Admin catalog.** Compact grid (up to 8 per row) with a Large toggle, plus
+  Available/Sold and Men's/Women's/Unisex filters.
+- **Homepage led with sold items.** Wiktor's hand-picked drop order is kept, but
+  available pieces sort ahead of sold ones and the rail tops up with the newest
+  unsold pieces.
+- **Country dropdown see-through.** It used `bg-surface`, which is
+  `rgba(255,255,255,0.04)` — a tint meant to sit *on* a panel, not to *be* one.
+  Now `bg-background` (opaque) at `z-50`.
+- **Individual reviews in the admin.** New `customer_reviews` table plus
+  `/admin/reviews`: add, edit, reorder, publish/unpublish. The storefront reads
+  it and falls back to the built-in Vinted quotes until the first one is added.
+  The public total is still editable on the same page.
+- **SEO.** Per-product titles led by brand + name, meta descriptions, canonicals,
+  OpenGraph/Twitter cards, Product JSON-LD (price, currency, availability), plus
+  `sitemap.xml` (every product) and `robots.txt`.
+  - Caught while wiring this up: `product.currency` still reads `"USD"` on every
+    row, but prices are stored in PLN (`BASE_CURRENCY`). The structured data
+    would have published 219 zł to Google as $219. JSON-LD uses `BASE_CURRENCY`.
+    **The stale `currency` column is still worth cleaning up separately.**
+
+### Still open — needs something from Wiktor
+
+- [ ] **Mobile grid reference** — he mentioned a screenshot of his friend's store
+      layout. The 2-up grid matches `unico13.com`; confirm it is what he meant.
+- [ ] **Trustpilot** — he asked for it but isn't sure how. Needs a Trustpilot
+      business account first; then it's their widget script + domain verification.
+- [ ] **hello@craystuff.com** — he has no access. This is a mailbox that has to be
+      created at whoever hosts the domain's email (Google Workspace, Zoho, or the
+      registrar's forwarding). Not something the site can create. Site mail
+      currently goes out via Resend — see `src/lib/email.js`.
+- [ ] **Fit/cut selection cleanup** — he says it "doesn't look good" but hasn't
+      said what he wants instead. Needs a specific ask.
+- [ ] **BaseLinker + Apaczka** — he said he'd send login details; the message
+      arrived with `[BASELINKER LOGIN DETAILS]` / `[APACZKA LOGIN DETAILS]`
+      placeholders, so nothing to connect yet.
+- [ ] Everything still outstanding from the 2026-07-14 list above (logo, domain,
+      Stripe account, real review text, exact Vinted count).
