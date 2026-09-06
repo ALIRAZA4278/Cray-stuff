@@ -37,8 +37,18 @@ export default async function HomePage() {
   ];
   const bySlug = Object.fromEntries(products.map((p) => [p.slug, p]));
   const featured = featuredDropSlugs.map((s) => bySlug[s]).filter(Boolean);
-  // The other rail stays capped so the homepage hydration stays light.
-  const latest = featured.length ? featured : products.slice(0, 12);
+
+  // Wiktor's ranked order is kept, but available pieces lead it. His picks have
+  // been selling through, so the rail had turned into a wall of SOLD OUT — a
+  // visitor landing on that reads the shop as dead stock. Sold pieces still
+  // appear (they're proof the shop moves), just not first.
+  const availableFirst = [...featured].sort((a, b) => Number(a.sold) - Number(b.sold));
+  // Top up with the newest unsold pieces not already in the rail, so the row
+  // stays full even once most of the hand-picked drop is gone.
+  const featuredSlugs = new Set(availableFirst.map((p) => p.slug));
+  const fillers = products.filter((p) => !p.sold && !featuredSlugs.has(p.slug));
+  // The rail stays capped so the homepage hydration stays light.
+  const latest = [...availableFirst, ...fillers].slice(0, 12);
   const popular = mostPopular.slice(0, 12);
   const dropTarget = Date.now() + 1000 * 60 * 60 * 24 * 7;
   const reviewCount = await getReviewCount();

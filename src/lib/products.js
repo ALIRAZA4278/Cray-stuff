@@ -46,10 +46,14 @@ function mapRow(row) {
 export async function getAllProducts() {
   try {
     const supabase = createAdminClient();
+    // Newest first. Wiktor adds listings continuously, so the freshest pieces
+    // have to lead everywhere the raw catalog is rendered — the admin catalog,
+    // the homepage rails and the shop's default "Newest" sort. Ascending order
+    // buried new arrivals under years of sold stock.
     const { data, error } = await supabase
       .from("products")
       .select("*")
-      .order("created_at", { ascending: true });
+      .order("created_at", { ascending: false });
     if (error || !data || data.length === 0) return mockProducts;
     return data.map(mapRow);
   } catch {
