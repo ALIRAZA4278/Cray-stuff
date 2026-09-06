@@ -208,3 +208,33 @@ create table if not exists site_settings (
 );
 insert into site_settings (key, value) values ('review_count', '650')
   on conflict (key) do nothing;
+
+-- ─────────────────────────────────────────────────────────────
+-- Customer reviews. Wiktor asked to manage individual reviews from the admin
+-- panel, not just the public total in site_settings — he has strong individual
+-- Vinted reviews he wants on the site verbatim.
+--
+-- The seed list in src/lib/reviews.js stays as the fallback: the storefront
+-- renders it until this table has rows, so the reviews section is never empty
+-- before the first one is added here.
+-- ─────────────────────────────────────────────────────────────
+create table if not exists public.customer_reviews (
+  id          uuid primary key default gen_random_uuid(),
+  created_at  timestamptz not null default now(),
+  name        text not null,                 -- customer handle, e.g. their Vinted username
+  rating      int  not null default 5 check (rating between 1 and 5),
+  text        text not null,
+  source      text not null default 'Vinted',
+  -- Manual ordering: lower sorts first, so a favourite review can be pinned to
+  -- the top without touching created_at.
+  sort_order  int  not null default 0,
+  published   boolean not null default true
+);
+
+alter table public.customer_reviews enable row level security;
+
+-- Reads go through the service role like the rest of the storefront data, so
+-- no anon policy is needed. Writes are admin-only, server-side.
+
+create index if not exists customer_reviews_order_idx
+  on public.customer_reviews (published, sort_order, created_at desc);

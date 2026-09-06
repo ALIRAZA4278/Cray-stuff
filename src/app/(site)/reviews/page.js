@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import Reveal from "@/components/motion/Reveal";
 import CountUp from "@/components/motion/CountUp";
 import ReviewCard from "@/components/reviews/ReviewCard";
-import { reviews } from "@/lib/reviews";
+import { getPublishedReviews } from "@/lib/customer-reviews";
 import { getReviewCount } from "@/lib/settings";
 import { socialLinks } from "@/lib/site";
 import { getDict } from "@/lib/i18n";
@@ -15,7 +15,7 @@ export const metadata = {
 
 export default async function ReviewsPage() {
   const t = getDict((await cookies()).get("site-locale")?.value || "en");
-  const reviewCount = await getReviewCount();
+  const [reviewCount, reviews] = await Promise.all([getReviewCount(), getPublishedReviews()]);
   return (
     <div className="relative overflow-hidden px-6 py-16">
       <div className="relative mx-auto max-w-5xl">

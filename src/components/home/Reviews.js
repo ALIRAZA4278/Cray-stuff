@@ -3,13 +3,16 @@ import Reveal from "@/components/motion/Reveal";
 import CountUp from "@/components/motion/CountUp";
 import SectionHeading from "@/components/home/SectionHeading";
 import ReviewCard from "@/components/reviews/ReviewCard";
-import { reviews, reviewsCount } from "@/lib/reviews";
+import { reviewsCount } from "@/lib/reviews";
+import { getPublishedReviews } from "@/lib/customer-reviews";
 import { socialLinks } from "@/lib/site";
 import { getDict } from "@/lib/i18n";
 
 export default async function Reviews({ reviewCount = reviewsCount }) {
   const t = getDict((await cookies()).get("site-locale")?.value || "en");
-  const featured = reviews.slice(0, 3);
+  // Admin-managed reviews, falling back to the built-in Vinted quotes until
+  // Wiktor has added his own.
+  const featured = (await getPublishedReviews()).slice(0, 3);
 
   return (
     <section className="relative overflow-hidden border-b border-border px-6 py-16">
