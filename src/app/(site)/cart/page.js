@@ -10,7 +10,8 @@ import { useLocale } from "@/lib/useLocale";
 import { getDict } from "@/lib/i18n";
 
 function thumb(item) {
-  return item.image || `https://picsum.photos/seed/${item.slug}/200/260`;
+  // null renders the placeholder tile; never an unrelated stock photo.
+  return item.image || null;
 }
 
 export default function CartPage() {
@@ -72,7 +73,13 @@ export default function CartPage() {
                   href={`/product/${item.slug}`}
                   className="relative h-24 w-20 shrink-0 overflow-hidden rounded-md border border-border bg-surface"
                 >
-                  <Image src={thumb(item)} alt={item.name} fill sizes="80px" className="object-cover grayscale-[30%]" />
+                  {thumb(item) ? (
+                    <Image src={thumb(item)} alt={item.name} fill sizes="80px" className="object-cover" />
+                  ) : (
+                    <div className="flex h-full items-center justify-center bg-background font-mono text-[8px] uppercase tracking-widest text-muted">
+                      {t.prNoPhoto}
+                    </div>
+                  )}
                 </Link>
                 <div className="min-w-0 flex-1">
                   <p className="font-mono text-[11px] uppercase tracking-wide text-accent">{item.brand}</p>

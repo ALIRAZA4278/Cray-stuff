@@ -25,10 +25,14 @@ export default function FireListToggle({ product }) {
       aria-pressed={saved}
       aria-label={saved ? t.prRemoveFromFireList : t.prAddToFireList}
       whileTap={{ scale: 0.8 }}
-      className={`absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full border backdrop-blur transition-colors duration-300 ${
+      // Saved used to be a purple glyph on a 20%-purple translucent pill with a
+      // backdrop blur and a glow — purple on purple, over a photo. On bright
+      // shots it disappeared and read as a smudge. It is a solid white disc with
+      // a purple flame now, so it holds its contrast against any photo.
+      className={`absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full transition-colors duration-300 ${
         saved
-          ? "border-accent/60 bg-accent/20 text-accent shadow-[0_0_16px_var(--accent-glow)]"
-          : "border-transparent bg-black/50 text-white/80 hover:text-white"
+          ? "bg-white text-accent shadow-[0_0_18px_var(--accent-glow)] ring-2 ring-accent"
+          : "bg-black/55 text-white ring-1 ring-white/70 backdrop-blur hover:bg-black/70"
       }`}
     >
       <AnimatePresence>
@@ -47,8 +51,8 @@ export default function FireListToggle({ product }) {
         viewBox="0 0 24 24"
         fill={saved ? "currentColor" : "none"}
         stroke="currentColor"
-        strokeWidth="1.5"
-        className="h-4 w-4"
+        strokeWidth={saved ? 1 : 1.75}
+        className="h-[18px] w-[18px]"
         animate={saved ? { scale: [1, 1.35, 1] } : { scale: 1 }}
         transition={{ duration: 0.35, ease: "easeOut" }}
       >

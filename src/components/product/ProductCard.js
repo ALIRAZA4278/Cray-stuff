@@ -10,9 +10,14 @@ import { categoryLabel } from "@/lib/category-label";
 
 export default function ProductCard({ product }) {
   const t = getDict(useLocale());
-  const imgs = product.images && product.images.length ? product.images : null;
-  const primaryImg = imgs ? imgs[0] : `https://picsum.photos/seed/${product.slug}/600/800`;
-  const hoverImg = imgs ? imgs[1] || imgs[0] : `https://picsum.photos/seed/${product.slug}-2/600/800`;
+  // No random-stock-photo fallback. It used to point at picsum.photos, which
+  // returns an arbitrary image — saved Fire List pieces (whose stored summary
+  // carried no images) rendered as photos of forests. A missing photo is a data
+  // problem; showing an unrelated picture of a forest hides it and misleads the
+  // customer. We render an honest placeholder instead.
+  const imgs = product.images?.filter(Boolean) ?? [];
+  const primaryImg = imgs[0] ?? null;
+  const hoverImg = imgs[1] ?? primaryImg;
 
   return (
     <Link
@@ -20,20 +25,28 @@ export default function ProductCard({ product }) {
       className="group flex h-full flex-col rounded-lg border border-border bg-surface p-2.5 transition-all sm:p-3 duration-300 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-[0_16px_40px_rgba(0,0,0,0.18)]"
     >
       <div className="relative aspect-[3/4] shrink-0 overflow-hidden rounded-md border border-border bg-surface">
-        <Image
-          src={primaryImg}
-          alt={product.name}
-          fill
-          sizes="(max-width: 640px) 50vw, (max-width: 1536px) 33vw, 300px"
-          className="object-cover transition-opacity duration-500 group-hover:opacity-0"
-        />
-        <Image
-          src={hoverImg}
-          alt=""
-          fill
-          sizes="(max-width: 640px) 50vw, (max-width: 1536px) 33vw, 300px"
-          className="object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-        />
+        {primaryImg ? (
+          <>
+            <Image
+              src={primaryImg}
+              alt={product.name}
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1536px) 33vw, 300px"
+              className="object-cover transition-opacity duration-500 group-hover:opacity-0"
+            />
+            <Image
+              src={hoverImg}
+              alt=""
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1536px) 33vw, 300px"
+              className="object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+            />
+          </>
+        ) : (
+          <div className="flex h-full items-center justify-center bg-background px-3 text-center font-mono text-[10px] uppercase tracking-widest text-muted">
+            {t.prNoPhoto}
+          </div>
+        )}
         {/* Was a full-tile wash (from-black/70 ... to-black/20) that dimmed every
             photo. Now a short bottom-only scrim: the FIT badge stays readable and
             the garment itself renders at its true brightness. */}

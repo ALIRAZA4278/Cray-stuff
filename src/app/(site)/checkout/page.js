@@ -25,7 +25,8 @@ function pillClass(active) {
 }
 
 function thumb(item) {
-  return item.image || `https://picsum.photos/seed/${item.slug}/200/260`;
+  // null renders the placeholder tile; never an unrelated stock photo.
+  return item.image || null;
 }
 
 function StepLabel({ n, children }) {
@@ -380,7 +381,13 @@ function CheckoutInner() {
                 {items.map((item) => (
                   <li key={item.slug} className="flex items-center gap-3">
                     <div className="relative h-16 w-14 shrink-0 overflow-hidden rounded-md border border-border bg-background">
-                      <Image src={thumb(item)} alt={item.name} fill sizes="56px" className="object-cover grayscale-[30%]" />
+                      {thumb(item) ? (
+                        <Image src={thumb(item)} alt={item.name} fill sizes="56px" className="object-cover" />
+                      ) : (
+                        <div className="flex h-full items-center justify-center bg-background font-mono text-[8px] uppercase tracking-widest text-muted">
+                          {t.prNoPhoto}
+                        </div>
+                      )}
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="font-mono text-[10px] uppercase tracking-wide text-accent">{item.brand}</p>

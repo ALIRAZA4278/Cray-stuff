@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import DiscountPopup from "@/components/layout/DiscountPopup";
+import FireListIntro from "@/components/product/FireListIntro";
 import ScrollProgress from "@/components/motion/ScrollProgress";
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import { CartProvider } from "@/lib/CartContext";
@@ -25,6 +26,8 @@ export default async function SiteLayout({ children }) {
             <main className="flex-1">{children}</main>
             <Footer />
             <DiscountPopup />
+            {/* Inside FireListProvider — it reads the first-save signal from there. */}
+            <FireListIntro />
           </CartProvider>
         </FireListProvider>
         </CurrencyProvider>

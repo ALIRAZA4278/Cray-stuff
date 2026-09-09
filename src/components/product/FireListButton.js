@@ -19,10 +19,12 @@ export default function FireListButton({ product }) {
       aria-pressed={saved}
       aria-label={saved ? t.prRemoveFromFireList : t.prAddToFireList}
       whileTap={{ scale: 0.85 }}
-      className={`relative flex h-12 w-12 items-center justify-center rounded-full border transition-colors duration-300 ${
+      // Matches the card toggle: a solid white disc with a purple flame when
+      // saved, so the state reads the same everywhere.
+      className={`relative flex h-12 w-12 items-center justify-center rounded-full transition-colors duration-300 ${
         saved
-          ? "border-accent bg-accent/10 text-accent shadow-[0_0_22px_var(--accent-glow)]"
-          : "border-border text-muted hover:text-foreground"
+          ? "bg-white text-accent shadow-[0_0_22px_var(--accent-glow)] ring-2 ring-accent"
+          : "border border-border text-muted hover:text-foreground"
       }`}
     >
       <AnimatePresence>
@@ -41,7 +43,7 @@ export default function FireListButton({ product }) {
         viewBox="0 0 24 24"
         fill={saved ? "currentColor" : "none"}
         stroke="currentColor"
-        strokeWidth="1.5"
+        strokeWidth={saved ? 1 : 1.5}
         className="h-5 w-5"
         animate={saved ? { scale: [1, 1.35, 1] } : { scale: 1 }}
         transition={{ duration: 0.35, ease: "easeOut" }}
