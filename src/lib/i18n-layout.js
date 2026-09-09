@@ -10,7 +10,7 @@ export const en = {
   shopByStyle: "Shop by style", language: "Language", currency: "Currency", theme: "Theme",
 
   // ── announcement bar ──
-  annShipping: "Shipping within 24 hours",
+  annShipping: "Shipping within 36 hours",
   annNewsletter: "10% off for newsletter subscribers",
   annNewDrop: "New drop available now",
   annMakeOffer: "Make an offer on every item",
@@ -47,6 +47,15 @@ export const en = {
   dpEnterCheckout: "Enter it at checkout.", dpEmailPlaceholder: "Enter your email",
   dpGetCode: "Get my code", dpNoThanks: "No thanks",
 
+  // ── Fire List explainer (first time someone Fires a piece) ──
+  fiEyebrow: "You just lit one up",
+  fiTitle: "That's your Fire List",
+  fiBody:
+    "Hit the flame on anything you'd genuinely fight someone for. It saves the piece so you can find it again — and it quietly tells us what you're into, so we get better at hunting down the stuff you actually want.",
+  fiWarning: "Every piece is one-of-one, and a Fire doesn't put it on hold. It just means you'll know exactly what you missed.",
+  fiViewList: "See my Fire List",
+  fiKeepBrowsing: "Keep browsing",
+
   // ── currency selector ──
   currencyAria: "Currency",
 };
@@ -60,7 +69,7 @@ export const pl = {
   shopByStyle: "Kupuj według stylu", language: "Język", currency: "Waluta", theme: "Motyw",
 
   // ── announcement bar ──
-  annShipping: "Wysyłka w 24 godziny",
+  annShipping: "Wysyłka w 36 godzin",
   annNewsletter: "10% zniżki dla subskrybentów newslettera",
   annNewDrop: "Nowy drop już dostępny",
   annMakeOffer: "Złóż ofertę na każdy przedmiot",
@@ -96,6 +105,15 @@ export const pl = {
   dpCodeIntro: "Oto Twój kod na 10% zniżki na pierwsze zamówienie:",
   dpEnterCheckout: "Wpisz go przy kasie.", dpEmailPlaceholder: "Podaj swój e-mail",
   dpGetCode: "Odbierz kod", dpNoThanks: "Nie, dziękuję",
+
+  // ── Fire List explainer (first time someone Fires a piece) ──
+  fiEyebrow: "Właśnie podpaliłeś pierwszą",
+  fiTitle: "To jest Twoja Fire List",
+  fiBody:
+    "Kliknij płomień przy wszystkim, o co byś się pobił. Zapisuje rzecz, żebyś ją później znalazł — i po cichu mówi nam, co Cię kręci, dzięki czemu lepiej wyłapujemy rzeczy, których naprawdę szukasz.",
+  fiWarning: "Każda rzecz jest jedyna w swoim rodzaju, a Fire jej nie rezerwuje. Będziesz tylko dokładnie wiedzieć, co Cię ominęło.",
+  fiViewList: "Zobacz moją Fire List",
+  fiKeepBrowsing: "Przeglądaj dalej",
 
   // ── currency selector ──
   currencyAria: "Waluta",

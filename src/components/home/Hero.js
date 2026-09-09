@@ -117,7 +117,7 @@ export default function Hero() {
       <div className="absolute inset-x-0 bottom-0 hidden items-center justify-between border-t border-white/10 bg-black/30 px-6 py-3 font-mono text-[11px] uppercase tracking-widest text-white/60 backdrop-blur sm:flex">
         <span>{t.hmHeroPolandWorldwide}</span>
         <span>{t.hmHeroArchive}</span>
-        <span>{t.hmShipsIn24h}</span>
+        <span>{t.hmShipsIn36h}</span>
       </div>
     </section>
   );

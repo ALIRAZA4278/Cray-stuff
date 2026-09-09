@@ -37,13 +37,13 @@ export const en = {
   prClose: "Close",
   prOfferAccepted: "Offer accepted",
   prYoureInAt: "You're in at {price}",
-  prAcceptedNote: "Shipping can be dispatched within 24 hours. This price is saved just for you.",
+  prAcceptedNote: "Shipping can be dispatched within 36 hours. This price is saved just for you.",
   prGoToCheckout: "Go to checkout",
   prKeepShopping: "Keep shopping",
   prCounteroffer: "Counteroffer",
   prWeCanDo: "We can do {price}",
   prCounterNote:
-    "{offer} is below what we can accept on this piece — here's our best price. Shipping can be dispatched within 24 hours. What do you think?",
+    "{offer} is below what we can accept on this piece — here's our best price. Shipping can be dispatched within 36 hours. What do you think?",
   prAcceptPrice: "Accept {price}",
   prNoThanks: "No thanks",
   prOfferSent: "Offer sent",
@@ -69,7 +69,8 @@ export const en = {
   prMadeIn: "Made in",
   prMeasurements: "Measurements",
   prFlaws: "Flaws — told straight",
-  prAssureShipTitle: "Ships in 24h",
+  prNoPhoto: "No photo yet",
+  prAssureShipTitle: "Ships in 36h",
   prAssureShipNote: "InPost · Orlen · GLS · DPD",
   prAssureOneTitle: "Hand-picked",
   prAssureOneNote: "Inspected & unique",
@@ -79,7 +80,7 @@ export const en = {
   prAssureSecureNote: "BLIK · Card · Apple/Google Pay",
   prShipping: "Shipping",
   prShippingBody:
-    "Packed and shipped within 24 hours via InPost, Orlen Paczka, GLS or DPD. Free shipping on orders of 3 items or more. International options shown at checkout.",
+    "Packed and shipped within 36 hours via InPost, Orlen Paczka, GLS or DPD. Free shipping on orders of 3 items or more. International options shown at checkout.",
   prReturns: "Returns",
   prReturnsBody:
     "Every piece is one-of-one and described in detail. If it arrives not as described, message us within 48 hours of delivery and we'll make it right.",
@@ -106,7 +107,7 @@ export const en = {
   prTotal: "Total",
   prProceedToCheckout: "Proceed to checkout",
   prContinueShopping: "Continue shopping",
-  prTrustShips: "Ships within 24 hours",
+  prTrustShips: "Ships within 36 hours",
   prTrustSecure: "Secure checkout — BLIK, card, Apple/Google Pay",
   prTrustOneOfOne: "One-of-one — once it's gone, it's gone",
 
@@ -149,7 +150,7 @@ export const en = {
   prFree: "Free",
   prPackage: "Package",
   prPickCountry: "Select your country above to see delivery options and shipping cost.",
-  prShipsFooter: "Ships within 24h · InPost · Orlen · GLS · DPD",
+  prShipsFooter: "Ships within 36h · InPost · Orlen · GLS · DPD",
 };
 
 export const pl = {
@@ -188,13 +189,13 @@ export const pl = {
   prClose: "Zamknij",
   prOfferAccepted: "Oferta zaakceptowana",
   prYoureInAt: "Wchodzisz za {price}",
-  prAcceptedNote: "Wysyłka może nastąpić w ciągu 24 godzin. Ta cena jest zapisana tylko dla Ciebie.",
+  prAcceptedNote: "Wysyłka może nastąpić w ciągu 36 godzin. Ta cena jest zapisana tylko dla Ciebie.",
   prGoToCheckout: "Przejdź do kasy",
   prKeepShopping: "Kontynuuj zakupy",
   prCounteroffer: "Kontroferta",
   prWeCanDo: "Możemy zejść do {price}",
   prCounterNote:
-    "{offer} to mniej niż możemy przyjąć za tę sztukę — oto nasza najlepsza cena. Wysyłka w ciągu 24 godzin. Co Ty na to?",
+    "{offer} to mniej niż możemy przyjąć za tę sztukę — oto nasza najlepsza cena. Wysyłka w ciągu 36 godzin. Co Ty na to?",
   prAcceptPrice: "Akceptuj {price}",
   prNoThanks: "Nie, dziękuję",
   prOfferSent: "Oferta wysłana",
@@ -220,7 +221,8 @@ export const pl = {
   prMadeIn: "Wyprodukowano w",
   prMeasurements: "Wymiary",
   prFlaws: "Wady — bez owijania",
-  prAssureShipTitle: "Wysyłka w 24h",
+  prNoPhoto: "Brak zdjęcia",
+  prAssureShipTitle: "Wysyłka w 36h",
   prAssureShipNote: "InPost · Orlen · GLS · DPD",
   prAssureOneTitle: "Ręcznie wybrane",
   prAssureOneNote: "Sprawdzone i wyjątkowe",
@@ -230,7 +232,7 @@ export const pl = {
   prAssureSecureNote: "BLIK · Karta · Apple/Google Pay",
   prShipping: "Wysyłka",
   prShippingBody:
-    "Pakujemy i wysyłamy w ciągu 24 godzin przez InPost, Orlen Paczka, GLS lub DPD. Darmowa wysyłka przy zamówieniu 3 lub więcej sztuk. Opcje międzynarodowe widoczne przy kasie.",
+    "Pakujemy i wysyłamy w ciągu 36 godzin przez InPost, Orlen Paczka, GLS lub DPD. Darmowa wysyłka przy zamówieniu 3 lub więcej sztuk. Opcje międzynarodowe widoczne przy kasie.",
   prReturns: "Zwroty",
   prReturnsBody:
     "Każda sztuka jest jedyna w swoim rodzaju i szczegółowo opisana. Jeśli dotrze niezgodna z opisem, napisz do nas w ciągu 48 godzin od dostawy, a wszystko naprawimy.",
@@ -257,7 +259,7 @@ export const pl = {
   prTotal: "Razem",
   prProceedToCheckout: "Przejdź do kasy",
   prContinueShopping: "Kontynuuj zakupy",
-  prTrustShips: "Wysyłka w 24 godziny",
+  prTrustShips: "Wysyłka w 36 godzin",
   prTrustSecure: "Bezpieczna kasa — BLIK, karta, Apple/Google Pay",
   prTrustOneOfOne: "Jedyny w swoim rodzaju — jak zniknie, to na zawsze",
 
@@ -300,5 +302,5 @@ export const pl = {
   prFree: "Gratis",
   prPackage: "Paczka",
   prPickCountry: "Wybierz kraj powyżej, aby zobaczyć opcje dostawy i koszt wysyłki.",
-  prShipsFooter: "Wysyłka w 24h · InPost · Orlen · GLS · DPD",
+  prShipsFooter: "Wysyłka w 36h · InPost · Orlen · GLS · DPD",
 };

@@ -3,7 +3,7 @@
 export const en = {
   // ── shared / reused ──
   hmShop: "Shop", hmShopAll: "Shop all", hmAllPieces: "All pieces", hmAllStyles: "All styles",
-  hmShopNow: "Shop now", hmNewDrop: "New drop", hmShipsIn24h: "Ships in 24h", hmViewAll: "View all",
+  hmShopNow: "Shop now", hmNewDrop: "New drop", hmShipsIn36h: "Ships in 36h", hmViewAll: "View all",
   hmCuratedEdits: "Curated edits", hmShopByStyle: "Shop by style",
   hmOurPhilosophy: "Our philosophy", hmSecondLifeFirstChoice: "Second life. First choice.",
   hmChooseYourStyle: "Choose your style", hmArchive: "Designer", hmScroll: "Scroll",
@@ -39,7 +39,7 @@ export const en = {
   hmCurtain1Copy: "Every piece is carefully hand-picked and inspected — chosen for character and quality. Once it's gone, you may never get another chance to own it.",
   hmCurtain1Cta: "Shop the drop",
   hmCurtain2Eyebrow: "Never restocked", hmCurtain2Title: "Wear it first",
-  hmCurtain2Copy: "Fresh finds land every week and they don't wait around. Catch the drop before someone else does — packed and shipped within 24 hours, Poland to worldwide.",
+  hmCurtain2Copy: "Fresh finds land every week and they don't wait around. Catch the drop before someone else does — packed and shipped within 36 hours, Poland to worldwide.",
   hmCurtain2MetaNew: "New weekly", hmCurtain2Cta: "New arrivals",
   hmCurtain3Copy: "Vintage with history and character — clothing that deserves a second life, not a landfill. Sourced by hand, checked by hand, and loved by {n}+ buyers across the EU.",
   hmCurtain3MetaHand: "Hand-checked", hmCurtain3Reviews: "{n}+ reviews", hmCurtain3Cta: "Our story",
@@ -92,7 +92,7 @@ export const en = {
 export const pl = {
   // ── shared / reused ──
   hmShop: "Kupuj", hmShopAll: "Kupuj wszystko", hmAllPieces: "Wszystkie sztuki", hmAllStyles: "Wszystkie style",
-  hmShopNow: "Kupuj teraz", hmNewDrop: "Nowy drop", hmShipsIn24h: "Wysyłka w 24h", hmViewAll: "Zobacz wszystko",
+  hmShopNow: "Kupuj teraz", hmNewDrop: "Nowy drop", hmShipsIn36h: "Wysyłka w 36h", hmViewAll: "Zobacz wszystko",
   hmCuratedEdits: "Wyselekcjonowane zestawy", hmShopByStyle: "Kupuj według stylu",
   hmOurPhilosophy: "Nasza filozofia", hmSecondLifeFirstChoice: "Drugie życie. Pierwszy wybór.",
   hmChooseYourStyle: "Wybierz swój styl", hmArchive: "Designer", hmScroll: "Przewiń",
@@ -128,7 +128,7 @@ export const pl = {
   hmCurtain1Copy: "Każda sztuka jest starannie wybrana i sprawdzona — dobrana za charakter i jakość. Gdy zniknie, drugiej szansy na jej zdobycie może nie być.",
   hmCurtain1Cta: "Kupuj drop",
   hmCurtain2Eyebrow: "Bez wznowień", hmCurtain2Title: "Noś to jako pierwszy",
-  hmCurtain2Copy: "Nowe znaleziska pojawiają się co tydzień i nie czekają. Złap drop, zanim zrobi to ktoś inny — pakujemy i wysyłamy w 24 godziny, z Polski na cały świat.",
+  hmCurtain2Copy: "Nowe znaleziska pojawiają się co tydzień i nie czekają. Złap drop, zanim zrobi to ktoś inny — pakujemy i wysyłamy w 36 godzin, z Polski na cały świat.",
   hmCurtain2MetaNew: "Nowości co tydzień", hmCurtain2Cta: "Nowości",
   hmCurtain3Copy: "Vintage z historią i charakterem — ubrania, które zasługują na drugie życie, a nie na wysypisko. Wyszukiwane ręcznie, sprawdzane ręcznie i pokochane przez {n}+ kupujących w całej UE.",
   hmCurtain3MetaHand: "Ręcznie sprawdzane", hmCurtain3Reviews: "{n}+ opinii", hmCurtain3Cta: "Nasza historia",

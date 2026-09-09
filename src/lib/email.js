@@ -62,7 +62,7 @@ export async function sendOrderConfirmation(order) {
   const inner = `
     <p style="margin:0 0 16px;color:#cbc9d3;font-size:14px;line-height:1.6">
       Thanks ${order.customer_name || "friend"} — we've got your order <b style="color:#fff">${order.id}</b> and it's in our queue.
-      We ship within 24 hours via ${order.carrier || "your chosen carrier"}.
+      We ship within 36 hours via ${order.carrier || "your chosen carrier"}.
     </p>
     <table style="width:100%;border-collapse:collapse;margin:8px 0 4px">${itemRows(order.items)}</table>
     <table style="width:100%;border-collapse:collapse;border-top:1px solid #2a2733;margin-top:8px">

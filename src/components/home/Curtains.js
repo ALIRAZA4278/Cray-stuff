@@ -131,7 +131,7 @@ export default function Curtains({ reviewCount = reviewsCount }) {
       eyebrow: t.hmCurtain2Eyebrow,
       title: t.hmCurtain2Title,
       copy: t.hmCurtain2Copy,
-      meta: [t.hmCurtain2MetaNew, t.hmShipsIn24h, t.hmHeroPolandWorldwide],
+      meta: [t.hmCurtain2MetaNew, t.hmShipsIn36h, t.hmHeroPolandWorldwide],
       cta: t.hmCurtain2Cta,
       href: "/shop?sort=new",
       base: "from-[#20202a] via-[#161620] to-[#0b0b10]",

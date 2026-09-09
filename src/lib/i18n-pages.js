@@ -58,16 +58,16 @@ export const en = {
     "We don't use rating scores like 8/10. A piece is simply marked New With Tags or Used. Every listing includes exact measurements, a condition description, and if there are any flaws you'll see them clearly in the photos and read about them in the description. All products are washed and prepared to wear before shipping.",
   pgFaqQ3: "How does “Make an Offer” work?",
   pgFaqA3:
-    "Every piece has a fixed price you can buy instantly. You can also submit your own offer — offers don't reserve an item, and you're never obligated to buy after making one. If an offer is accepted, it stays valid for 48 hours. Suggested offers are usually within about 35% of the listed price.",
+    "Every piece has a fixed price you can buy instantly. On most pieces you can also send your own offer. There's no fixed discount — what we can accept depends entirely on the piece, and on the rarer ones we may not take offers at all. Offers don't reserve an item and never oblige you to buy; if one is accepted it stays valid for 48 hours. Discount codes are separate and work on their own terms, so an offer and a code aren't the same thing.",
   pgFaqQ4: "What is the Fire List?",
   pgFaqA4:
-    "The Fire List is your saved-pieces list — tap the flame on any item to save it for later. Adding a piece to your Fire List doesn't reserve it, so if you love something, don't wait too long.",
+    "See something you'd genuinely fight someone for? Hit the flame. It saves the piece to your Fire List so you can find it again, and it quietly tells us what you're into — the more you Fire, the better we get at hunting down the stuff you actually want. Fair warning: every piece is one-of-one, and a Fire doesn't put it on hold. It just means you'll know exactly what you missed.",
   pgFaqQ5: "Which payment methods do you accept?",
   pgFaqA5:
     "BLIK, debit and credit cards, Apple Pay and Google Pay — all handled securely. BLIK is fully supported for our Polish customers.",
   pgFaqQ6: "Which carriers do you ship with?",
   pgFaqA6:
-    "InPost, DPD, DHL, GLS, UPS and Orlen Paczka. Orders are packed and shipped within 24 hours. The available options and cost are shown at checkout based on your address.",
+    "InPost, DPD, DHL, GLS, UPS and Orlen Paczka. Orders are packed and shipped within 36 hours. The available options and cost are shown at checkout based on your address.",
   pgFaqQ7: "Is shipping free?",
   pgFaqA7:
     "Shipping is free on any order of 3 items or more. On smaller orders a flat shipping rate applies and is shown at checkout before you pay.",
@@ -200,7 +200,7 @@ export const en = {
 
   // ── auth layout / fields ──
   pgAuthTrust1: "One-of-one archive — never restocked",
-  pgAuthTrust2: "Ships within 24 hours",
+  pgAuthTrust2: "Ships within 36 hours",
   pgAuthTrust3: "Curated by hand, not an algorithm",
   pgAuthMembers: "Members",
   pgAuthHeadline1: "Trends follow us.",
@@ -270,16 +270,16 @@ export const pl = {
     "Nie używamy ocen w skali typu 8/10. Rzecz jest po prostu oznaczona jako Nowa z metką lub Używana. Każda oferta zawiera dokładne wymiary, opis stanu, a jeśli są jakieś wady, wyraźnie zobaczysz je na zdjęciach i przeczytasz o nich w opisie. Wszystkie produkty są prane i przygotowane do noszenia przed wysyłką.",
   pgFaqQ3: "Jak działa „Złóż ofertę”?",
   pgFaqA3:
-    "Każda rzecz ma stałą cenę, za którą możesz ją kupić od razu. Możesz też złożyć własną ofertę — oferty nie rezerwują przedmiotu i nigdy nie zobowiązują Cię do zakupu. Jeśli oferta zostanie zaakceptowana, jest ważna przez 48 godzin. Sugerowane oferty mieszczą się zwykle w granicach około 35% ceny z oferty.",
+    "Każda rzecz ma stałą cenę, za którą możesz ją kupić od razu. Przy większości rzeczy możesz też złożyć własną ofertę. Nie ma stałego progu rabatu — to, co możemy przyjąć, zależy od konkretnej rzeczy, a przy tych najrzadszych możemy nie przyjmować ofert w ogóle. Oferty nie rezerwują przedmiotu i nigdy nie zobowiązują Cię do zakupu; zaakceptowana oferta jest ważna przez 48 godzin. Kody rabatowe to osobna sprawa i działają na własnych zasadach — oferta i kod to nie to samo.",
   pgFaqQ4: "Czym jest Fire List?",
   pgFaqA4:
-    "Fire List to Twoja lista zapisanych rzeczy — dotknij płomienia przy dowolnym przedmiocie, aby zapisać go na później. Dodanie rzeczy do Fire List nie rezerwuje jej, więc jeśli coś Ci się spodoba, nie czekaj za długo.",
+    "Widzisz coś, o co byś się pobił? Kliknij płomień. Zapisuje rzecz na Twojej Fire List, żebyś ją później znalazł, i po cichu mówi nam, co Cię kręci — im więcej Fire'ów, tym lepiej wyłapujemy rzeczy, których naprawdę szukasz. Uczciwe ostrzeżenie: każda rzecz jest jedyna w swoim rodzaju, a Fire jej nie rezerwuje. Będziesz tylko dokładnie wiedzieć, co Cię ominęło.",
   pgFaqQ5: "Jakie metody płatności akceptujecie?",
   pgFaqA5:
     "BLIK, karty debetowe i kredytowe, Apple Pay i Google Pay — wszystko obsługiwane bezpiecznie. BLIK jest w pełni wspierany dla naszych polskich klientów.",
   pgFaqQ6: "Jakimi przewoźnikami wysyłacie?",
   pgFaqA6:
-    "InPost, DPD, DHL, GLS, UPS i Orlen Paczka. Zamówienia są pakowane i wysyłane w ciągu 24 godzin. Dostępne opcje i koszt są pokazywane przy kasie na podstawie Twojego adresu.",
+    "InPost, DPD, DHL, GLS, UPS i Orlen Paczka. Zamówienia są pakowane i wysyłane w ciągu 36 godzin. Dostępne opcje i koszt są pokazywane przy kasie na podstawie Twojego adresu.",
   pgFaqQ7: "Czy wysyłka jest darmowa?",
   pgFaqA7:
     "Wysyłka jest darmowa przy zamówieniu 3 lub więcej sztuk. Przy mniejszych zamówieniach obowiązuje stała stawka wysyłki, pokazywana przy kasie, zanim zapłacisz.",
@@ -414,7 +414,7 @@ export const pl = {
 
   // ── auth layout / fields ──
   pgAuthTrust1: "Archiwum jedynych w swoim rodzaju rzeczy — bez wznowień",
-  pgAuthTrust2: "Wysyłka w 24 godziny",
+  pgAuthTrust2: "Wysyłka w 36 godzin",
   pgAuthTrust3: "Dobierane ręcznie, nie przez algorytm",
   pgAuthMembers: "Członkowie",
   pgAuthHeadline1: "Trendy podążają za nami.",
